@@ -14,6 +14,6 @@ framework.
 For products built with django-productline this can be done by refining
 django.core.wsgi.get_wsgi_application directly.
 """
-from featuredjango.startup import get_wsgi_application
+from django_productline.startup import get_wsgi_application
 application = get_wsgi_application()
 
