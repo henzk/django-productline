@@ -42,7 +42,7 @@ A typical django web application consists of the following:
 - application code
 - templates
 - javascript code
-- css styles
+- CSS
 
 
 The goal is to be able to automatically compose our entire application i.e. all required artefacts out of a set of feature-modules.
@@ -55,10 +55,16 @@ Composition Mechanisms
 
 To be able to compose the required artefacts for a product, django-productline makes use of multiple composition mechanisms:
 
-- Python code is composed using ``featuremonkey``
-- Templates are composed using ``django-overextends``
-- Javascript can be composed using ``featuremonkey.js``
+- Python code is composed using `featuremonkey <http://github.com/henzk/featuremonkey>`_
+- django`s built in composition mechanisms
+
+  - for templates(``django.template.loaders.app_directories.Loader``)
+  - and static files (``django.contrib.staticfiles.finders.AppDirectoriesFinder``)
+
+- Templates are composed using `django-overextends <http://github.com/stephenmcd/django-overextends>`_
+- Javascript can be composed using `featuremonkey.js <http://github.com/henzk/featuremonkey.js>`_
 - CSS is composable by simple concatenation.
+
 
 Also, it provides some help to manage your products' individual configurations e.g. webserver and database configuration.
 
