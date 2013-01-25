@@ -31,21 +31,26 @@ Motivation
 ****************************
 
 With the concept of apps, Django already provides a pretty good modularization mechanism.
-Integrating an app into your project typically means to change some settings and maybe registering some urlpatterns.
-Some apps provide an API, so to integrate it properly you will have to write some glue code.
+Integrating an app into a project typically means to change multiple settings and registering the necessary urlpatterns.
+Some apps provide an API, so to integrate it properly additional code needs to be written.
 
-If you are developing multiple django projects, you may be doing this multiple times for different projects in slight variations.
-A particular project may also need specific additions and changes scattered across multiple locations in your codebase.
-Managing all this by hand e.g. by using branches in your VCS can be quite time-consuming and prone to errors.
+When developing multiple django projects, you may end up doing this over and over for different projects in slight variations.
+Particular projects may also need specific additions and changes scattered across multiple locations in the codebase.
+Therefore, developing and managing multiple projects and coping with their variability 
+can become a rather error-prone and time consuming task.
 
-FOSD allows to encapsulate these additions and changes in feature modules which form a product line.
+FOSD allows to encapsulate these additions and changes in feature modules, which form a product line.
 Specific products can then be composed by assembling some of these feature modules.
-The approach aims at improved reusability and traceability(where is all the code that relates to a specific concern).
+The approach aims at improved reusability, traceability(where is all the code that relates to a specific feature), and automation.
 
-
+At `schnapptack <http://schnapptack.de>`_\ , we use this approach for about a year to build specialized web applications for our clients
+and have found it to be a real productivity booster.
+Now, we want to iterate on the tools and scripts we have built internally and develop them in the open from now on.
+We are currently in the process of cleaning up our codebase and releasing it piece by piece.
+Also, we are planning to open-source some of our core features, so other interested folks may also go product line.
 
 ************************************
-Anatomy of a django web application
+Goal
 ************************************
 
 A typical django web application consists of the following:
@@ -59,9 +64,11 @@ A typical django web application consists of the following:
 - CSS
 
 
-The goal is to be able to automatically compose our entire application i.e. all required artefacts out of a set of feature-modules.
+The goal is to be able to automatically compose entire applications i.e. 
+all required artefacts out of a set of feature-modules.
 Multiple applications can then share common features and differ in others.
-
+Generated applications need to be easy to manage over the rest of their product lifecycle(further development, deployment).
+Also, there needs to be support for managing the products` individual configurations e.g. webserver and database configuration.
 
 **************************************
 Composition Mechanisms
@@ -75,12 +82,11 @@ To be able to compose the required artefacts for a product, django-productline m
   - for templates(``django.template.loaders.app_directories.Loader``)
   - and static files (``django.contrib.staticfiles.finders.AppDirectoriesFinder``)
 
-- Templates are composed using `django-overextends <http://github.com/stephenmcd/django-overextends>`_
+- Templates are refined using `django-overextends <http://github.com/stephenmcd/django-overextends>`_
 - Javascript can be composed using `featuremonkey.js <http://github.com/henzk/featuremonkey.js>`_
 - CSS is composable by simple concatenation.
 
 
-Also, it provides some help to manage your products' individual configurations e.g. webserver and database configuration.
 
 
 
