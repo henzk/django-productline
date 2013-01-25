@@ -1,7 +1,4 @@
 """
-product context
-================
-
 the product context captures environment and configuration settings
 that are specific to each product, e.g. each product requires a different
 database configuration.

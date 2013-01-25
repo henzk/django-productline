@@ -43,6 +43,8 @@ Feature Composition
 The product context
 ********************************
 
+.. automodule:: django_productline.context
+
 ********************************
 Composition of application code
 ********************************
