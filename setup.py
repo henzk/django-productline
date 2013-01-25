@@ -2,21 +2,6 @@
 import os
 import django_productline
 
-DEPS = [
-    'Django'
-]
-
-try:
-    from setuptools import setup
-    extra = {
-        'install_requires' : DEPS
-    }
-except ImportError:
-    from distutils.core import setup
-    extra = {
-        'dependencies' : DEPS
-    }
-
 def read(fname):
     try:
         return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -46,6 +31,5 @@ setup(
         'Framework :: Django',
         'Intended Audience :: Developers',
         'Operating System :: OS Independent'
-    ],
-    **extra
+    ]
 )

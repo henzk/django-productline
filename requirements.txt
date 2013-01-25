@@ -1,0 +1,3 @@
+Django
+-e git+https://github.com/henzk/featuremonkey.git#egg=featuremonkey
+-e git+https://github.com/henzk/ape.git#egg=ape
