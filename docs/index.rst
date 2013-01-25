@@ -89,7 +89,25 @@ To be able to compose the required artefacts for a product, django-productline m
 
 
 
+***************************************
+Getting started
+***************************************
 
+.. toctree::
+    :maxdepth: 3
+    
+    install
+    tutorial
+
+
+***************************************
+Feature Documentation
+***************************************
+
+.. toctree::
+    :maxdepth: 3
+    
+    fdocs
 
 *********************
 Indices and tables
