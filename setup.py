@@ -2,6 +2,11 @@
 import os
 import django_productline
 
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
 def read(fname):
     try:
         return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -31,5 +36,5 @@ setup(
         'Framework :: Django',
         'Intended Audience :: Developers',
         'Operating System :: OS Independent'
-    ]
+    ],
 )
