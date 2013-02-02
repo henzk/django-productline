@@ -1,4 +1,4 @@
-def select():
+def select(composer):
     """
     binds the django_productline base feature
     """
