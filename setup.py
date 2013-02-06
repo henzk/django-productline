@@ -1,11 +1,7 @@
 #! /usr/bin/env python
 import os
 import django_productline
-
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup, find_packages
 
 def read(fname):
     try:
@@ -23,12 +19,12 @@ setup(
     author='Hendrik Speidel',
     author_email='hendrik@schnapptack.de',
     url="https://github.com/henzk/django-productline",
-    packages=['django_productline', 
-    ],
+    packages=find_packages(),
     package_dir={'django_productline': 'django_productline'},
     package_data={'django_productline': []},
     include_package_data=True,
     scripts=[],
+    zip_safe=False,
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
