@@ -20,12 +20,17 @@ def select_product():
 
     _product_selected = True
     from django_productline import context
+
+    featuremonkey.add_import_guard('django.conf')
+    featuremonkey.add_import_guard('django.models')
     os.environ['DJANGO_SETTINGS_MODULE'] = 'django_productline.settings'
     contextfile = os.environ['PRODUCT_CONTEXT_FILENAME']
     equationfile = os.environ['PRODUCT_EQUATION_FILENAME']
     #bind context and compose features
     context.bind_context(contextfile)
     featuremonkey.select_equation(equationfile)
+    featuremonkey.remove_import_guard('django.conf')
+    featuremonkey.remove_import_guard('django.models')
 
 def get_wsgi_application():
     """
