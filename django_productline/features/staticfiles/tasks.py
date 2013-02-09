@@ -1,6 +1,7 @@
 from ape import tasks
 
 @tasks.register
+@tasks.requires_product_environment
 def prepare_staticfiles(force=False):
     """
     collect static files for production httpd

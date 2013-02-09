@@ -79,5 +79,5 @@ def deploy():
     deploy application
     """
     #other features may add support for mod_wsgi, uwsgi, gunicorn,...
-    #by replacing this method
+    #by _replacing_ this method
     tasks.dev()
