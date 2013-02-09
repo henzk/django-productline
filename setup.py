@@ -33,5 +33,8 @@ setup(
         'Intended Audience :: Developers',
         'Operating System :: OS Independent'
     ],
-    install_requires=['decorator']
+    install_requires=[
+        'decorator',
+        'django-overextends',
+    ]
 )
