@@ -3,6 +3,7 @@ product initialization stuff
 """
 import os
 import featuremonkey
+from .composer import get_composer
 
 _product_selected = False
 
@@ -28,7 +29,7 @@ def select_product():
     equationfile = os.environ['PRODUCT_EQUATION_FILENAME']
     #bind context and compose features
     context.bind_context(contextfile)
-    featuremonkey.select_equation(equationfile)
+    get_composer().select_equation(equationfile)
     featuremonkey.remove_import_guard('django.conf')
     featuremonkey.remove_import_guard('django.db')
 
