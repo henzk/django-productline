@@ -1,3 +1,6 @@
 Django
 featuremonkey>=0.2.2
 ape>=0.2.0
+decorator
+django-overextends
+south
