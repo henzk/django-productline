@@ -36,5 +36,6 @@ setup(
     install_requires=[
         'decorator',
         'django-overextends',
+        'south',
     ]
 )

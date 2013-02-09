@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'overextends',
+    'south',
 ]
 
 # A sample logging configuration. The only tangible logging
