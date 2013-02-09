@@ -11,7 +11,7 @@ def read(fname):
 
 setup(
     name='django-productline',
-    version='0.1',
+    version='0.2',
     description='an approach to feature-oriented software development(FOSD) of web application product lines based on django',
     long_description=read('README.rst'),
     license='The MIT License',
