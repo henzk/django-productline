@@ -22,7 +22,7 @@ def select_product():
     from django_productline import context
 
     featuremonkey.add_import_guard('django.conf')
-    featuremonkey.add_import_guard('django.db.models')
+    featuremonkey.add_import_guard('django.db')
     os.environ['DJANGO_SETTINGS_MODULE'] = 'django_productline.settings'
     contextfile = os.environ['PRODUCT_CONTEXT_FILENAME']
     equationfile = os.environ['PRODUCT_EQUATION_FILENAME']
@@ -30,7 +30,7 @@ def select_product():
     context.bind_context(contextfile)
     featuremonkey.select_equation(equationfile)
     featuremonkey.remove_import_guard('django.conf')
-    featuremonkey.remove_import_guard('django.db.models')
+    featuremonkey.remove_import_guard('django.db')
 
 def get_wsgi_application():
     """
