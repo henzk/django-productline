@@ -107,6 +107,73 @@ To make use of that, ``django_productline`` extends the composer to also support
 It can be used just like ``introduce`` except that it does not support callable introductions.
 Under the hood, it calls ``contribute_to_class`` instead of ``setattr`` which enables the introduction of fields to models.
 
+Field Introduction Example
+----------------------------
+
+Let's look at an example. Suppose you are working on a todo list application.
+Then, some clients want an additional description field for their todo items, but others don't.
+So, you decide to create a feature to add that field conditionally.
+
+Suppose the todo item model lives in ``todo.models`` and looks like this::
+
+    # todo/models.py
+    from django.db import models
+
+    class TodoItem(models.Model):
+        name=models.CharField(max_length=100)
+        done=models.BooleanField()
+
+
+Now, let's create a feature called ``todo_description``::
+
+    todo_description/
+        __init__.py
+        feature.py
+        todo_models.py
+
+Let's write a refinement for the ``todo.models`` module and place it in ``todo_models.py``::
+
+    #todo_description/todo_models.py
+    #refines todo/models.py
+    from django.db import models
+
+    class child_TodoItem(object):
+        contribute_description = models.TextField
+
+Please note, that we are using ``contribute`` instead of ``introduce`` to let django do its model magic.
+
+Next, let's apply the refinement in the feature binding function::
+
+    #todo_description/feature.py
+
+    def select(composer):
+        compose_later(
+            'todo_description.todo_models',
+            'todo.models'
+        )
+
+That was it. The description field can now be added by selecting feature ``todo_description``.
+Obviously, since there is a database involved, the schema needs to be created or modified if it exists already.
+
+If the database table for todo items does not exist already, the field is automatically created in the database upon ``syncdb``
+
+If the table exists already, because the product has been run before selecting feature ``todo_description``,
+we can use south to do a ``schemamigration``::
+
+    $ ape manage schemamigration todo --auto
+    $ ape manage migrate todo
+
+
+To compose models, we need to use ``compose_later`` as importing ``django.db.models`` starts up all the django initialization machinery as a side effect.
+At this point, this could result in references to partially composed objects and hard to debug problems.
+
+To prevent you from importing these parts of django by accident, ``django_productline`` uses import guards for specific modules during composition.
+After all features are bound, those guards are dropped again and importing the modules is possible again.
+
+The guarded packages/modules currently are:
+
+- ``django.conf``
+- ``django.db``
 
 
 
