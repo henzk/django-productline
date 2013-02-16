@@ -11,8 +11,10 @@ It provides the basis to create feature oriented django product lines:
 
 
 ***********************************
-Hooks provided for other features
+Refinements by example
 ***********************************
+
+This section shows some use cases and patterns to develop features for a django product line.
 
 Refining the django settings
 =============================
@@ -24,23 +26,14 @@ Common cases are the refinement of ``INSTALLED_APPS`` to register one or more ad
 As a simple example, we are going to create a feature called ``https_only``,
 that is implemented by integrating and configuring `django-secure <http://django-secure.readthedocs.org/>`_.
 
-First, we need to create the python package ``https_only`` by creating a folder by that name that contains an empty ``__init__.py``.
-To use that package as a feature, we need to add a module called ``feature`` to it(by creating a file named ``feature.py``).
-As the feature needs to refine the settings module, we also create a ``settings`` module within our package and will use the following implementation for our ``feature`` module::
+First, we need to create the python package ``https_only`` by creating a folder with that name that contains an empty ``__init__.py``.
+As the feature needs to refine ``django_productline.settings``, we also create a ``settings`` module within the package::
 
-    #https_only/feature.py
+    https_only/
+        __init__.py
+        settings.py
 
-    def select():
-        '''called if feature https_only is selected'''
-        #import our settings refinement (https_only.settings)
-        from . import settings
-        #import the base settings
-        import django_productline.settings
-        #apply the refinement to the base settings
-        featuremonkey.compose(settings, django_productline.settings)
-
-
-The settings refinement of our feature now could look like this::
+Let's use the following settings refinement::
 
     #https_only/settings.py
     
@@ -57,22 +50,64 @@ The settings refinement of our feature now could look like this::
     introduce_SESSION_COOKIE_HTTPONLY = True
     introduce_SECURE_SSL_REDIRECT = True
 
-
-
-That's it. We can now add this functionality to our products by selecting the ``https_only`` feature.
-
-Since this feature refines INSTALLED_APPS and MIDDLEWARE_CLASSES, the composition order needs to be chosen carefully as
-the web application`s behaviour is dependent on the order of their entries.
+This adds ``djangosecure`` to the list of installed apps and adds the middleware it depends on.
+Also, it introduces some security related settings.
 
 .. warning::
 
-    Please do not simply copy the settings presented here --- consult the `django-secure documentation <http://django-secure.readthedocs.org/>`_.
+    Before using this in production, please consult the `django-secure documentation <http://django-secure.readthedocs.org/>`_.
+
+Now, we need to make sure the settings refinement is applied, when feature ``https_only`` is bound:
+
+To use ``https_only`` as a feature, we need to add a module called ``feature`` to it.
+Let's create ``feature.py`` with the following content::
+
+    #https_only/feature.py
+
+    def select(composer):
+        '''bind feature https_only'''
+        #import settings refinement (https_only.settings)
+        from . import settings
+        #import project settings
+        import django_productline.settings
+        #apply the refinement to the project settings
+        composer.compose(settings, django_productline.settings)
+
+This applies our settings refinement, when the feature is bound.
+We can now add the functionality to products by selecting the ``https_only`` feature.
+
+Since this feature refines INSTALLED_APPS and MIDDLEWARE_CLASSES,
+the composition order needs to be chosen carefully as
+the web application`s behaviour is dependent on the order of their entries.
 
 
 Registering urlpatterns
 =========================
 
 .. automodule:: django_productline.urls
+
+
+Django Model composition
+=========================
+
+Django already provides an excellent database modularisation mechanism using apps.
+An app may contain multiple models, i.e. ORM-managed database tables.
+However, there is no easy way to introduce fields into existing models.
+
+``featuremonkey`` introductions will not work because of the custom metaclass used by django models, that takes
+care of additional book-keeping during construction of the model class.
+As introductions are applied after the class has been constructed, the book-keeping code
+is not executed in this case.
+
+Fortunately, django provides a mechanism that takes care of the book-keeping even for
+attributes that are added after the class is constructed: model fields and managers provide a ``contribute_to_class``
+method.
+
+To make use of that, ``django_productline`` extends the composer to also support another operation called ``contribute``.
+It can be used just like ``introduce`` except that it does not support callable introductions.
+Under the hood, it calls ``contribute_to_class`` instead of ``setattr`` which enables the introduction of fields to models.
+
+
 
 
 Adding WSGI Middleware
@@ -99,11 +134,11 @@ To use this for all products that contain ``mywsgifeature``, we need to apply th
 
     #mywsgifeature/feature.py
 
-    def select():
+    def select(composer):
         from . import wsgi #import our refinement
         import django.core.wsgi #import base module
         #apply refinement
-        featuremonkey.compose(wsgi, django.core.wsgi)
+        composer.compose(wsgi, django.core.wsgi)
 
         #apply other necessary refinements of mywsgifeature
 
