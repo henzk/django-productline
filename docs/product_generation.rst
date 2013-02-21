@@ -32,7 +32,7 @@ Context Binding
 
 Feature Equation
     The list of features selected for the product in the order of composition.
-    The feature equation is given as text-file containing one feature per line.
+    The feature equation is given as text file containing one feature per line.
 
 Feature Composition
     After the product context has been bound, ``featuremonkey`` is used to compose the selected features.
