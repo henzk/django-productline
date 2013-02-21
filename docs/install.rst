@@ -19,7 +19,7 @@ This will create a new folder called ``webapps`` with the following structure::
             venv/
             activape
 
-SPL containers can now be placed into the ``webapps`` directory.
+SPL (software product line) containers can now be placed into the ``webapps`` directory.
 Folder ``venv`` contains a ``virtualenv`` that is isolated from the system (created with the ``--no-site-packages`` option).
 ``ape`` and its dependencies have been installed there. If you want to use system packages, either recreate the virtualenv without the ``--no-site-packages`` option and install ``ape`` into it or
 put the system packages back on ``sys.path`` using softlinks, ``.pth`` files, or path hacking.
