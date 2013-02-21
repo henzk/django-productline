@@ -44,6 +44,7 @@ def prepare_db_schema():
     create the database schema
     """
     tasks.manage('syncdb', '--noinput')
+    tasks.manage('migrate')
 
 
 @tasks.register
