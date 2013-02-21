@@ -234,6 +234,57 @@ where you used to do::
     python manage.py syncdb
 
 
+``prepare_fs``
+===============
+
+prepare filesystem for deployment
+
+The base implementation creates the data directory
+
+
+``prepare_db``
+===============
+
+prepare database for syncdb.
+
+The base implementation is a no-operation.
+Features can refine this to plug in a specific creation mechanism.
+
+
+``prepare_db_schema``
+======================
+
+run syncdb and apply migrations
+
+
+``prepare_db_data``
+======================
+
+put initial data in the db
+
+
+``prepare``
+=============
+
+prepare web application for deployment.
+
+The base implementation runs all above ``prepare`` tasks in order.
+
+
+``dev``
+=============
+
+run development server
+
+
+``deploy``
+==============
+
+the base implementation delegates to the ``dev`` task.
+
+Features may refine this to add support for mod_wsgi,uwsgi,gunicorn,...
+
+
 ***********************************
 Required context data
 ***********************************
