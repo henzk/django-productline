@@ -18,8 +18,8 @@ In the context of ``django-productline``, we will use the definition of Apel et 
 
 
 In the django context a feature is an app plus the possibility to encapsulate integration code within the feature,
-massively reducing integration efforts. This is enabled by the featuremonkey statements ``introduce_`` and ``refine_`` which allow to 
-modify programm structures outside of the feature from inside the feature. So a feature integrates itself by 
+massively reducing integration efforts. This is enabled by modifying programm structures outside of 
+the feature from inside the feature. So a feature integrates itself by 
 refining the INSTALLED_APPS and including its urlpatterns. This approach emphazises integration automation and better modularization.
 
 
