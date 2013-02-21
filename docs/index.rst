@@ -24,8 +24,8 @@ Often, even additional settings or glue code is required. This ends up in integr
 A feature is an app plus the possibility to encapsulate integration code within the feature, massively reducing
 integration efforts. This is enabled by the featuremonkey statements ``introduce_`` and ``refine_`` which allow to 
 modify programm structures outside of the feature from inside the feature. So a feature integrates itself by 
-appending itself to the INSTALLED_APPS and including its urlpatterns. So instead of doing this for each project
-it is done once enabling integration automation and better modularization.
+refining the INSTALLED_APPS and including its urlpatterns. This approach emphazises integration 
+automation and better modularization.
 
 
 
