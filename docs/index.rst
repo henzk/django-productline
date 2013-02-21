@@ -22,6 +22,8 @@ massively reducing integration efforts. This is enabled by modifying programm st
 the feature from inside the feature. So a feature integrates itself by 
 refining the INSTALLED_APPS and including its urlpatterns. This approach emphazises integration automation and better modularization.
 
+.. as most of the audience will be new to FOSD, it may be cool to briefly introduce the featuremonkey concepts of
+refine_ and introduce_ with a figure.
 
 
 More information about FOSD can be found here:
