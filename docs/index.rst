@@ -76,8 +76,8 @@ A typical django web application consists of the following:
 
 
 The goal is to be able to automatically compose entire applications i.e. 
-all required artefacts out of a set of feature-modules.
-Multiple applications can then share common features and differ in others.
+all required artefacts out of a set of features. 
+In the context of "automatical composition", project-individual integration code must eliminated. Multiple applications can then share common features and differ in others.
 Generated applications need to be easy to manage over the rest of their product lifecycle(further development, deployment).
 Also, there needs to be support for managing the products` individual configurations e.g. webserver and database configuration.
 
