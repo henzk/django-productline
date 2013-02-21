@@ -52,7 +52,7 @@ Composition of application code
 ``featuremonkey`` is used to compose Python code.
 It allows introductions of new structures and refinements of existing ones.
 
-For some use-cases in the context of ``django-productline``, see :ref:`refinements_by_example`.
+For some use cases in the context of ``django-productline``, see :ref:`refinements_by_example`.
 
 Also, see the `featuremonkey documentation <http://featuremonkey.readthedocs.org>`_.
 
@@ -61,7 +61,7 @@ Also, see the `featuremonkey documentation <http://featuremonkey.readthedocs.org
 Template composition
 ********************************
 
-You can use `django-overextends <https://github.com/stephenmcd/django-overextends>`_ for feature oriented template
+You can use `django-overextends <https://github.com/stephenmcd/django-overextends>`_ for feature-oriented template
 development. It is automatically installed as a dependency of ``django-productline``.
 
 Now, think about it this way:
