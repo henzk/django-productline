@@ -49,6 +49,17 @@ def prepare_db_schema():
 
 @tasks.register
 @tasks.requires_product_environment
+def prepare_fs():
+    """
+    prepare filesystem for deployment
+    """
+    from django_productline.context import PRODUCT_CONTEXT
+    if not os.path.isdir(PRODUCT_CONTEXT.DATA_DIR):
+        os.mkdir(PRODUCT_CONTEXT.DATA_DIR)
+
+
+@tasks.register
+@tasks.requires_product_environment
 def prepare():
     """
     prepare product for deployment
@@ -61,9 +72,7 @@ def prepare():
     must be rerun after feature selection and/or the
     product context is changed
     """
-    from django_productline.context import PRODUCT_CONTEXT
-    if not os.path.isdir(PRODUCT_CONTEXT.DATA_DIR):
-        os.mkdir(PRODUCT_CONTEXT.DATA_DIR)
+    tasks.prepare_fs()
     tasks.prepare_db()
     tasks.prepare_db_schema()
 
