@@ -67,6 +67,9 @@ development. It is automatically installed as a dependency of ``django-productli
 Now, think about it this way:
 
 - Django apps are the *template features*
+
+.. Do not understand this. 
+
 - Composition order is given in ``INSTALLED_APPS``
 
 
