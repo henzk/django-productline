@@ -2,7 +2,7 @@
 Welcome to django-productline's documentation!
 ###############################################################
 
-    “build feature-oriented productlines for django”
+    “build feature-oriented product lines for django”
 
 ``django-productline`` provides a basis and some conventions to develop django web-application product lines.
 It follows the *feature-oriented software development* (FOSD) methodology.
@@ -15,6 +15,18 @@ In the context of ``django-productline``, we will use the definition of Apel et 
     “A feature is a structure that extends and modifies the structure of a
     given program in order to satisfy a stakeholder’s requirement, to implement
     and encapsulate a design decision, and to offer a configuration option”
+
+For better understanding, it is important to point out the difference between a django app and a feature:
+An app bundles certain functionality. For each project requirering this functionality, the app must be integrated.
+In the minimal case this means to add the app to your INSTALLED_APPS and to include the urlpatterns. 
+Often, even additional settings or glue code is required. This ends up in integration effort for each project.
+
+A feature is an app plus the possibility to encapsulate integration code within the feature, massively reducing
+integration efforts. This is enabled by the featuremonkey statements ``introduce_`` and ``refine_`` which allow to 
+modify programm structures outside of the feature from inside the feature. So a feature integrates itself by 
+appending itself to the INSTALLED_APPS and including its urlpatterns. So instead of doing this for each project
+it is done once enabling integration automation and better modularization.
+
 
 
 More information about FOSD can be found here:
@@ -36,18 +48,22 @@ Some apps provide an API, so to integrate it properly additional code needs to b
 
 When developing multiple django projects, you may end up doing this over and over for different projects in slight variations.
 Particular projects may also need specific additions and changes scattered across multiple locations in the codebase.
-Therefore, developing and managing multiple projects and coping with their variability 
+Therefore, developing and managing multiple projects and copying with their variability 
 can become a rather error-prone and time consuming task.
 
-FOSD allows to encapsulate these additions and changes in feature modules, which form a product line.
-Specific products can then be composed by assembling some of these feature modules.
-The approach aims at improved reusability, traceability(where is all the code that relates to a specific feature), and automation.
+FOSD allows to encapsulate these additions and changes in features, which form a product line.
+Specific products can then be composed by assembling some of these feature.
+
+.. "feature" is more pregnant than "feature module" as the semantics of "module" collides with python module 
+
+The approach aims at improved reusability, traceability(where is all the code that relates to a specific feature), and 
+automation.
 
 At `schnapptack <http://schnapptack.de>`_\ , we use this approach for about a year to build specialized web applications for our clients
 and have found it to be a real productivity booster.
 Now, we want to iterate on the tools and scripts we have built internally and develop them in the open from now on.
 We are currently in the process of cleaning up our codebase and releasing it piece by piece.
-Also, we are planning to open-source some of our core features, so other interested folks may also go product line.
+Also, we are planning to open source some of our core features, so other interested folks may also go product line.
 
 ************************************
 Goal
