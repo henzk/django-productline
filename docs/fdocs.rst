@@ -4,7 +4,7 @@ django-productline Feature Documentation
 
 ``django-productline`` should be used as a base feature.
 
-It provides the basis to create feature oriented django product lines:
+It provides the basis to create feature-oriented django product lines:
 
 - it defines the product generation process
 - it provides hooks for other features to refine to add/adapt the functionality
