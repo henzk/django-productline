@@ -16,16 +16,11 @@ In the context of ``django-productline``, we will use the definition of Apel et 
     given program in order to satisfy a stakeholder’s requirement, to implement
     and encapsulate a design decision, and to offer a configuration option”
 
-For better understanding, it is important to point out the difference between a django app and a feature:
-An app bundles certain functionality. For each project requirering this functionality, the app must be integrated.
-In the minimal case this means to add the app to your INSTALLED_APPS and to include the urlpatterns. 
-Often, even additional settings or glue code is required. This ends up in integration effort for each project.
 
-A feature is an app plus the possibility to encapsulate integration code within the feature, massively reducing
-integration efforts. This is enabled by the featuremonkey statements ``introduce_`` and ``refine_`` which allow to 
+In the django context a feature is an app plus the possibility to encapsulate integration code within the feature,
+massively reducing integration efforts. This is enabled by the featuremonkey statements ``introduce_`` and ``refine_`` which allow to 
 modify programm structures outside of the feature from inside the feature. So a feature integrates itself by 
-refining the INSTALLED_APPS and including its urlpatterns. This approach emphazises integration 
-automation and better modularization.
+refining the INSTALLED_APPS and including its urlpatterns. This approach emphazises integration automation and better modularization.
 
 
 
