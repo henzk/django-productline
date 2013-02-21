@@ -10,6 +10,8 @@ It provides the basis to create feature oriented django product lines:
 - it provides hooks for other features to refine to add/adapt the functionality
 
 
+.. _refinements_by_example:
+
 ***********************************
 Refinements by example
 ***********************************
@@ -214,6 +216,8 @@ To use this for all products that contain ``mywsgifeature``, we need to apply th
 
     If multiple features of your product line add WSGI middlewares to your application, the order in which the middlewares are applied is defined by the composition order of the selected features.
 
+
+.. _available_tasks:
 
 ***********************************
 Available tasks

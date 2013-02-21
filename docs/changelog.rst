@@ -5,6 +5,8 @@ Changelog
 
 **HEAD**
 
+- better docs
+
 **0.2**
 
 - first release on PYPI
