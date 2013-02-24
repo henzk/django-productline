@@ -61,16 +61,21 @@ Also, see the `featuremonkey documentation <http://featuremonkey.readthedocs.org
 Template composition
 ********************************
 
-You can use `django-overextends <https://github.com/stephenmcd/django-overextends>`_ for feature-oriented template
+You can use `django-overextends <https://github.com/stephenmcd/django-overextends>`_ for feature oriented template
 development. It is automatically installed as a dependency of ``django-productline``.
 
-Now, think about it this way:
+By default, Django uses the `app directories template loader <https://docs.djangoproject.com/en/dev/ref/templates/api/#django.template.loaders.app_directories.Loader>`_
+to locate templates. It searches the ``templates`` folder of each app in the order that the apps are specified in ``INSTALLED_APPS``.
+The loader picks the first template with matching name.
 
-- Django apps are the *template features*
+Conceptually, this is a form of feature oriented composer with file level replacements:
 
-.. Do not understand this. 
+- apps represent features
+- ``INSTALLED_APPS`` defines the feature selection and their composition order
 
-- Composition order is given in ``INSTALLED_APPS``
+
+On top of that, ``django-overextends`` provides *overextension* --- template block level refinements.
+
 
 
 Example
