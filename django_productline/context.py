@@ -10,6 +10,7 @@ The context is loaded from a file in json format.
 
 """
 import json
+import os.path
 
 PRODUCT_CONTEXT = None
 
@@ -49,11 +50,16 @@ def bind_context(context_filename):
     called by featuredjango.startup.select_product
     prior to selecting the individual features
     """
+    
     global PRODUCT_CONTEXT
     if PRODUCT_CONTEXT is None:
         with open(context_filename) as contextfile:
             context = json.loads(contextfile.read())
+            
             context['PRODUCT_CONTEXT_FILENAME'] = context_filename
+            context['PRODUCT_NAME'] = os.environ['PRODUCT_NAME']
+            context['CONTAINER_NAME'] = os.environ['CONTAINER_NAME']
+            context['PRODUCT_DIR'] = os.environ['PRODUCT_DIR']
             PRODUCT_CONTEXT = ContextAccessor(context)
     else:
         #bind_context called but context already bound
