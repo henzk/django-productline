@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'overextends',
     'south',
+    'compressor',
     'django_productline'
 ]
 
