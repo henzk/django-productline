@@ -6,8 +6,8 @@
 #the context is also made available as PRODUCT_CONTEXT
 from django_productline.context import PRODUCT_CONTEXT
 
-DEBUG = True
-TEMPLATE_DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
 
 ADMINS = ()
 
