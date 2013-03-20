@@ -26,5 +26,9 @@ introduce_STATICFILES_DIRS = [
 introduce_STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # TODO: move when compressor feature is created
+    'compressor.finders.CompressorFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 ]
+
+
