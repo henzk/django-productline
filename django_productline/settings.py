@@ -50,6 +50,8 @@ MEDIA_URL = '/media/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = PRODUCT_CONTEXT.SECRET_KEY
 
+ALLOWED_HOSTS = ['*']
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
