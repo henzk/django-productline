@@ -8,12 +8,13 @@ def refine_get_urls(original):
     get to the django application.
     """
     
-    from django.conf import settings
     
-    if settings.DEBUG:
-        def get_urls():
-            from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    
+    def get_urls():
+        from django.conf import settings
+        from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+        if settings.DEBUG:
             return original() + staticfiles_urlpatterns()
-        return get_urls
-    else:
-        return original
+        else:
+            return original()
+    return get_urls
