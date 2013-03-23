@@ -10,7 +10,6 @@ The context is loaded from a file in json format.
 
 """
 import json
-import os.path
 
 PRODUCT_CONTEXT = None
 
@@ -55,7 +54,6 @@ def bind_context(context_filename):
     if PRODUCT_CONTEXT is None:
         with open(context_filename) as contextfile:
             context = json.loads(contextfile.read())
-            
             context['PRODUCT_CONTEXT_FILENAME'] = context_filename
             context['PRODUCT_NAME'] = os.environ['PRODUCT_NAME']
             context['CONTAINER_NAME'] = os.environ['CONTAINER_NAME']
