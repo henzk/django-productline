@@ -1,33 +1,25 @@
-{% load compress %}
+
 
 {################# PUBLIC STATIC FILES ################}
 
-{% compress css %}
-    {% block public_css %}{% endblock %}
-{% endcompress %}
+{% block public_css %}{% endblock %}
 
-{% compress js %}
-    {% block public_js %}
-        <script type="text/javascript">
-            // add console.log to avoid errors in retarded browsers.
-            if (typeof console === "undefined" || typeof console.log === "undefined") {
-                 console = {};
-                 console.log = function() {};
-            }
-        </script>
-    {% endblock %}
-{% endcompress %}
+{% block public_js %}
+    <script type="text/javascript">
+        // add console.log to avoid errors in retarded browsers.
+        if (typeof console === "undefined" || typeof console.log === "undefined") {
+             console = {};
+             console.log = function() {};
+        }
+    </script>
+{% endblock %}
 
 {################# PRIVATE STATIC FILES ################}
 
 {% if user.is_authenticated %}
-    {% compress css %}
-        {% block private_css %}{% endblock %}
-    {% endcompress %}
-    
-    {% compress js %}
-        {% block private_js %}{% endblock %}
-    {% endcompress %}
+    {% block private_css %}{% endblock %}
+
+    {% block private_js %}{% endblock %}
 {% endif %}
 
 
