@@ -10,6 +10,7 @@ The context is loaded from a file in json format.
 
 """
 import json
+import os
 
 PRODUCT_CONTEXT = None
 
