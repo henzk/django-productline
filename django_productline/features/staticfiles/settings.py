@@ -1,7 +1,7 @@
 #refinement for django_productline.settings
 
 def refine_INSTALLED_APPS(original):
-    return original + ['django.contrib.staticfiles']
+    return ['django.contrib.staticfiles'] + list(original)
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
