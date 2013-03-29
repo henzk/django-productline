@@ -71,6 +71,8 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'django_productline.root_urlconf'
 
+LOGIN_URL = '/login/'
+
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'django_productline.wsgi.application'
 
