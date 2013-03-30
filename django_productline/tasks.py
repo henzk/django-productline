@@ -24,6 +24,14 @@ def manage(*args):
     from django.core.management import execute_from_command_line
     execute_from_command_line(['ape manage'] + list(args))
 
+@tasks.register
+@tasks.requires_product_environment
+def select_features():
+    """
+    call when product.equation changes
+    """
+    pass
+
 
 @tasks.register
 def prepare_db():

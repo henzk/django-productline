@@ -2,7 +2,7 @@
 Welcome to django-productline's documentation!
 ###############################################################
 
-    “build feature-oriented productlines for django”
+    “build feature-oriented product lines for django”
 
 ``django-productline`` provides a basis and some conventions to develop django web-application product lines.
 It follows the *feature-oriented software development* (FOSD) methodology.
@@ -15,6 +15,15 @@ In the context of ``django-productline``, we will use the definition of Apel et 
     “A feature is a structure that extends and modifies the structure of a
     given program in order to satisfy a stakeholder’s requirement, to implement
     and encapsulate a design decision, and to offer a configuration option”
+
+
+In the django context a feature is an app plus the possibility to encapsulate integration code within the feature,
+massively reducing integration efforts. This is enabled by modifying programm structures outside of 
+the feature from inside the feature. So a feature integrates itself by 
+refining the INSTALLED_APPS and including its urlpatterns. This approach emphazises integration automation and better modularization.
+
+.. as most of the audience will be new to FOSD, it may be cool to briefly introduce the featuremonkey concepts of
+refine_ and introduce_ with a figure.
 
 
 More information about FOSD can be found here:
@@ -36,18 +45,22 @@ Some apps provide an API, so to integrate it properly additional code needs to b
 
 When developing multiple django projects, you may end up doing this over and over for different projects in slight variations.
 Particular projects may also need specific additions and changes scattered across multiple locations in the codebase.
-Therefore, developing and managing multiple projects and coping with their variability 
+Therefore, developing and managing multiple projects and copying with their variability 
 can become a rather error-prone and time consuming task.
 
-FOSD allows to encapsulate these additions and changes in feature modules, which form a product line.
-Specific products can then be composed by assembling some of these feature modules.
-The approach aims at improved reusability, traceability(where is all the code that relates to a specific feature), and automation.
+FOSD allows to encapsulate these additions and changes in features, which form a product line.
+Specific products can then be composed by assembling some of these feature.
+
+.. "feature" is more pregnant than "feature module" as the semantics of "module" collides with python module 
+
+The approach aims at improved reusability, traceability(where is all the code that relates to a specific feature), and 
+automation.
 
 At `schnapptack <http://schnapptack.de>`_\ , we use this approach for about a year to build specialized web applications for our clients
 and have found it to be a real productivity booster.
 Now, we want to iterate on the tools and scripts we have built internally and develop them in the open from now on.
 We are currently in the process of cleaning up our codebase and releasing it piece by piece.
-Also, we are planning to open-source some of our core features, so other interested folks may also go product line.
+Also, we are planning to open source some of our core features, so other interested folks may also go product line.
 
 ************************************
 Goal
@@ -65,8 +78,8 @@ A typical django web application consists of the following:
 
 
 The goal is to be able to automatically compose entire applications i.e. 
-all required artefacts out of a set of feature-modules.
-Multiple applications can then share common features and differ in others.
+all required artefacts out of a set of features. 
+In the context of "automatical composition", project-individual integration code must eliminated. Multiple applications can then share common features and differ in others.
 Generated applications need to be easy to manage over the rest of their product lifecycle(further development, deployment).
 Also, there needs to be support for managing the products` individual configurations e.g. webserver and database configuration.
 

@@ -1,0 +1,6 @@
+{% overextends "admin/base.html" %}
+
+{% block extrahead %}
+    {{ block.super }}
+    {% include "media_includes.html" %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% overextends "media_includes.html" %}
+
+{% block public_js %}
+    {{ block.super }}
+    {# jquery stuff #}
+    <script type="text/javascript" src="{{STATIC_URL}}jquery/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}jquery/js/jquery.migrate.1.1.1.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}jquery/js/jquery-ui-1.10.1.js"></script>
+   
+    
+    <script type="text/javascript" src="{{STATIC_URL}}jquery/js/django-csrf.js"></script>
+    {# other libs #}
+    <script type="text/javascript" src="{{STATIC_URL}}underscore-min.js"></script>
+{% endblock %}
+

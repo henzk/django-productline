@@ -6,8 +6,8 @@
 #the context is also made available as PRODUCT_CONTEXT
 from django_productline.context import PRODUCT_CONTEXT
 
-DEBUG = True
-TEMPLATE_DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
 
 ADMINS = ()
 
@@ -50,6 +50,8 @@ MEDIA_URL = '/media/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = PRODUCT_CONTEXT.SECRET_KEY
 
+ALLOWED_HOSTS = ['*']
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
@@ -69,6 +71,8 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'django_productline.root_urlconf'
 
+LOGIN_URL = '/login/'
+
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'django_productline.wsgi.application'
 
@@ -78,6 +82,17 @@ TEMPLATE_DIRS = [
     # Don't forget to use absolute paths, not relative paths.
 ]
 
+TEMPLATE_CONTEXT_PROCESSORS = [
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages"
+]
+
+
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -86,6 +101,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'overextends',
     'south',
+    'django_productline'
 ]
 
 # A sample logging configuration. The only tangible logging

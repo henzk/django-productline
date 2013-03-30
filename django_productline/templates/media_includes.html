@@ -1,0 +1,26 @@
+
+
+{################# PUBLIC STATIC FILES ################}
+
+{% block public_css %}{% endblock %}
+
+{% block public_js %}
+    <script type="text/javascript">
+        // add console.log to avoid errors in retarded browsers.
+        if (typeof console === "undefined" || typeof console.log === "undefined") {
+             console = {};
+             console.log = function() {};
+        }
+    </script>
+{% endblock %}
+
+{################# PRIVATE STATIC FILES ################}
+
+{% if user.is_authenticated %}
+    {% block private_css %}{% endblock %}
+
+    {% block private_js %}{% endblock %}
+{% endif %}
+
+
+
