@@ -17,15 +17,6 @@ In the context of ``django-productline``, we will use the definition of Apel et 
     and encapsulate a design decision, and to offer a configuration option”
 
 
-In the django context a feature is an app plus the possibility to encapsulate integration code within the feature,
-massively reducing integration efforts. This is enabled by modifying programm structures outside of 
-the feature from inside the feature. So a feature integrates itself by 
-refining the INSTALLED_APPS and including its urlpatterns. This approach emphazises integration automation and better modularization.
-
-.. as most of the audience will be new to FOSD, it may be cool to briefly introduce the featuremonkey concepts of
-refine_ and introduce_ with a figure.
-
-
 More information about FOSD can be found here:
 
 
@@ -33,6 +24,9 @@ More information about FOSD can be found here:
 - `The FOSD community portal <http://fosd.net>`_
 - `FOSD on Wikipedia <http://en.wikipedia.org/wiki/FOSD>`_
 - Podcast with Sven Apel on Software-Engineering Radio: `Part1 <http://www.se-radio.net/2011/02/episode-172-feature-oriented-software-development-with-sven-apel-pt-1/>`_\ , `Part2 <http://www.se-radio.net/2011/03/episode-173-feature-oriented-software-development-with-sven-apel-pt-1/>`_
+
+
+I gave a talk on ``django-productline`` at FOSD Treffen 2013 in Dagstuhl (`Slides <http://wwwiti.cs.uni-magdeburg.de/~feigensp/fosd13/presentations/hendrik.pdf>`_).
 
 
 ****************************
