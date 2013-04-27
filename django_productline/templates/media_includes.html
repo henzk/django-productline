@@ -2,6 +2,7 @@
 
 {################# PUBLIC STATIC FILES ################}
 
+
 {% block public_css %}{% endblock %}
 
 {% block public_js %}
@@ -16,11 +17,20 @@
 
 {################# PRIVATE STATIC FILES ################}
 
-{% if user.is_authenticated %}
+{% if user.is_authenticated and not django_admin%}
     {% block private_css %}{% endblock %}
 
     {% block private_js %}{% endblock %}
 {% endif %}
 
+
+{################# ADMIN STATIC FILES ################}
+
+
+{% if django_admin %}
+    {% block admin_css %}{% endblock %}
+
+    {% block admin_js %}{% endblock %}
+{% endif %}
 
 
