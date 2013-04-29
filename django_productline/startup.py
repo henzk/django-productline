@@ -33,6 +33,13 @@ def select_product():
     featuremonkey.remove_import_guard('django.conf')
     featuremonkey.remove_import_guard('django.db')
 
+    #force import of settings and urls
+    #better fail during initialization than on the first request
+    from django.conf import settings
+    from django.core.urlresolvers import get_resolver
+    #eager creation of URLResolver
+    get_resolver(None)
+
 def get_wsgi_application():
     """
     returns the wsgi application for the selected product
