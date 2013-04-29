@@ -5,6 +5,7 @@
 #some of that data needs to be added to the settings
 #the context is also made available as PRODUCT_CONTEXT
 from django_productline.context import PRODUCT_CONTEXT
+import os
 
 DEBUG = False
 TEMPLATE_DEBUG = False
@@ -40,7 +41,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = PRODUCT_CONTEXT.DATA_DIR + '/uploads/'
+MEDIA_ROOT = os.path.join(PRODUCT_CONTEXT.DATA_DIR, 'uploads/')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
