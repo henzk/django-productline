@@ -8,13 +8,20 @@ def django_admin(request):
     page is part of the django admin or not.
     '''
     
+    
+    
     if settings.ADMIN_URL.endswith('/'):
         admin_url = ''.join(settings.ADMIN_URL[:-1])
     if not settings.ADMIN_URL.startswith('/'):
         admin_url = '/' + settings.ADMIN_URL
     
-    print admin_url, request.META['PATH_INFO']
+    data = {
+        'ADMIN_URL': admin_url
+    }
+    
     if request.META['PATH_INFO'].startswith(admin_url):
-        return {'django_admin': True}
+        data['django_admin'] = True
     else:
-        return {'django_admin': False}
+        data['django_admin'] = False
+        
+    return data
