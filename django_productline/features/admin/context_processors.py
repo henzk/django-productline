@@ -19,11 +19,12 @@ def django_admin(request):
     # add ADMIN_URL to context
     data = {'ADMIN_URL': admin_url}
        
-    if request.user.is_staff and request.META['PATH_INFO'].startswith(admin_url):
+    if request.META['PATH_INFO'].startswith(admin_url):
         # only set django_admin in case the user is staff and the
         # current url starts with the admin url.
         data['django_admin'] = True
     else:
         data['django_admin'] = False
-    
+            
+    print data
     return data
