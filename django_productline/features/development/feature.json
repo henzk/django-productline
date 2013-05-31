@@ -1,0 +1,10 @@
+{
+    "name": "django_productline.features.development",
+    "label": "Development Mode",
+    "version": ":git-rev:",
+    "pl": "django-productline",
+    "model_fragment": {
+        "optional": true,
+        "subfeature_of": "django_productline"
+    }
+}

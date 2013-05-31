@@ -1,0 +1,10 @@
+{
+    "name": "django_productline.features.admin",
+    "label": "Django Admin",
+    "version": ":git-rev:",
+    "pl": "django-productline",
+    "model_fragment": {
+        "optional": true,
+        "subfeature_of": "django_productline"
+    }
+}

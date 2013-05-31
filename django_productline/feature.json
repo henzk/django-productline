@@ -1,0 +1,8 @@
+{
+    "name": "django_productline",
+    "version": ":git-rev:",
+    "pl": "django-productline",
+    "model_fragment": {
+        "mandatory": true
+    }
+}

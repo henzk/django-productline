@@ -1,0 +1,10 @@
+{
+    "name": "django_productline.features.staticfiles",
+    "label": "static and media",
+    "version": ":git-rev:",
+    "pl": "django-productline",
+    "model_fragment": {
+        "optional": true,
+        "subfeature_of": "django_productline"
+    }
+}
