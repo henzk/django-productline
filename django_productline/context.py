@@ -14,6 +14,10 @@ import os
 
 PRODUCT_CONTEXT = None
 
+class ContextParseError(Exception): pass
+
+class ContextBindingError(Exception): pass
+
 class ContextAccessor(object):
     """
     provides nice interface to access the product context
@@ -54,7 +58,10 @@ def bind_context(context_filename):
     global PRODUCT_CONTEXT
     if PRODUCT_CONTEXT is None:
         with open(context_filename) as contextfile:
-            context = json.loads(contextfile.read())
+            try:
+                context = json.loads(contextfile.read())
+            except ValueError as e:
+                raise ContextParseError('Error parsing %s: %s' % (context_filename, str(e)))
             context['PRODUCT_CONTEXT_FILENAME'] = context_filename
             context['PRODUCT_NAME'] = os.environ['PRODUCT_NAME']
             context['CONTAINER_NAME'] = os.environ['CONTAINER_NAME']
@@ -65,4 +72,4 @@ def bind_context(context_filename):
         #harmless rebind (with same file) is ignored
         #otherwise this is a serious error
         if PRODUCT_CONTEXT.PRODUCT_CONTEXT_FILENAME != context_filename:
-            raise Exception('product context bound multiple times using different data!')
+            raise ContextBindingError('product context bound multiple times using different data!')
