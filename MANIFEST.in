@@ -2,3 +2,15 @@ include README.rst
 include LICENSE
 include MANIFEST.in
 include requirements.txt
+include django_productline/feature.json
+recursive-include django_productline/static *
+recursive-include django_productline/templates *
+include django_productline/features/admin/feature.json
+include django_productline/features/staticfiles/feature.json
+include django_productline/features/development/feature.json
+recursive-include django_productline/features/admin/static *
+recursive-include django_productline/features/staticfiles/static *
+recursive-include django_productline/features/development/static *
+recursive-include django_productline/features/admin/templates *
+recursive-include django_productline/features/staticfiles/templates *
+recursive-include django_productline/features/development/templates *
