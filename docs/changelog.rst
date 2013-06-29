@@ -5,6 +5,9 @@ Changelog
 
 **HEAD**
 
+**0.3**
+
+- added feature ``development``
 - feature ``staticfiles`` now serves media files when using devserver
 - product context: better exception handling
 - improved docs
