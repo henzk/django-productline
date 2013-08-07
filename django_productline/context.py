@@ -63,6 +63,7 @@ def bind_context(context_filename):
             except ValueError as e:
                 raise ContextParseError('Error parsing %s: %s' % (context_filename, str(e)))
             context['PRODUCT_CONTEXT_FILENAME'] = context_filename
+            context['PRODUCT_EQUATION_FILENAME'] = os.environ['PRODUCT_EQUATION_FILENAME']
             context['PRODUCT_NAME'] = os.environ['PRODUCT_NAME']
             context['CONTAINER_NAME'] = os.environ['CONTAINER_NAME']
             context['PRODUCT_DIR'] = os.environ['PRODUCT_DIR']
