@@ -68,6 +68,7 @@ def bind_context(context_filename):
             context['PRODUCT_DIR'] = os.environ['PRODUCT_DIR']
             context['CONTAINER_DIR'] = os.environ['CONTAINER_DIR']
             context['APE_ROOT_DIR'] = os.environ['APE_ROOT_DIR']
+            context['APE_GLOBAL_DIR'] = os.environ['APE_GLOBAL_DIR']
             PRODUCT_CONTEXT = ContextAccessor(context)
     else:
         #bind_context called but context already bound
