@@ -43,6 +43,9 @@ class ContextAccessor(object):
                 pass
 
         raise AttributeError
+        
+    def get_as_dict(self):
+        return self._data
 
 
 def bind_context(context_filename):
