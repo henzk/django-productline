@@ -11,6 +11,7 @@ The context is loaded from a file in json format.
 """
 import json
 import os
+from django.conf import settings
 
 PRODUCT_CONTEXT = None
 
@@ -73,6 +74,7 @@ def bind_context(context_filename):
             context['CONTAINER_DIR'] = os.environ['CONTAINER_DIR']
             context['APE_ROOT_DIR'] = os.environ['APE_ROOT_DIR']
             context['APE_GLOBAL_DIR'] = os.environ['APE_GLOBAL_DIR']
+            context['MEDIA_ROOT'] = settings.MEDIA_ROOT
             PRODUCT_CONTEXT = ContextAccessor(context)
     else:
         #bind_context called but context already bound
