@@ -1,0 +1,10 @@
+django_productline
+django_productline.features.staticfiles
+django_productline.features.admin
+cssbasics
+jsbasics
+schnadmin
+# ADD YOUR FEATURES HERE
+# ...
+django_productline.features.development
+
