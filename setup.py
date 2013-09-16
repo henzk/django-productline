@@ -39,6 +39,7 @@ setup(
         'django-overextends',
         'south',
         'featuremonkey>=0.2.2',
-        'ape>=0.2.0'
+        'ape>=0.2.0',
+        'https://github.com/audreyr/cookiecutter#egg=cookiecutter'
     ]
 )
