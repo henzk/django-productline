@@ -40,9 +40,5 @@ setup(
         'south',
         'featuremonkey>=0.2.2',
         'ape>=0.2.0',
-        'cookiecutter'
     ],
-    dependency_links=[
-        'https://github.com/audreyr/cookiecutter#egg=cookiecutter'
-    ]
 )
