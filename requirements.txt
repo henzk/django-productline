@@ -4,3 +4,4 @@ ape>=0.2.0
 decorator
 django-overextends
 south
+-e git+https://github.com/audreyr/cookiecutter@5fb9b77869f43dfc1fb746701a32d7e68678092c#egg=cookiecutter-dev
