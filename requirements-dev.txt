@@ -1,0 +1,2 @@
+-e git+https://github.com/audreyr/cookiecutter.git@5fb9b77869f43dfc1fb746701a32d7e68678092c#egg=cookiecutter
+-e git+https://github.com/henzk/ape.git@9ce29bd291813ac6cbf24bf351306ca5388fc031#egg=ape
