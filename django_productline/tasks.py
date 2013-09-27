@@ -274,8 +274,7 @@ def generate_context_json(poi):
         old_context_file = open(contextjson, 'r')
         old_context = json.loads(old_context_file.read())
         old_context_file.close() 
-        
-    contextdict.update(old_context)
+        contextdict.update(old_context)
      
     contextjson_file = open(contextjson, 'w')
     contextjson_file.write(json.dumps(contextdict, indent=4))
