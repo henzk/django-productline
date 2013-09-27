@@ -4,5 +4,16 @@
     "pl": "django-productline",
     "model_fragment": {
         "mandatory": true
+    },
+    "context_template": {
+        "SITE_ID": 1,
+        "DATABASES": {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": "{{data_dir}}/db.sqlite"
+            }
+        },
+        "DATA_DIR": "{{ data_dir }}",
+        "SECRET_KEY": "{{ secret_key }}"
     }
 }
