@@ -240,44 +240,22 @@ def generate_context_json(poi):
     '''
     Create the context.json file according to the selected features.
     '''
+    import django_productline.productcontext
+    context = django_productline.productcontext.get_context()
     container_name, product_name = get_location(poi)
-    
-    product_dir = '%s/%s/products/%s' % (
+    contextjson = '%s/%s/products/%s/context.json' % (
         os.environ['APE_ROOT_DIR'],
         container_name,
         product_name
     )
-    equation_file = product_dir + '/product.equation'
-    contextjson = product_dir + '/context.json'
-    
-    from django.utils.datastructures import SortedDict
-    contextdict = SortedDict()
-    
-    for feature_name in get_features_from_equation_file(equation_file):
-        feature_module = importlib.import_module(feature_name)
-        feature_dir = os.path.dirname(feature_module.__file__)
-        
-        featurejson = '%s/feature.json' % feature_dir
-        if os.path.isfile(featurejson):
-            f = open(featurejson, 'r')
-            try:
-                featureconf = json.loads(f.read())
-                if featureconf.has_key('context_template'):
-                    contextdict.update(featureconf['context_template'])
-                    print '... added keys from %s to context.json ' % (feature_name)
-            except ValueError:
-                print '... skipping %s/feature.json;  no valid json could be decoded' % feature_name
-            
-            f.close()
-     
     if os.path.isfile(contextjson):
         old_context_file = open(contextjson, 'r')
         old_context = json.loads(old_context_file.read())
         old_context_file.close() 
-        contextdict.update(old_context)
+        context.update(old_context)
      
     contextjson_file = open(contextjson, 'w')
-    contextjson_file.write(json.dumps(contextdict, indent=4))
+    contextjson_file.write(json.dumps(context, indent=4))
     contextjson_file.close()    
     print 
     print '*** Successfully generated %s/context.json from %s/product.equation' % (product_name, product_name)
