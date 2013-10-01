@@ -236,7 +236,7 @@ def create_feature(feature_name, feature_pool=None):
     
     
 @tasks.register
-def generate_context_json(poi):
+def generate_context(poi):
     '''
     Create the context.json file according to the selected features.
     '''
