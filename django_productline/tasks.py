@@ -17,6 +17,8 @@ def requires_product_environment(func, *args, **kws):
     from django_productline import startup
     startup.select_product()
     return func(*args, **kws)
+    
+    
 
 @tasks.register
 @tasks.requires_product_environment
@@ -235,30 +237,52 @@ def create_feature(feature_name, feature_pool=None):
     print '*** Created feature %s in %s' % (feature_name, pool_dir)
     
     
+@tasks.register_helper
+def get_context_template():
+    '''
+    Features which require configuration parameters in the product context need to refine
+    this method and update the context with their own data.
+    '''
+    import random
+    return {
+        'SITE_ID':  1,
+        'SECRET_KEY': ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)]),
+    }
+    
+
+
+
+    
+    
 @tasks.register
-def generate_context(poi):
-    '''
-    Create the context.json file according to the selected features.
-    '''
-    import django_productline.productcontext
-    context = django_productline.productcontext.get_context()
-    container_name, product_name = get_location(poi)
-    contextjson = '%s/%s/products/%s/context.json' % (
-        os.environ['APE_ROOT_DIR'],
-        container_name,
-        product_name
-    )
-    if os.path.isfile(contextjson):
-        old_context_file = open(contextjson, 'r')
-        old_context = json.loads(old_context_file.read())
-        old_context_file.close() 
-        context.update(old_context)
-     
-    contextjson_file = open(contextjson, 'w')
-    contextjson_file.write(json.dumps(context, indent=4))
-    contextjson_file.close()    
+def generate_context():
+
     print 
-    print '*** Successfully generated %s/context.json from %s/product.equation' % (product_name, product_name)
+
+    context_fp = '%s/context.json' % os.environ['PRODUCT_DIR']
+    context = {}
+
+    if os.path.isfile(context_fp):
+        context_f = open(context_fp, 'r')
+        content = context_f.read()
+        if content.strip() == '':
+            content = '{}'
+        try:
+            context = json.loads(content)
+        except ValueError:
+            print 'ERROR: not valid json in your existing context.json!!!'    
+        context_f.close()
+
+    context_f = open(context_fp, 'w')
+    
+    context.update(tasks.get_context_template())
+    context_f.write(json.dumps(context, indent=4))
+    context_f.close()
+    print 
+    print '*** Successfully generated context.json'
+    
+    
+ 
             
     
             
