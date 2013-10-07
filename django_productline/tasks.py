@@ -60,15 +60,6 @@ def prepare_db_schema():
     tasks.manage('migrate')
 
 
-@tasks.register
-@tasks.requires_product_environment
-def prepare_fs():
-    """
-    prepare filesystem for deployment
-    """
-    from django_productline.context import PRODUCT_CONTEXT
-    if not os.path.isdir(PRODUCT_CONTEXT.DATA_DIR):
-        os.mkdir(PRODUCT_CONTEXT.DATA_DIR)
 
 
 @tasks.register
@@ -85,9 +76,8 @@ def prepare():
     must be rerun after feature selection and/or the
     product context is changed
     """
-    tasks.prepare_fs()
-    tasks.prepare_db()
-    tasks.prepare_db_schema()
+    tasks.create_data_dir()
+    
 
 @tasks.register
 def dev():
@@ -103,7 +93,8 @@ def deploy():
     """
     #other features may add support for mod_wsgi, uwsgi, gunicorn,...
     #by _replacing_ this method
-    tasks.dev()
+    tasks.generate_context()
+    tasks.prepare()
     
 
 def get_cookiecutter_template_dir(template_name):
@@ -257,9 +248,9 @@ def create_data_dir():
     '''
     Creates the DATA_DIR.
     '''
-    from django.conf import settings
-    if not os.path.exists(settings.DATA_DIR):
-        os.mkdir(settings.DATA_DIR)
+    from django_productline.context import PRODUCT_CONTEXT
+    if not os.path.exists(PRODUCT_CONTEXT.DATA_DIR):
+        os.mkdir(PRODUCT_CONTEXT.DATA_DIR)
         print '*** Created DATA_DIR in %s' % settings.DATA_DIR
     else:
         print '... skipping. DATA_DIR already exists.'
