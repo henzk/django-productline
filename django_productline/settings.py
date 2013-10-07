@@ -14,7 +14,12 @@ ADMINS = ()
 
 MANAGERS = ()
 
-DATABASES = {}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(PRODUCT_CONTEXT.DATA_DIR, 'db.sqlite')
+    }
+}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -39,9 +44,12 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+
+
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = None
+MEDIA_ROOT = os.path.join(PRODUCT_CONTEXT.DATA_DIR, 'uploads')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -52,7 +60,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = None
+STATIC_ROOT = os.path.join(PRODUCT_CONTEXT.DATA_DIR, 'generated_static')
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = PRODUCT_CONTEXT.SECRET_KEY
