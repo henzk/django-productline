@@ -247,10 +247,22 @@ def get_context_template():
     return {
         'SITE_ID':  1,
         'SECRET_KEY': ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)]),
+        'DATA_DIR': os.path.join(os.environ['PRODUCT_DIR'], '__data__'),
     }
-    
 
 
+@tasks.register
+@tasks.requires_product_environment
+def create_data_dir():
+    '''
+    Creates the DATA_DIR.
+    '''
+    from django.conf import settings
+    if not os.path.exists(settings.DATA_DIR):
+        os.mkdir(settings.DATA_DIR)
+        print '*** Created DATA_DIR in %s' % settings.DATA_DIR
+    else:
+        print '... skipping. DATA_DIR already exists.'
 
     
     
@@ -286,9 +298,9 @@ def generate_context(force_overwrite=False, drop_secret_key=False):
 
     with open(context_fp, 'w') as context_f:
         new_context = tasks.get_context_template()
+        
         new_context.update(context)
         context_f.write(json.dumps(new_context, indent=4))
-
     print 
     print '*** Successfully generated context.json'
     
