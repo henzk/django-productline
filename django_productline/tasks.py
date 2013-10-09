@@ -66,6 +66,7 @@ def pre_context_deploy():
     Generates the context. Refine this task and perform actions that
     are necessary before the context is generated. 
     '''
+    print '... processing pre_context_deploy tasks'
     pass
     
 
