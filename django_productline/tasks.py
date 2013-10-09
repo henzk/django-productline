@@ -30,7 +30,6 @@ def manage(*args):
     execute_from_command_line(['ape manage'] + list(args))
 
 @tasks.register
-@tasks.requires_product_environment
 def select_features():
     """
     call when product.equation changes
