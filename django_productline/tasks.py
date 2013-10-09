@@ -61,21 +61,13 @@ def prepare_db_schema():
 
 
 @tasks.register
-@tasks.requires_product_environment
-def prepare():
-    """
-    prepare product for deployment
-
-    does stuff like:
-    -setting up the db and schema
-    -generate webserver config
-    ... everything to get the web application setup
-
-    must be rerun after feature selection and/or the
-    product context is changed
-    """
-    tasks.create_data_dir()
-
+def pre_context_deploy():
+    '''
+    Generates the context. Refine this task and perform actions that
+    are necessary before the context is generated. 
+    '''
+    pass
+    
 
 @tasks.register
 def dev():
@@ -86,15 +78,13 @@ def dev():
 
 
 @tasks.register
-def deploy():
+def post_context_deploy():
     """
     deploy application
     """
     #other features may add support for mod_wsgi, uwsgi, gunicorn,...
     #by _replacing_ this method
-    tasks.generate_context()
-    tasks.prepare()
-
+    tasks.create_data_dir()
 
 @tasks.register_helper
 def get_context_template():
