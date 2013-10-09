@@ -35,57 +35,31 @@ def select_features():
     """
     call when product.equation changes
     """
+    print '... executing select features'
+    tasks.install_dependencies()
+    tasks.generate_context()
+
+@tasks.register
+def install_dependencies():
+    '''
+    Refine this task to install feature-level dependencies. E.g. djpl-postgres
+    refines this task to link psycopg2.
+    '''
     pass
 
 
-@tasks.register
-def prepare_db():
-    """
-    create the database
-    """
-    #the base feature assumes sqlite
-    #or that the database is managed manually
-    #other features can easily add support for
-    #a specific database server and creation mechanism
-    #by refining this task
-    pass
-
 
 @tasks.register
-def prepare_db_schema():
-    """
-    create the database schema
-    """
-    tasks.manage('syncdb', '--noinput')
-    tasks.manage('migrate')
-
-
-@tasks.register
-def pre_context_deploy():
+def deploy():
     '''
     Generates the context. Refine this task and perform actions that
     are necessary before the context is generated. 
     '''
     print '... processing pre_context_deploy tasks'
-    pass
+    tasks.create_data_dir()
     
 
-@tasks.register
-def dev():
-    """
-    run the development server
-    """
-    tasks.manage('runserver')
-
-
-@tasks.register
-def post_context_deploy():
-    """
-    deploy application
-    """
-    #other features may add support for mod_wsgi, uwsgi, gunicorn,...
-    #by _replacing_ this method
-    tasks.create_data_dir()
+    
 
 @tasks.register_helper
 def get_context_template():
