@@ -15,11 +15,13 @@ def prepare_staticfiles(force=False):
         tasks.manage('collectstatic')
 
 
-def refine_prepare(original):
+
+
+def refine_post_context_deploy(original):
     """
     adds call to build_staticfiles
     """
-    def prepare():
+    def deploy():
         original()
         tasks.prepare_staticfiles()
-    return prepare
+    return deploy
