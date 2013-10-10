@@ -16,7 +16,7 @@ def collectstatic(force=False):
         print '... finished collectstatic'
         print
     else:
-        print '... skipping collectstatic as settings.DEBUG=True; run ape collectstatic instead;'
+        print '... skipping collectstatic as settings.DEBUG=True; If you want to generate staticfiles anyway, run ape collectstatic instead;'
 
 
 
