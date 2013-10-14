@@ -38,6 +38,7 @@ def select_features():
     tasks.install_dependencies()
     tasks.generate_context()
 
+
 @tasks.register
 def install_dependencies():
     '''
@@ -45,7 +46,6 @@ def install_dependencies():
     refines this task to link psycopg2.
     '''
     pass
-
 
 
 @tasks.register
@@ -57,6 +57,15 @@ def deploy():
     print '... processing deploy tasks'
     tasks.create_data_dir()
     
+    
+@tasks.register
+@tasks.requires_product_environment
+def install_fixtures():
+    '''
+    Refines this method to enable your feature to load fixtures, either via
+    ape manage loaddata or by creating objects programmatically
+    '''
+    pass
 
     
 
