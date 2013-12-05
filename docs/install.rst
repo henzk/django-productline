@@ -12,9 +12,14 @@ First, make sure ``virtualenv`` is installed. On Debian/Ubuntu you can install i
 
     $ sudo apt-get install python-virtualenv
 
-Then, create a new ``ape`` container environment::
+Then, create a new ``ape`` container environment and install django-productline and all dependencies::
 
-    $ wget -O - https://raw.github.com/henzk/ape/master/bin/bootstrape | python - webapps
+    $ wget -O - https://raw.github.com/henzk/django-productline/master/bin/install.py | python - webapps
+    
+For the development version, use::
+
+    $ wget -O - https://raw.github.com/henzk/django-productline/master/bin/install.py | python - --dev webapps
+
 
 This will create a new folder called ``webapps`` with the following structure::
 
@@ -27,6 +32,8 @@ This will create a new folder called ``webapps`` with the following structure::
 
     this is a completely self contained installation. To get rid of everything or to start over, simply delete the ``webapps`` folder.
 
+
+Congratulations, the installation is now complete!
 
 SPL (software product line) containers can now be placed into the ``webapps`` directory.
 Folder ``venv`` contains a ``virtualenv`` that is isolated from the system (created with the ``--no-site-packages`` option).
@@ -44,10 +51,5 @@ To activate container mode, change into the ``webapps`` directory and issue the 
 
 Under the hood, this takes care of setting some environment variables and activating the virtualenv.
 
-Now, let`s install ``django-productline`` into the virtualenv::
 
-    $ pip install django-productline
 
-This will also install necessary dependencies including ``Django`` and ``South``.
-
-Congratulations, the installation is now complete!
