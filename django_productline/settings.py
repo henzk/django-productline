@@ -115,7 +115,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'overextends',
-    'south',
     'django_productline'
 ]
 

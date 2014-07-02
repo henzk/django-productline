@@ -37,7 +37,6 @@ setup(
         'Django',
         'decorator',
         'django-overextends',
-        'south',
         'featuremonkey>=0.2.2',
         'ape>=0.2.0',
     ],
