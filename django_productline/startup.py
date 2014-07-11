@@ -33,6 +33,8 @@ def select_product():
     featuremonkey.remove_import_guard('django.conf')
     featuremonkey.remove_import_guard('django.db')
 
+    import django
+    django.setup()
     #force import of settings and urls
     #better fail during initialization than on the first request
     from django.conf import settings
@@ -43,6 +45,7 @@ def select_product():
     #make sure overextends tag is registered
     from django.template.loader import get_template
     from overextends import models
+    
 
 def get_wsgi_application():
     """
