@@ -118,6 +118,12 @@ INSTALLED_APPS = [
     'django_productline'
 ]
 
+from django_productline.startup import cmp_version
+import django
+
+if cmp_version(django.get_version(), '1.7') > 0:
+    INSTALLED_APPS.append('south')
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
