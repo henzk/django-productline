@@ -121,7 +121,7 @@ INSTALLED_APPS = [
 from django_productline.startup import cmp_version
 import django
 
-if cmp_version(django.get_version(), '1.7') > 0:
+if cmp_version(django.get_version(), '1.7') < 0:
     INSTALLED_APPS.append('south')
 
 # A sample logging configuration. The only tangible logging
