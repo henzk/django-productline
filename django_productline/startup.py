@@ -1,11 +1,17 @@
 """
 product initialization stuff
 """
-import os
+import os, re
 import featuremonkey
 from .composer import get_composer
 
 _product_selected = False
+
+
+def cmp_version(version1, version2):
+    def normalize(v):
+        return [int(x) for x in re.sub(r'(\.0+)*$','', v).split(".")]
+    return cmp(normalize(version1), normalize(version2))
 
 def select_product():
     """
@@ -34,7 +40,8 @@ def select_product():
     featuremonkey.remove_import_guard('django.db')
 
     import django
-    django.setup()
+    if cmp_version(django.get_version(), '1.7') > 0:
+        django.setup()
     #force import of settings and urls
     #better fail during initialization than on the first request
     from django.conf import settings
