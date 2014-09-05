@@ -40,7 +40,7 @@ def select_product():
     featuremonkey.remove_import_guard('django.db')
 
     import django
-    if cmp_version(django.get_version(), '1.7') > 0:
+    if cmp_version(django.get_version(), '1.7') >= 0:
         django.setup()
     #force import of settings and urls
     #better fail during initialization than on the first request
