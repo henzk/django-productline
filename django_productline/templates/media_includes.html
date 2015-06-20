@@ -23,8 +23,18 @@
 {% endif %}
 
 
-{################# ADMIN STATIC FILES ################}
 
+{################# ADMIN OR FRONTEND AUTHENTICATION ################}
+
+{% if user.is_authenticated %}
+    {% block authenticated_css %}{% endblock %}
+
+    {% block authenticated_js %}{% endblock %}
+{% endif %}
+
+
+
+{################# ADMIN STATIC FILES ################}
 
 {% if django_admin %}
     {% block admin_css %}{% endblock %}
@@ -33,5 +43,3 @@
 {% endif %}
 
 {% block extra %} {% endblock %}
-
-
