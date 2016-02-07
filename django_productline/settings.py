@@ -96,6 +96,9 @@ TEMPLATE_DIRS = [
     # Don't forget to use absolute paths, not relative paths.
 ]
 
+
+
+
 TEMPLATE_CONTEXT_PROCESSORS = [
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
@@ -106,6 +109,24 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request",
 ]
+
+
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+
+        'OPTIONS': {
+            'builtins': ['overextends.templatetags.overextends_tags'],
+            'context_processors': TEMPLATE_CONTEXT_PROCESSORS,
+            'loaders': [
+                'django.template.loaders.app_directories.Loader'
+            ]
+        },
+    },
+]
+
+
 
 
 INSTALLED_APPS = [
