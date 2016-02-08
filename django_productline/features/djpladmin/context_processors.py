@@ -19,11 +19,13 @@ def django_admin(request):
         admin_url = '/' + settings.ADMIN_URL
 
     # add ADMIN_URL and django_admin to context
-    
+
     if request.META['PATH_INFO'].startswith(admin_url):
         return {
             'ADMIN_URL': admin_url,
             'django_admin': True
         }
     else:
-        return {}
+        return {
+            'django_admin': False
+        }
