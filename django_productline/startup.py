@@ -1,17 +1,15 @@
 """
 product initialization stuff
 """
-import os, re
+import os
 import featuremonkey
 from .composer import get_composer
+from django_productline import compare_version
 
 _product_selected = False
 
 
-def cmp_version(version1, version2):
-    def normalize(v):
-        return [int(x) for x in re.sub(r'(\.0+)*$','', v).split(".")]
-    return cmp(normalize(version1), normalize(version2))
+
 
 def select_product():
     """
@@ -40,7 +38,7 @@ def select_product():
     featuremonkey.remove_import_guard('django.db')
 
     import django
-    if cmp_version(django.get_version(), '1.7') >= 0:
+    if compare_version(django.get_version(), '1.7') >= 0:
         django.setup()
     #force import of settings and urls
     #better fail during initialization than on the first request
@@ -52,7 +50,7 @@ def select_product():
     #make sure overextends tag is registered
     from django.template.loader import get_template
     from overextends import models
-    
+
 
 def get_wsgi_application():
     """

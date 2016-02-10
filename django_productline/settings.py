@@ -6,6 +6,9 @@
 #the context is also made available as PRODUCT_CONTEXT
 from django_productline.context import PRODUCT_CONTEXT
 import os
+import django
+from django_productline import compare_version
+
 
 DEBUG = False
 TEMPLATE_DEBUG = False
@@ -67,12 +70,7 @@ SECRET_KEY = PRODUCT_CONTEXT.SECRET_KEY
 
 ALLOWED_HOSTS = ['*']
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = [
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-]
+
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
@@ -96,9 +94,6 @@ TEMPLATE_DIRS = [
     # Don't forget to use absolute paths, not relative paths.
 ]
 
-
-
-
 TEMPLATE_CONTEXT_PROCESSORS = [
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
@@ -110,21 +105,35 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.core.context_processors.request",
 ]
 
-
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-
-        'OPTIONS': {
-            'builtins': ['overextends.templatetags.overextends_tags'],
-            'context_processors': TEMPLATE_CONTEXT_PROCESSORS,
-            'loaders': [
-                'django.template.loaders.app_directories.Loader'
-            ]
-        },
-    },
+# List of callables that know how to import templates from various sources.
+TEMPLATE_LOADERS = [
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+#     'django.template.loaders.eggs.Loader',
 ]
+
+
+
+
+if compare_version(django.get_version(), '1.9') >= 0:
+    TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+
+            'OPTIONS': {
+                'builtins': ['overextends.templatetags.overextends_tags'],
+                'context_processors': TEMPLATE_CONTEXT_PROCESSORS,
+                'loaders': [
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader'
+                ]
+            },
+        },
+    ]
+
+
+
+
 
 
 
@@ -139,10 +148,9 @@ INSTALLED_APPS = [
     'django_productline'
 ]
 
-from django_productline.startup import cmp_version
-import django
 
-if cmp_version(django.get_version(), '1.7') < 0:
+
+if compare_version(django.get_version(), '1.7') < 0:
     INSTALLED_APPS.append('south')
 
 # A sample logging configuration. The only tangible logging
