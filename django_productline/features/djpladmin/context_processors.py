@@ -2,7 +2,7 @@ from django.conf import settings
 
 
 def django_admin(request):
-    '''
+    """
     Adds additional information to the context:
 
     ``django_admin`` - boolean variable indicating whether the current
@@ -11,7 +11,7 @@ def django_admin(request):
 
     NOTE: do not set ADMIN_URL='/' in case your application provides functionality
     outside of django admin as all incoming urls are interpreted as admin urls.
-    '''
+    """
     # ensure that adminurl always starts with a '/' but never ends with a '/'
     if settings.ADMIN_URL.endswith('/'):
         admin_url = settings.ADMIN_URL[:-1]

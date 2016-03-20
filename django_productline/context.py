@@ -14,15 +14,16 @@ import os
 
 PRODUCT_CONTEXT = None
 
-class ContextParseError(Exception): pass
+class ContextParseError(Exception):
+    pass
 
-class ContextBindingError(Exception): pass
+class ContextBindingError(Exception):
+    pass
 
 class ContextAccessor(object):
     """
-    provides nice interface to access the product context
-    
-    only reading is allowed! Don`t write to the context, please!
+    Provides nice interface to access the product context
+    Pnly reading is allowed! Don`t write to the context, please!
     """
 
     def __init__(self, data):
@@ -47,15 +48,23 @@ class ContextAccessor(object):
     def get_as_dict(self):
         return self._data
 
+    @property
+    def dict(self):
+        """
+        Returns the internal dict representation of the context.
+        Same as self.get_as_dict.
+        :return: dict
+        """
+        return self._data
+
 
 def bind_context(context_filename):
     """
-    loads context from file and binds to it
-    
-    :param: context_filename absolute path of the context file
-    
-    called by featuredjango.startup.select_product
+    Loads context from file and binds to it
+    Called by featuredjango.startup.select_product
     prior to selecting the individual features
+
+    :param: context_filename absolute path of the context file
     """
     
     global PRODUCT_CONTEXT
@@ -75,8 +84,8 @@ def bind_context(context_filename):
             context['APE_GLOBAL_DIR'] = os.environ['APE_GLOBAL_DIR']
             PRODUCT_CONTEXT = ContextAccessor(context)
     else:
-        #bind_context called but context already bound
-        #harmless rebind (with same file) is ignored
-        #otherwise this is a serious error
+        # bind_context called but context already bound
+        # harmless rebind (with same file) is ignored
+        # otherwise this is a serious error
         if PRODUCT_CONTEXT.PRODUCT_CONTEXT_FILENAME != context_filename:
             raise ContextBindingError('product context bound multiple times using different data!')

@@ -25,6 +25,7 @@ class Composer(featuremonkey.Composer):
     """
 
     def _contribute(self, role, target_attrname, transformation, base):
+
         if hasattr(base, target_attrname):
             raise featuremonkey.CompositionError(
                 'Cannot contribute "%s" of "%s" to "%s"!'

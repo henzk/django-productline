@@ -1,9 +1,8 @@
 
 def refine_get_urls(original):
     """
-    serve static files (and media files also)
-    
-    in production the webserver should serve requested
+    Serve static files (and media files also) in DEBUG model.
+    In production the webserver should serve requested
     static files itself and never let requests to /static/*
     and /media/* get to the django application.
     """
@@ -12,9 +11,10 @@ def refine_get_urls(original):
         from django.conf.urls import patterns, include, url
         from django.conf import settings
         from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+        from django.views.static import serve
         if settings.DEBUG:
             return staticfiles_urlpatterns() + patterns('',
-                url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+                url(r'^media/(?P<path>.*)$', serve, {
                     'document_root': settings.MEDIA_ROOT,
                 }),
             ) + original()

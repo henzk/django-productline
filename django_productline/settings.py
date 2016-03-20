@@ -1,9 +1,9 @@
 # Django settings for django-productline based products.
 
-#the context has been frozen at this point
-#it contains information about the product`s environment;
-#some of that data needs to be added to the settings
-#the context is also made available as PRODUCT_CONTEXT
+# the context has been frozen at this point
+# it contains information about the product`s environment;
+# some of that data needs to be added to the settings
+# the context is also made available as PRODUCT_CONTEXT
 from django_productline.context import PRODUCT_CONTEXT
 import os
 import django
@@ -88,31 +88,25 @@ ROOT_URLCONF = 'django_productline.root_urlconf'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'django_productline.wsgi.application'
 
-TEMPLATE_DIRS = [
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-]
 
-TEMPLATE_CONTEXT_PROCESSORS = [
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    "django.core.context_processors.request",
-]
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = [
+# define once, use for 1.9 and prior 1.9 compatibility
+_TEMPLATE_CONTEXT_PROCESSORS = [
+        "django.contrib.auth.context_processors.auth",
+        "django.core.context_processors.debug",
+        "django.core.context_processors.i18n",
+        "django.core.context_processors.media",
+        "django.core.context_processors.static",
+        "django.core.context_processors.tz",
+        "django.contrib.messages.context_processors.messages",
+        "django.core.context_processors.request",
+    ]
+
+# define once, use for 1.9 and prior 1.9 compatibility
+ _TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 ]
-
-
 
 
 if compare_version(django.get_version(), '1.9') >= 0:
@@ -121,8 +115,11 @@ if compare_version(django.get_version(), '1.9') >= 0:
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
 
             'OPTIONS': {
-                'builtins': ['overextends.templatetags.overextends_tags'],
-                'context_processors': TEMPLATE_CONTEXT_PROCESSORS,
+                'builtins': [
+                    # add overextends in order to provide template composition
+                    'overextends.templatetags.overextends_tags'
+                ],
+                'context_processors': _TEMPLATE_CONTEXT_PROCESSORS,
                 'loaders': [
                     'django.template.loaders.filesystem.Loader',
                     'django.template.loaders.app_directories.Loader'
@@ -130,11 +127,17 @@ if compare_version(django.get_version(), '1.9') >= 0:
             },
         },
     ]
+else:
+    TEMPLATE_DIRS = [
+        # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+        # Always use forward slashes, even on Windows.
+        # Don't forget to use absolute paths, not relative paths.
+    ]
 
+    TEMPLATE_CONTEXT_PROCESSORS = _TEMPLATE_CONTEXT_PROCESSORS
 
-
-
-
+    # List of callables that know how to import templates from various sources.
+    TEMPLATE_LOADERS = _TEMPLATE_LOADERS
 
 
 
@@ -148,10 +151,6 @@ INSTALLED_APPS = [
     'django_productline'
 ]
 
-
-
-if compare_version(django.get_version(), '1.7') < 0:
-    INSTALLED_APPS.append('south')
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -2,20 +2,19 @@
 product initialization stuff
 """
 import os
+
 import featuremonkey
-from .composer import get_composer
+
 from django_productline import compare_version
+from .composer import get_composer
 
 _product_selected = False
 
 
-
-
 def select_product():
     """
-    binds the frozen context the selected features
-
-    should be called only once - calls after the first call have
+    Binds the frozen context the selected features
+    Should be called only once - calls after the first call have
     no effect
     """
     global _product_selected
@@ -31,25 +30,18 @@ def select_product():
     os.environ['DJANGO_SETTINGS_MODULE'] = 'django_productline.settings'
     contextfile = os.environ['PRODUCT_CONTEXT_FILENAME']
     equationfile = os.environ['PRODUCT_EQUATION_FILENAME']
-    #bind context and compose features
+    # bind context and compose features
     context.bind_context(contextfile)
     get_composer().select_equation(equationfile)
     featuremonkey.remove_import_guard('django.conf')
     featuremonkey.remove_import_guard('django.db')
 
-    import django
-    if compare_version(django.get_version(), '1.7') >= 0:
-        django.setup()
-    #force import of settings and urls
-    #better fail during initialization than on the first request
-    from django.conf import settings
-    from django.core.urlresolvers import get_resolver
-    #eager creation of URLResolver
-    get_resolver(None)
+    # force import of settings and urls
+    # better fail during initialization than on the first request
 
-    #make sure overextends tag is registered
-    from django.template.loader import get_template
-    from overextends import models
+    from django.core.urlresolvers import get_resolver
+    # eager creation of URLResolver
+    get_resolver(None)
 
 
 def get_wsgi_application():
@@ -62,8 +54,8 @@ def get_wsgi_application():
     if you need to refine the wsgi application object e.g. to add
     wsgi middleware please refine django.core.wsgi.get_wsgi_application directly.
     """
-    #make sure the product is selected before importing and constructing wsgi app
+    # make sure the product is selected before importing and constructing wsgi app
     select_product()
-    #return (possibly refined) wsgi application
+    # return (possibly refined) wsgi application
     from django.core.wsgi import get_wsgi_application
     return get_wsgi_application()

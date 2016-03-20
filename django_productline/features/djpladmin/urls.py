@@ -1,5 +1,10 @@
 
 def refine_get_urls(original):
+    """
+    Includes the admin interface urlpatterns.
+    :param original: original implementation
+    :return: refined get_urls
+    """
     def get_urls():
         from django.conf.urls import patterns, include
         from django.contrib import admin

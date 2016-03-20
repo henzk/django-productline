@@ -1,4 +1,3 @@
-#refinement for django_productline.settings
 import django
 from django_productline import compare_version
 
@@ -8,9 +7,6 @@ def refine_INSTALLED_APPS(original):
 
 
 introduce_ADMIN_URL = 'admin/'
-
-
-
 
 if (compare_version(django.get_version(), '1.9') >= 0):
     # WE use the TEMPLATES variable not prior to 1.9
