@@ -2,7 +2,8 @@
 Installation
 ###############################################################
 
-Here, setting up ``django-productline`` in `ape's container mode <http://ape.readthedocs.org/en/latest/modes.html#container-mode>`_
+Here, setting up ``django-productline`` in
+`ape's container mode <http://ape.readthedocs.org/en/latest/modes.html#container-mode>`_
 is described. This way, you can testdrive or develop multiple product lines isolated from the rest of your system.
 
 If all you need is to deploy a *single* product, you can also use ``ape`` in standalone mode, as described
@@ -10,15 +11,21 @@ If all you need is to deploy a *single* product, you can also use ``ape`` in sta
 
 First, make sure ``virtualenv`` is installed. On Debian/Ubuntu you can install it like so::
 
-    $ sudo apt-get install python-virtualenv
+    $ pip install virtualenv
 
 Then, create a new ``ape`` container environment and install django-productline and all dependencies::
 
     $ wget -O - https://raw.github.com/henzk/django-productline/master/bin/install.py | python - webapps
-    
+
 For the development version, use::
 
     $ wget -O - https://raw.github.com/henzk/django-productline/master/bin/install.py | python - --dev webapps
+
+To use a specific commit version use::
+
+    $wget -0 - https://raw.github.com/henzk/django-productline/bin/install.py | python - --v <COMMIT ID> webapps
+
+This will install django productline in a specific version.
 
 
 This will create a new folder called ``webapps`` with the following structure::
