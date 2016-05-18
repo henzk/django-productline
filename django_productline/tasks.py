@@ -49,10 +49,9 @@ def install_dependencies():
 
 
 @tasks.register
+@tasks.requires_product_environment
 def deploy():
     '''
-    Generates the context. Refine this task and perform actions that
-    are necessary before the context is generated. 
     '''
     print '... processing deploy tasks'
     tasks.create_data_dir()
