@@ -149,7 +149,7 @@ def clear_tables_for_loaddata(confirm=None):
     from django.contrib.auth.models import *
     from django.contrib.sites.models import *
 
-    if string != 'yes':
+    if confirm != 'yes':
         print('Please enter "yes" to confirm that your want to clear ContentTypes, Sites, Permissions')
     else:
         Site.objects.all().delete()
