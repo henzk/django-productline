@@ -139,7 +139,7 @@ def generate_context(force_overwrite=False, drop_secret_key=False):
 
 @tasks.register
 @tasks.requires_product_environment
-def clear_tables_for_loaddata(string=None):
+def clear_tables_for_loaddata(confirm=None):
     """
     Clears al tables in order to loaddata properly.
     :param string:
@@ -149,8 +149,8 @@ def clear_tables_for_loaddata(string=None):
     from django.contrib.auth.models import *
     from django.contrib.sites.models import *
 
-    if string != 'doit':
-        print('Please enter "doit" to confirm that your want to clear ContentTypes, Sites, Permissions')
+    if string != 'yes':
+        print('Please enter "yes" to confirm that your want to clear ContentTypes, Sites, Permissions')
     else:
         Site.objects.all().delete()
         Permission.objects.all().delete()
