@@ -1,6 +1,6 @@
-###############################################################
+############
 Installation
-###############################################################
+############
 
 Here, setting up ``django-productline`` in `ape's container mode <http://ape.readthedocs.org/en/latest/modes.html#container-mode>`_
 is described. This way, you can testdrive or develop multiple product lines isolated from the rest of your system.

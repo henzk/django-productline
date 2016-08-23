@@ -1,6 +1,6 @@
-###############################################################
+##############################################
 Welcome to django-productline's documentation!
-###############################################################
+##############################################
 
     “build feature-oriented product lines for django”
 
@@ -29,9 +29,9 @@ More information about FOSD can be found here:
 I gave a talk on ``django-productline`` at FOSD Treffen 2013 in Dagstuhl (`Slides <http://wwwiti.cs.uni-magdeburg.de/~feigensp/fosd13/presentations/hendrik.pdf>`_).
 
 
-****************************
+**********
 Motivation
-****************************
+**********
 
 With the concept of apps, Django already provides a pretty good modularization mechanism.
 Integrating an app into a project typically means to change multiple settings and registering the necessary urlpatterns.
@@ -56,9 +56,9 @@ Now, we want to iterate on the tools and scripts we have built internally and de
 We are currently in the process of cleaning up our codebase and releasing it piece by piece.
 Also, we are planning to open source some of our core features, so other interested folks may also go product line.
 
-************************************
+****
 Goal
-************************************
+****
 
 A typical django web application consists of the following:
 
@@ -77,9 +77,9 @@ In the context of "automatical composition", project-individual integration code
 Generated applications need to be easy to manage over the rest of their product lifecycle(further development, deployment).
 Also, there needs to be support for managing the products` individual configurations e.g. webserver and database configuration.
 
-**************************************
+**********************
 Composition Mechanisms
-**************************************
+**********************
 
 To be able to compose the required artefacts for a product, django-productline makes use of multiple composition mechanisms:
 
@@ -96,20 +96,20 @@ To be able to compose the required artefacts for a product, django-productline m
 
 
 
-***************************************
+***************
 Getting started
-***************************************
+***************
 
 .. toctree::
     :maxdepth: 3
 
     install
-    tutorial
+    
 
 
-***************************************
+******************
 Product Generation
-***************************************
+******************
 
 .. toctree::
     :maxdepth: 3
@@ -117,28 +117,27 @@ Product Generation
     product_generation
 
 
-***************************************
+*********************
 Feature Documentation
-***************************************
+*********************
 
 .. toctree::
     :maxdepth: 3
 
     fdocs
 
-***************************************
+*********
 Changelog
-***************************************
-
+*********
 .. toctree::
     :maxdepth: 3
 
     changelog
 
 
-*********************
+******************
 Indices and tables
-*********************
+******************
 
 * :ref:`genindex`
 * :ref:`modindex`

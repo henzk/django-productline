@@ -1,6 +1,6 @@
-################################
+##########################
 Product Generation Process
-################################
+###########################
 
 Basically, product generation is a two step process (focusing on the Python side of things for now):
 
@@ -39,15 +39,15 @@ Feature Composition
     This results in a running django web application where introductions and refinements given by the selected features
     have been patched in.
 
-********************************
+*******************
 The product context
-********************************
+*******************
 
 .. automodule:: django_productline.context
 
-********************************
+*******************************
 Composition of application code
-********************************
+*******************************
 
 ``featuremonkey`` is used to compose Python code.
 It allows introductions of new structures and refinements of existing ones.
@@ -57,9 +57,9 @@ For some use cases in the context of ``django-productline``, see :ref:`refinemen
 Also, see the `featuremonkey documentation <http://featuremonkey.readthedocs.org>`_.
 
 
-********************************
+********************
 Template composition
-********************************
+********************
 
 You can use `django-overextends <https://github.com/stephenmcd/django-overextends>`_ for feature oriented template
 development. It is automatically installed as a dependency of ``django-productline``.
@@ -79,7 +79,7 @@ On top of that, ``django-overextends`` provides *overextension* --- template blo
 
 
 Example
-========
+=======
 
 Consider, we have a template called ``mytemplate.html`` in the template directory
 of a django app called ``myfeature``::
@@ -138,9 +138,9 @@ Rendering the above example, would result roughly in the following HTML document
     </html>
 
 
-********************************
+**********************
 Javascript Composition
-********************************
+**********************
 
 If necessary, JavaScript can be composed using ``featuremonkey.js``.
 Essentially, it works the same way as ``featuremonkey``.
@@ -149,17 +149,17 @@ Have a look at the `example product line <http://featuremonkey_js.schnapptack.de
 and feel free to snoop around by viewing the source in your browser.
 
 
-********************************
+***************
 CSS Composition
-********************************
+***************
 
 feature oriented CSS is easy:
 concatenation is a pretty good composition mechanism for it.
 
 
-********************************
+****************
 Task Composition
-********************************
+****************
 
 ``django-productline`` relies on ``ape tasks``.
 Features may introduce new tasks and refine existing ones by providing a ``tasks`` module.
