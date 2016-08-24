@@ -126,6 +126,16 @@ Feature Documentation
 
     fdocs
 
+********
+Tutorial
+********
+
+.. toctree::
+    :maxdepth: 3
+
+    tutorial
+
+
 *********
 Changelog
 *********
@@ -142,4 +152,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
