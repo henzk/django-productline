@@ -183,7 +183,7 @@ Adding WSGI Middleware
 ======================
 
 If you are using special WSGI-Middleware with your django project and would like to continue to do so using ``django-productline``,
-you can directly refine ``django.core.wsgi`` to acheive that.
+you can directly refine ``django.core.wsgi`` to achieve that.
 So if your feature is called ``mywsgifeature``, you can do it as presented in the following example:
 
 First, create a module called ``wsgi`` in ``mywsgifeature`` containing and define a refinement for ``get_wsgi_application``::
@@ -229,22 +229,15 @@ Available tasks
 Product-Lifecycle tasks
 =======================
 
-``install_container <containername>``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-
-        install a container into the development environment.
+``install_container <containername>``    
+    install a container into the development environment.
 
 
 ``select_features()``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-
-        selects and activates the features that are listed in the product equation if run. This needs
-        to be called on every first startup of the environment.
+    selects and activates the features that are listed in the product equation if run. This needs to be called on every first startup of the environment.
 
 ``deploy()``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-
-        deploy the selected application to the server
+    deploy the selected application to the server
 
 From this point forward you can use the ``ape manage`` commands which are similar to the ``python manage.py``
 commands from pythons virtualenv.
@@ -254,36 +247,26 @@ Container selection tasks
 =========================
 
 ``cd <target directory>``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-
-        change into target directory
+    change into target directory
 
 ``zap``
-⁻⁻⁻⁻⁻⁻⁻⁻
-
-This changes the focus on the previously installed container. The first argument is the name of the container
-itself, the second one is the context in which the container is setup. In detail this changes some things
-in the product equation, e.g. to provide different setups for productive or development setups. Usually
-these products are ``website_dev`` respectively ``website_prod``. They can be looked up by taking the
-directory names from ``/dev``
+    This changes the focus on the previously installed container. The first argument is the name of the container
+    itself, the second one is the context in which the container is setup. In detail this changes some things
+    in the product equation, e.g. to provide different setups for productive or development setups. Usually
+    these products are ``website_dev`` respectively ``website_prod``. They can be looked up by taking the
+    directory names from ``/dev``
 
 
 ``zap <containername>:<product>``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-
-alias for "teleport". Use this the following way:
-``ape zap <containername>:<product>`` like:
-``ape zap slimcontent:sample_dev`` or similar
+    alias for "teleport". Use this the following way:
+    ``ape zap <containername>:<product>`` like:
+    ``ape zap slimcontent:sample_dev`` or similar
 
 ``switch <target>``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-
-switch the context to the specified target.
+    switch the context to the specified target.
 
 ``teleport <dir target>``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-
-change the directory and switch to the target inside this directory
+    change the directory and switch to the target inside this directory
 
 
 
@@ -291,70 +274,52 @@ Further available ape commands
 ==============================
 
 ``dev()``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻
-starts up the development server. This is equal to ``ape manage runserver``.
-Runserver optionally accepts an IP- Adress as an argument to run the dev server on a
-custom IP- Adress. If the server is started under ``0.0.0.0:<PORT>`` it exposes ``<PORT>`` to the
-LAN under ``<IP- Adress of devmachine>:<PORT>``.
-This is useful for sharing development states amongst diferrent machines e.g. for mobile
-development similar tasks.
+    starts up the development server. This is equal to ``ape manage runserver``.
+    Runserver optionally accepts an IP- Adress as an argument to run the dev server on a
+    custom IP- Adress. If the server is started under ``0.0.0.0:<PORT>`` it exposes ``<PORT>`` to the
+    LAN under ``<IP- Adress of devmachine>:<PORT>``.
+    This is useful for sharing development states amongst diferrent machines e.g. for mobile
+    development similar tasks.
 
 ``help(task)``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-prints details about available tasks
+    prints details about available tasks
 
 ``info()``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-prints information about the development environment
+    prints information about the development environment
 
 ``manage(args)``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-calls django-specific management tasks. This is equal to django's default
-``python manage.py`` - command.
+    calls django-specific management tasks. This is equal to django's default
+    ``python manage.py`` - command.
 
 ``prepare()``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-prepares a product for deployment. This is a combo command that runs the following
-three comands prefixed with ``prepare_`` in order of appearance here.
-Under the hood this runs tasks such as:
+    prepares a product for deployment. This is a combo command that runs the following
+    three comands prefixed with ``prepare_`` in order of appearance here.
+    Under the hood this runs tasks such as:
+        - setting up the database and database schema
+        - generating the webserver configuration
+        - basically everything that's necessary for the server to run your app
 
-    - setting up the database and database schema
-    - generating the webserver configuration
-    - basically everything that's necessary for the server to run your app
-
-**must be executed every time after feature selection and/or changes of the
-product context**
+    **must be executed every time after feature selection and/or changes of the product context**
 
 ``prepare_db()``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-Creates the database, prepares it for sync. By default this does nothing but can be refined
-by certain features to accomplish specific database creation tasks
+    Creates the database, prepares it for sync. By default this does nothing but can be refined by certain features to accomplish specific database creation tasks
 
 ``prepare_db_schema()``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-This is a combo command that runs ``syncdb`` and applies database migrations afterwards
+    This is a combo command that runs ``syncdb`` and applies database migrations afterwards
 
 ``prepare_fs()``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-Prepares the filesystem for deployment. If you use the base implementation this creates
-the data dir.
+    Prepares the filesystem for deployment. If you use the base implementation this creates the data dir.
 
 ``requires_product_environment``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-Task decorator that checks if the product environment of django-productline is activated which is necessary for the environment to run. Specifically it checks whether:
-
+    Task decorator that checks if the product environment of django-productline is activated which is necessary for the environment to run. Specifically it checks whether:
     - context is bound
     - features have been composed
 
 ``manage``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-Calls fundamental Django management tasks
+    Calls fundamental Django management tasks
 
 ``deploy``
-⁻⁻⁻⁻⁻⁻⁻⁻⁻⁻
-the base implementation delegates to the ``dev`` task.
-
-Features may refine this to add support for mod_wsgi,uwsgi,gunicorn,...
+    the base implementation delegates to the ``dev`` task.Features may refine this to add support for mod_wsgi,uwsgi,gunicorn,...
 
 
 *********************
