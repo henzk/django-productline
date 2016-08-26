@@ -1,6 +1,6 @@
-###############################################################
+########################################
 django-productline Feature Documentation
-###############################################################
+########################################
 
 ``django-productline`` should be used as a base feature.
 
@@ -12,14 +12,14 @@ It provides the basis to create feature-oriented django product lines:
 
 .. _refinements_by_example:
 
-***********************************
+**********************
 Refinements by example
-***********************************
+**********************
 
 This section shows some use cases and patterns to develop features for a django product line.
 
 Refining the django settings
-=============================
+============================
 
 Many features require adaptations to the settings module used by django. ``django-productline`` always uses ``django_productline.settings`` as the django settings module.
 Features can apply refinements to it, to add/adapt settings to support the features functionality.
@@ -84,13 +84,13 @@ the web application`s behaviour is dependent on the order of their entries.
 
 
 Registering urlpatterns
-=========================
+=======================
 
 .. automodule:: django_productline.urls
 
 
 Django Model composition
-=========================
+========================
 
 Django already provides an excellent database modularisation mechanism using apps.
 An app may contain multiple models, i.e. ORM-managed database tables.
@@ -110,7 +110,7 @@ It can be used just like ``introduce`` except that it does not support callable 
 Under the hood, it calls ``contribute_to_class`` instead of ``setattr`` which enables the introduction of fields to models.
 
 Field Introduction Example
-----------------------------
+--------------------------
 
 Let's look at an example. Suppose you are working on a todo list application.
 Then, some clients want an additional description field for their todo items, but others don't.
@@ -180,10 +180,10 @@ The guarded packages/modules currently are:
 
 
 Adding WSGI Middleware
-========================
+======================
 
 If you are using special WSGI-Middleware with your django project and would like to continue to do so using ``django-productline``,
-you can directly refine ``django.core.wsgi`` to acheive that.
+you can directly refine ``django.core.wsgi`` to achieve that.
 So if your feature is called ``mywsgifeature``, you can do it as presented in the following example:
 
 First, create a module called ``wsgi`` in ``mywsgifeature`` containing and define a refinement for ``get_wsgi_application``::
@@ -219,79 +219,112 @@ To use this for all products that contain ``mywsgifeature``, we need to apply th
 
 .. _available_tasks:
 
-***********************************
+***************
 Available tasks
-***********************************
+***************
 
+(All of these commands are issued by entering ``ape`` + commandname )
+
+
+Product-Lifecycle tasks
+=======================
+
+``install_container <containername>``    
+    install a container into the development environment.
+
+
+``select_features()``
+    selects and activates the features that are listed in the product equation if run. This needs to be called on every first startup of the environment.
+
+``deploy()``
+    deploy the selected application to the server
+
+From this point forward you can use the ``ape manage`` commands which are similar to the ``python manage.py``
+commands from pythons virtualenv.
+
+
+Container selection tasks
+=========================
+
+``cd <target directory>``
+    change into target directory
+
+``zap``
+    This changes the focus on the previously installed container. The first argument is the name of the container
+    itself, the second one is the context in which the container is setup. In detail this changes some things
+    in the product equation, e.g. to provide different setups for productive or development setups. Usually
+    these products are ``website_dev`` respectively ``website_prod``. They can be looked up by taking the
+    directory names from ``/dev``
+
+
+``zap <containername>:<product>``
+    alias for "teleport". Use this the following way:
+    ``ape zap <containername>:<product>`` like:
+    ``ape zap slimcontent:sample_dev`` or similar
+
+``switch <target>``
+    switch the context to the specified target.
+
+``teleport <dir target>``
+    change the directory and switch to the target inside this directory
+
+
+
+Further available ape commands
+==============================
+
+``dev()``
+    starts up the development server. This is equal to ``ape manage runserver``.
+    Runserver optionally accepts an IP- Adress as an argument to run the dev server on a
+    custom IP- Adress. If the server is started under ``0.0.0.0:<PORT>`` it exposes ``<PORT>`` to the
+    LAN under ``<IP- Adress of devmachine>:<PORT>``.
+    This is useful for sharing development states amongst diferrent machines e.g. for mobile
+    development similar tasks.
+
+``help(task)``
+    prints details about available tasks
+
+``info()``
+    prints information about the development environment
+
+``manage(args)``
+    calls django-specific management tasks. This is equal to django's default
+    ``python manage.py`` - command.
+
+``prepare()``
+    prepares a product for deployment. This is a combo command that runs the following
+    three comands prefixed with ``prepare_`` in order of appearance here.
+    Under the hood this runs tasks such as:
+        - setting up the database and database schema
+        - generating the webserver configuration
+        - basically everything that's necessary for the server to run your app
+
+    **must be executed every time after feature selection and/or changes of the product context**
+
+``prepare_db()``
+    Creates the database, prepares it for sync. By default this does nothing but can be refined by certain features to accomplish specific database creation tasks
+
+``prepare_db_schema()``
+    This is a combo command that runs ``syncdb`` and applies database migrations afterwards
+
+``prepare_fs()``
+    Prepares the filesystem for deployment. If you use the base implementation this creates the data dir.
+
+``requires_product_environment``
+    Task decorator that checks if the product environment of django-productline is activated which is necessary for the environment to run. Specifically it checks whether:
+    - context is bound
+    - features have been composed
 
 ``manage``
-=============
-
-The ``manage`` task takes care of product generation and then simply forwards to django management commands.
-
-So, just use::
-
-    ape manage syncdb
-
-where you used to do::
-
-    python manage.py syncdb
-
-
-``prepare_fs``
-===============
-
-prepare filesystem for deployment
-
-The base implementation creates the data directory
-
-
-``prepare_db``
-===============
-
-prepare database for syncdb.
-
-The base implementation is a no-operation.
-Features can refine this to plug in a specific creation mechanism.
-
-
-``prepare_db_schema``
-======================
-
-run syncdb and apply migrations
-
-
-``prepare_db_data``
-======================
-
-put initial data in the db
-
-
-``prepare``
-=============
-
-prepare web application for deployment.
-
-The base implementation runs all above ``prepare`` tasks in order.
-
-
-``dev``
-=============
-
-run development server
-
+    Calls fundamental Django management tasks
 
 ``deploy``
-==============
-
-the base implementation delegates to the ``dev`` task.
-
-Features may refine this to add support for mod_wsgi,uwsgi,gunicorn,...
+    the base implementation delegates to the ``dev`` task.Features may refine this to add support for mod_wsgi,uwsgi,gunicorn,...
 
 
-***********************************
+*********************
 Required context data
-***********************************
+*********************
 
 ``django_productline`` requires the following keys in the product context:
 
@@ -311,5 +344,3 @@ Required context data
 
 **SECRET_KEY**
     see `django.conf.settings.SECRET_KEY <https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY>`_
-
-
