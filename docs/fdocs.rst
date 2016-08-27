@@ -233,10 +233,10 @@ Product-Lifecycle tasks
     install a container into the development environment.
 
 
-``select_features()``
+``select_features``
     selects and activates the features that are listed in the product equation if run. This needs to be called on every first startup of the environment.
 
-``deploy()``
+``deploy``
     deploy the selected application to the server
 
 From this point forward you can use the ``ape manage`` commands which are similar to the ``python manage.py``
@@ -287,11 +287,11 @@ Further available ape commands
 ``info()``
     prints information about the development environment
 
-``manage(args)``
+``manage <...args>``
     calls django-specific management tasks. This is equal to django's default
     ``python manage.py`` - command.
 
-``prepare()``
+``prepare``
     prepares a product for deployment. This is a combo command that runs the following
     three comands prefixed with ``prepare_`` in order of appearance here.
     Under the hood this runs tasks such as:
@@ -301,13 +301,13 @@ Further available ape commands
 
     **must be executed every time after feature selection and/or changes of the product context**
 
-``prepare_db()``
+``prepare_db``
     Creates the database, prepares it for sync. By default this does nothing but can be refined by certain features to accomplish specific database creation tasks
 
-``prepare_db_schema()``
+``prepare_db_schema``
     This is a combo command that runs ``syncdb`` and applies database migrations afterwards
 
-``prepare_fs()``
+``prepare_fs``
     Prepares the filesystem for deployment. If you use the base implementation this creates the data dir.
 
 ``requires_product_environment``
