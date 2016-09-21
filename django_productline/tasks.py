@@ -91,11 +91,11 @@ def export_media_files():
     """
     from django_productline import utils
     from django.conf import settings
-    import datetime
+
     tasks.create_export_dir()
     print('*** Exporting DATA_DIR')
 
-    number_of_exports = len([name for name in os.listdir(settings.EXPORT_DIR) if os.path.isfile(name)])
+    number_of_exports = len([name for name in os.listdir(settings.EXPORT_DIR)])
 
     filename = '{number}.zip'.format(
         number=number_of_exports+1
