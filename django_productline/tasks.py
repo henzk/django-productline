@@ -7,7 +7,7 @@ from featuremonkey.composer import get_features_from_equation_file
 import json
 
 @tasks.register_helper
-@decorator#preserves signature of wrappee
+@decorator # preserves signature of wrapper
 def requires_product_environment(func, *args, **kws):
     """
     task decorator that makes sure that the product environment
@@ -94,8 +94,16 @@ def export_media_files():
     import datetime
     tasks.create_export_dir()
     print('*** Exporting DATA_DIR')
-    target_path = os.path.join(settings.EXPORT_DIR, '__data__{timestamp}.zip'.format(timestamp=datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S')))
+
+    number_of_exports = len([name for name in os.listdir(settings.EXPORT_DIR) if os.path.isfile(name)])
+
+    filename = '{number}__data__{timestamp}.zip'.format(
+        timestamp=datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S'),
+        number=number_of_exports+1
+    )
+    target_path = os.path.join(settings.EXPORT_DIR, filename)
     utils.zipdir(settings.PRODUCT_CONTEXT.DATA_DIR, target_path)
+    print('... wrote {target_path}'.format(target_path=target_path))
     return target_path
 
 
