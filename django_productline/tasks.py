@@ -92,14 +92,13 @@ def export_data_dir():
     """
     from django_productline import utils
     from django.conf import settings
+    import time
 
     tasks.create_export_dir()
     print('*** Exporting DATA_DIR')
 
-    number_of_exports = len([name for name in os.listdir(settings.EXPORT_DIR)])
-
     filename = '{number}.zip'.format(
-        number=number_of_exports+1
+        number=time.time()
     )
     target_path = os.path.join(settings.EXPORT_DIR, filename)
     utils.zipdir(settings.PRODUCT_CONTEXT.DATA_DIR, target_path, wrapdir='__data__')
