@@ -4,11 +4,12 @@ import zipfile
 import re
 
 
-def zipdir(src_path, target_path):
+def zipdir(src_path, target_path, wrapdir=''):
     """
     Zips the pat
     :param path: the path to the directory
-    :param ziph: zthe zipfile handle
+    :param ziph: the zipfile handle
+    :param wrapdir: wrap all contents in an additional dir
     :return:
     """
 
@@ -20,7 +21,7 @@ def zipdir(src_path, target_path):
             # get the relative path from the src_path in order to avoid an archive
             # of absolute paths including your home directory.
             rel_path = os.path.relpath(path, src_path)
-            zipf.write(path, rel_path)
+            zipf.write(path, os.path.join(wrapdir, rel_path))
 
     zipf.close()
 

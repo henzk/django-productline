@@ -77,14 +77,15 @@ def export_data():
     Exports the data of an application - media files plus database,
     :return: a zip archive
     """
-    zip_file_path = tasks.export_media_files()
+    zip_file_path = tasks.export_data_dir()
     tasks.export_database(zip_file_path)
     return zip_file_path
 
 
+
 @tasks.register
 @tasks.requires_product_environment
-def export_media_files():
+def export_data_dir():
     """
     Exports the media files of the application and bundles a zip archive
     :return: the target path of the zip archive
@@ -101,7 +102,7 @@ def export_media_files():
         number=number_of_exports+1
     )
     target_path = os.path.join(settings.EXPORT_DIR, filename)
-    utils.zipdir(settings.PRODUCT_CONTEXT.DATA_DIR, target_path)
+    utils.zipdir(settings.PRODUCT_CONTEXT.DATA_DIR, target_path, wrapdir='__data__')
     print('... wrote {target_path}'.format(target_path=target_path))
     return target_path
 
