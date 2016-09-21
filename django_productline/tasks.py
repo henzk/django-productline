@@ -97,8 +97,7 @@ def export_media_files():
 
     number_of_exports = len([name for name in os.listdir(settings.EXPORT_DIR) if os.path.isfile(name)])
 
-    filename = '{number}__data__{timestamp}.zip'.format(
-        timestamp=datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S'),
+    filename = '{number}.zip'.format(
         number=number_of_exports+1
     )
     target_path = os.path.join(settings.EXPORT_DIR, filename)
