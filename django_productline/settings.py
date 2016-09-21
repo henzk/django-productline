@@ -71,6 +71,9 @@ SECRET_KEY = PRODUCT_CONTEXT.SECRET_KEY
 ALLOWED_HOSTS = ['*']
 
 
+# Contains potential exports; used by the export tasks.
+EXPORT_DIR = os.path.join(PRODUCT_CONTEXT.PRODUCT_DIR, '__export__')
+
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
@@ -109,7 +112,6 @@ TEMPLATE_CONTEXT_PROCESSORS = [
 TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 ]
 
 
