@@ -66,6 +66,37 @@ def install_fixtures():
     '''
     pass
 
+@tasks.register
+@tasks.requires_product_environment
+def export_data():
+    """
+    Exports the data of an application which is the media files and the database,
+    :return:
+    """
+    tasks.export_database()
+    tasks.export_media_files()
+
+
+@tasks.register
+@tasks.requires_product_environment
+def export_media_files():
+    """
+    Exports the media files of the application and bundles a zip archive
+    :return:
+    """
+
+
+
+
+
+@tasks.register
+@tasks.requires_product_environment
+def export_database():
+    """
+    Exports the database. Refines this task in your feature representing your database.
+    :return:
+    """
+    pass
     
 
 @tasks.register_helper
