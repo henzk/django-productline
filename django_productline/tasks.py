@@ -18,8 +18,8 @@ def requires_product_environment(func, *args, **kws):
     from django_productline import startup
     startup.select_product()
     return func(*args, **kws)
-    
-    
+
+
 
 @tasks.register
 @tasks.requires_product_environment
@@ -59,8 +59,8 @@ def deploy():
     print('... processing deploy tasks')
     tasks.create_data_dir()
     tasks.create_export_dir()
-    
-    
+
+
 @tasks.register
 @tasks.requires_product_environment
 def install_fixtures():
@@ -115,7 +115,7 @@ def export_database(target_path):
     :return:
     """
     pass
-    
+
 
 @tasks.register_helper
 def get_context_template():
@@ -221,3 +221,27 @@ def clear_tables_for_loaddata(confirm=None):
         Permission.objects.all().delete()
         ContentType.objects.all().delete()
 
+
+@tasks.register
+@tasks.requires_product_environment
+def inject_context(context):
+    """
+    Updates context.json with data from JSON-string given as param.
+    :param string:
+    :return:
+    """
+    from django_productline.context import PRODUCT_CONTEXT
+    try:
+        new_context = json.loads(context)
+    except ValueError:
+        print('Couldn\'t load context parameter')
+        return
+    with open(PRODUCT_CONTEXT._data['PRODUCT_CONTEXT_FILENAME']) as jsonfile:
+        try:
+            jsondata = json.loads(jsonfile.read())
+            jsondata.update(new_context)
+        except ValueError:
+            print('Couldn\'t read context.json')
+            return
+    with open(PRODUCT_CONTEXT._data['PRODUCT_CONTEXT_FILENAME'], 'w') as jsoncontent:
+        json.dump(jsondata, jsoncontent, indent=4)
