@@ -1,7 +1,7 @@
 
 def refine_get_urls(original):
     def get_urls():
-        from django.conf.urls import patterns, include, url
+        from django.conf.urls import include, url
         from django.contrib import admin
         from django.conf import settings
         admin.autodiscover()
@@ -15,4 +15,3 @@ def refine_get_urls(original):
             url(r'^%s' % settings.ADMIN_URL, include(admin.site.urls)),
         ]
     return get_urls
-    
