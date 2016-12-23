@@ -12,7 +12,7 @@ def collectstatic(force=False):
     #noise reduction: only collectstatic if not in debug mode
     from django.conf import settings
     if force or not settings.DEBUG:
-        tasks.manage('collectstatic')
+        tasks.manage('collectstatic', '--noinput')
         print '... finished collectstatic'
         print
     else:
