@@ -245,3 +245,17 @@ def inject_context(context):
             return
     with open(PRODUCT_CONTEXT._data['PRODUCT_CONTEXT_FILENAME'], 'w') as jsoncontent:
         json.dump(jsondata, jsoncontent, indent=4)
+
+
+@tasks.register
+@tasks.requires_product_environment
+def write_composer_operation_log(filename):
+    """
+    Writes the composed operation log from featuremonkey's Composer to a json file.
+    :param filename:
+    :return:
+    """
+    from featuremonkey.composer import OPERATION_LOG
+    fop_data = json.dumps(OPERATION_LOG, indent=4)
+    with open(filename, 'w+') as meta_file:
+        meta_file.write(fop_data)
