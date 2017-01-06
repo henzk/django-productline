@@ -3,6 +3,7 @@ from ape import tasks
 from decorator import decorator
 import os
 import importlib
+import featuremonkey
 from featuremonkey.composer import get_features_from_equation_file
 import json
 
@@ -259,3 +260,14 @@ def write_composer_operation_log(filename):
     fop_data = json.dumps(OPERATION_LOG, indent=4)
     with open(filename, 'w+') as meta_file:
         meta_file.write(fop_data)
+
+
+@tasks.register
+@tasks.requires_product_environment
+def runfeaturetests():
+    """
+    runs tests for the features that are activated in the product equation
+    """
+    features = featuremonkey.get_features_from_equation_file(os.environ['PRODUCT_EQUATION_FILENAME'])
+    args = ['test'] + features
+    tasks.manage(*args)
