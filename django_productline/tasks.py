@@ -264,7 +264,7 @@ def write_composer_operation_log(filename):
 
 @tasks.register
 @tasks.requires_product_environment
-def runfeaturetests():
+def run_product_tests():
     """
     runs tests for the features that are activated in the product equation
     """
