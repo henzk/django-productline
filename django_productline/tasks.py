@@ -58,8 +58,6 @@ def deploy():
     """
     print('... processing deploy tasks')
     tasks.create_data_dir()
-    tasks.create_export_dir()
-
 
 @tasks.register
 @tasks.requires_product_environment
@@ -72,35 +70,26 @@ def install_fixtures():
 
 @tasks.register
 @tasks.requires_product_environment
-def export_data():
+def export_data(target_path):
     """
     Exports the data of an application - media files plus database,
     :return: a zip archive
     """
-    zip_file_path = tasks.export_data_dir()
-    tasks.export_database(zip_file_path)
-    return zip_file_path
-
+    zip_file_path = tasks.export_data_dir(target_path)
+    tasks.export_database(target_path)
+    return target_path
 
 
 @tasks.register
 @tasks.requires_product_environment
-def export_data_dir():
+def export_data_dir(target_path):
     """
     Exports the media files of the application and bundles a zip archive
     :return: the target path of the zip archive
     """
     from django_productline import utils
     from django.conf import settings
-    import time
 
-    tasks.create_export_dir()
-    print('*** Exporting DATA_DIR')
-
-    filename = '{number}.zip'.format(
-        number=time.time()
-    )
-    target_path = os.path.join(settings.EXPORT_DIR, filename)
     utils.zipdir(settings.PRODUCT_CONTEXT.DATA_DIR, target_path, wrapdir='__data__')
     print('... wrote {target_path}'.format(target_path=target_path))
     return target_path
@@ -111,7 +100,17 @@ def export_data_dir():
 @tasks.requires_product_environment
 def export_database(target_path):
     """
-    Exports the database. Refines this task in your feature representing your database.
+    Exports the database. Refine this task in your feature representing your database.
+    :return:
+    """
+    pass
+
+
+@tasks.register
+@tasks.requires_product_environment
+def import_database(target_path, db_name=None, db_owner=None):
+    """
+    Imports the database. Refine this task in your feature representing your database.
     :return:
     """
     pass
@@ -119,10 +118,10 @@ def export_database(target_path):
 
 @tasks.register_helper
 def get_context_template():
-    '''
+    """
     Features which require configuration parameters in the product context need to refine
     this method and update the context with their own data.
-    '''
+    """
     import random
     return {
         'SITE_ID':  1,
@@ -134,9 +133,10 @@ def get_context_template():
 @tasks.register
 @tasks.requires_product_environment
 def create_data_dir():
-    '''
+    """
     Creates the DATA_DIR.
-    '''
+    :return:
+    """
     from django_productline.context import PRODUCT_CONTEXT
     if not os.path.exists(PRODUCT_CONTEXT.DATA_DIR):
         os.mkdir(PRODUCT_CONTEXT.DATA_DIR)
@@ -145,20 +145,7 @@ def create_data_dir():
         print('...DATA_DIR already exists.')
 
 
-@tasks.register
-@tasks.requires_product_environment
-def create_export_dir():
-    """
-    Creates the export dir to store potential data exports.
-    :return:
-    """
-    from django.conf import settings
 
-    if not os.path.exists(settings.EXPORT_DIR):
-        os.mkdir(settings.EXPORT_DIR)
-        print('*** Created EXPORT_DIR in %s' % settings.EXPORT_DIR)
-    else:
-        print('...EXPORT_DIR already exists.')
 
 
 @tasks.register
