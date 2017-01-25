@@ -110,7 +110,11 @@ def import_data_dir(target_zip):
     from django_productline.context import PRODUCT_CONTEXT
     shutil.rmtree(PRODUCT_CONTEXT.DATA_DIR)
     z = zipfile.ZipFile(target_zip)
-    z.extract('__data__', PRODUCT_CONTEXT.DATA_DIR)
+
+    def filter_func(x):
+        return x.startswith('__data__/')
+
+    z.extractall(PRODUCT_CONTEXT.DATA_DIR, filter(filter_func, z.namelist()))
 
 
 @tasks.register_helper
