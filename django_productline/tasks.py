@@ -4,6 +4,7 @@ from decorator import decorator
 import os
 import json
 
+
 @tasks.register_helper
 @decorator # preserves signature of wrapper
 def requires_product_environment(func, *args, **kws):
@@ -18,7 +19,6 @@ def requires_product_environment(func, *args, **kws):
     return func(*args, **kws)
 
 
-
 @tasks.register
 @tasks.requires_product_environment
 def manage(*args):
@@ -27,6 +27,7 @@ def manage(*args):
     """
     from django.core.management import execute_from_command_line
     execute_from_command_line(['ape manage'] + list(args))
+
 
 @tasks.register
 def select_features():
@@ -40,10 +41,10 @@ def select_features():
 
 @tasks.register
 def install_dependencies():
-    '''
+    """
     Refine this task to install feature-level dependencies. E.g. djpl-postgres
     refines this task to link psycopg2.
-    '''
+    """
     pass
 
 
@@ -57,6 +58,7 @@ def deploy():
     print('... processing deploy tasks')
     tasks.create_data_dir()
 
+
 @tasks.register
 @tasks.requires_product_environment
 def install_fixtures():
@@ -66,6 +68,7 @@ def install_fixtures():
     """
     pass
 
+
 @tasks.register
 @tasks.requires_product_environment
 def export_data(target_path):
@@ -73,7 +76,7 @@ def export_data(target_path):
     Exports the data of an application - media files plus database,
     :return: a zip archive
     """
-    zip_file_path = tasks.export_data_dir(target_path)
+    tasks.export_data_dir(target_path)
     tasks.export_database(target_path)
     return target_path
 
@@ -91,6 +94,7 @@ def export_data_dir(target_path):
     utils.zipdir(settings.PRODUCT_CONTEXT.DATA_DIR, target_path, wrapdir='__data__')
     print('... wrote {target_path}'.format(target_path=target_path))
     return target_path
+
 
 @tasks.register_helper
 @tasks.requires_product_environment
@@ -111,19 +115,21 @@ def export_context(target_zip):
     context_file = tasks.get_context_path()
     return tasks.create_or_append_to_zip(context_file, target_zip, 'context.json')
 
+
 @tasks.register_helper
-def create_or_append_to_zip(file, zip_path, arcname=None):
+def create_or_append_to_zip(file_handle, zip_path, arc_name=None):
     """
-    Append given file to given zip_path with archivename as arcname if given, ales filename. zip_path will be created if it does not exist
-    :param file: path_to_file or filelike object
-    :param output_path: path to zip archive
+    Append file_handle to given zip_path with name arc_name if given, else file_handle. zip_path will be created.
+    :param file_handle: path to file or file-like object
+    :param zip_path: path to zip archive
     """
     import zipfile
-    with zipfile.ZipFile(zip_path, 'a') as myzip:
-        if arcname:
-            myzip.write(file, arcname)
+    with zipfile.ZipFile(zip_path, 'a') as my_zip:
+        if arc_name:
+            my_zip.write(file, arc_name)
         else:
-            myzip.write(file)
+            my_zip.write(file)
+
 
 @tasks.register
 @tasks.requires_product_environment
@@ -174,14 +180,11 @@ def create_data_dir():
         print('...DATA_DIR already exists.')
 
 
-
-
-
 @tasks.register
 def generate_context(force_overwrite=False, drop_secret_key=False):
-    '''
+    """
     Generates context.json
-    '''
+    """
 
     print('... generating context')
     context_fp = '%s/context.json' % os.environ['PRODUCT_DIR']
@@ -214,8 +217,6 @@ def generate_context(force_overwrite=False, drop_secret_key=False):
         context_f.write(json.dumps(new_context, indent=4))
     print()
     print('*** Successfully generated context.json')
-
-
 
 
 @tasks.register
