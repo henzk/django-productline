@@ -83,6 +83,12 @@ def export_data(target_path):
     tasks.export_context(target_path)
     return target_path
 
+@tasks.register
+def import_data(target_zip):
+    tasks.import_data_dir(target_zip)
+    tasks.import_database(target_zip)
+    tasks.import_context(target_zip)
+
 
 @tasks.register
 @tasks.requires_product_environment
@@ -103,7 +109,7 @@ def export_data_dir(target_path):
 @tasks.requires_product_environment
 def import_data_dir(target_zip):
     """
-    DELETE whole old data dir and replace with __data__ from target_zip
+    Remove whole old data dir, use __data__ from target_zip
     :param target_zip:
     :return:
     """
@@ -114,7 +120,7 @@ def import_data_dir(target_zip):
     def filter_func(x):
         return x.startswith('__data__/')
 
-    z.extractall(PRODUCT_CONTEXT.DATA_DIR, filter(filter_func, z.namelist()))
+    z.extractall(os.path.dirname(PRODUCT_CONTEXT.DATA_DIR), filter(filter_func, z.namelist()))
 
 
 @tasks.register_helper
@@ -140,7 +146,7 @@ def export_context(target_zip):
 @tasks.register
 def import_context(target_zip):
     """
-    Overwrite product context with context.json from given target_zip
+    Overwrite old context.json, use context.json from target_zip
     :param target_zip:
     :return:
     """
