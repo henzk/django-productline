@@ -117,16 +117,16 @@ def export_context(target_zip):
     return tasks.create_or_append_to_zip(context_file, target_zip, 'context.json')
 
 
-@tasks.register_helper
-def get_unzipped_data(target_zip):
-    import zipfile
-    return zipfile.ZipFile(target_zip)
-
-
 @tasks.register
 def import_context(target_zip):
+    """
+    Overwrite product context with context.json from given target_zip
+    :param target_zip:
+    :return:
+    """
+    import zipfile
     context_path = tasks.get_context_path()
-    with tasks.get_unzipped_data(target_zip) as unzipped_data:
+    with zipfile.ZipFile(target_zip) as unzipped_data:
         with open(context_path, 'w') as context:
             context.write(unzipped_data.read('context.json'))
 
