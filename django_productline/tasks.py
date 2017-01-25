@@ -3,6 +3,8 @@ from ape import tasks
 from decorator import decorator
 import os
 import json
+import zipfile
+import shutil
 
 
 @tasks.register_helper
@@ -97,6 +99,20 @@ def export_data_dir(target_path):
     return target_path
 
 
+@tasks.register
+@tasks.requires_product_environment
+def import_data_dir(target_zip):
+    """
+    DELETE whole old data dir and replace with __data__ from target_zip
+    :param target_zip:
+    :return:
+    """
+    from django_productline.context import PRODUCT_CONTEXT
+    shutil.rmtree(PRODUCT_CONTEXT.DATA_DIR)
+    z = zipfile.ZipFile(target_zip)
+    z.extract('__data__', PRODUCT_CONTEXT.DATA_DIR)
+
+
 @tasks.register_helper
 @tasks.requires_product_environment
 def get_context_path():
@@ -124,7 +140,6 @@ def import_context(target_zip):
     :param target_zip:
     :return:
     """
-    import zipfile
     context_path = tasks.get_context_path()
     with zipfile.ZipFile(target_zip) as unzipped_data:
         with open(context_path, 'w') as context:
@@ -139,7 +154,6 @@ def create_or_append_to_zip(file_handle, zip_path, arc_name=None):
     :param zip_path: path to zip archive
     :param arc_name: optional filename in archive
     """
-    import zipfile
     with zipfile.ZipFile(zip_path, 'a') as my_zip:
         if arc_name:
             my_zip.write(file_handle, arc_name)
