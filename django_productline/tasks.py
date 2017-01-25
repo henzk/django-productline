@@ -93,6 +93,7 @@ def export_data_dir(target_path):
     return target_path
 
 @tasks.register_helper
+@tasks.requires_product_environment
 def get_context_path():
     """
     Get path to context.json
