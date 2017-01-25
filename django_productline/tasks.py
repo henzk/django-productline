@@ -127,8 +127,8 @@ def get_unzipped_data(target_zip):
 def import_context(target_zip):
     context_path = tasks.get_context_path()
     with tasks.get_unzipped_data(target_zip) as unzipped_data:
-        with open(context_path, 'wb') as context:
-            context.write(unzipped_data.read('context.json'), 'w')
+        with open(context_path, 'w') as context:
+            context.write(unzipped_data.read('context.json'))
 
 
 @tasks.register_helper
