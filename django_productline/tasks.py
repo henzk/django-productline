@@ -2,6 +2,8 @@ from __future__ import unicode_literals, print_function, division
 from ape import tasks
 from decorator import decorator
 import os
+import importlib
+from featuremonkey.composer import get_features_from_equation_file
 import json
 
 @tasks.register_helper
@@ -93,6 +95,29 @@ def export_data_dir(target_path):
     return target_path
 
 
+@tasks.register
+@tasks.requires_product_environment
+def export_context(target_zip):
+    """
+    export_context
+    """
+    from django_productline.context import PRODUCT_CONTEXT
+    file = PRODUCT_CONTEXT.get('PRODUCT_CONTEXT_FILENAME')
+    return tasks.create_or_append_to_zip(file, target_zip, 'context.json')
+
+@tasks.register_helper
+def create_or_append_to_zip(file, zip_path, arcname=None):
+    """
+    Append given file to given zip_path with archivename as arcname if given, ales filename. zip_path will be created if it does not exist
+    :param file: path_to_file or filelike object
+    :param output_path: path to zip archive
+    """
+    import zipfile
+    with zipfile.ZipFile(zip_path, 'a') as myzip:
+        if arcname:
+            myzip.write(file, arcname)
+        else:
+            myzip.write(file)
 
 @tasks.register
 @tasks.requires_product_environment
