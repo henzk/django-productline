@@ -2,8 +2,6 @@ from __future__ import unicode_literals, print_function, division
 from ape import tasks
 from decorator import decorator
 import os
-import importlib
-from featuremonkey.composer import get_features_from_equation_file
 import json
 
 @tasks.register_helper
