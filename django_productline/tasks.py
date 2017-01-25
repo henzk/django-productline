@@ -111,7 +111,7 @@ def get_context_path():
 @tasks.register
 def export_context(target_zip):
     """
-    export_context
+    Append context.json to target_zip
     """
     context_file = tasks.get_context_path()
     return tasks.create_or_append_to_zip(context_file, target_zip, 'context.json')
