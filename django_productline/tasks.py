@@ -78,6 +78,7 @@ def export_data(target_path):
     """
     tasks.export_data_dir(target_path)
     tasks.export_database(target_path)
+    tasks.export_context(target_path)
     return target_path
 
 
