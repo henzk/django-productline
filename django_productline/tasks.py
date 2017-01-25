@@ -118,6 +118,20 @@ def export_context(target_zip):
 
 
 @tasks.register_helper
+def get_unzipped_data(target_zip):
+    import zipfile
+    return zipfile.ZipFile(target_zip)
+
+
+@tasks.register
+def import_context(target_zip):
+    context_path = tasks.get_context_path()
+    with tasks.get_unzipped_data(target_zip) as unzipped_data:
+        with open(context_path, 'wb') as context:
+            context.write(unzipped_data.read('context.json'), 'w')
+
+
+@tasks.register_helper
 def create_or_append_to_zip(file_handle, zip_path, arc_name=None):
     """
     Append file_handle to given zip_path with name arc_name if given, else file_handle. zip_path will be created.
@@ -242,25 +256,24 @@ def clear_tables_for_loaddata(confirm=None):
 
 
 @tasks.register
-@tasks.requires_product_environment
 def inject_context(context):
     """
     Updates context.json with data from JSON-string given as param.
-    :param string:
+    :param context:
     :return:
     """
-    from django_productline.context import PRODUCT_CONTEXT
+    context_path = tasks.get_context_path()
     try:
         new_context = json.loads(context)
     except ValueError:
         print('Couldn\'t load context parameter')
         return
-    with open(PRODUCT_CONTEXT._data['PRODUCT_CONTEXT_FILENAME']) as jsonfile:
+    with open(context_path) as jsonfile:
         try:
             jsondata = json.loads(jsonfile.read())
             jsondata.update(new_context)
         except ValueError:
             print('Couldn\'t read context.json')
             return
-    with open(PRODUCT_CONTEXT._data['PRODUCT_CONTEXT_FILENAME'], 'w') as jsoncontent:
+    with open(context_path, 'w') as jsoncontent:
         json.dump(jsondata, jsoncontent, indent=4)
