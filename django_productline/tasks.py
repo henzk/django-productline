@@ -96,7 +96,9 @@ def import_data(target_zip, backup_zip_path=None):
         tasks.export_data(backup_zip_path)
     tasks.import_data_dir(target_zip)
     tasks.import_context(target_zip)
-    context = json.load(tasks.get_context_path())
+    # product context is not reloaded if context file is changed
+    with open(tasks.get_context_path()) as context_file:
+        context = json.load(context_file)
     # FIXME I am postgres specific, see #133
     tasks.import_database(target_zip, context.PG_NAME, context.PG_USER)
 
