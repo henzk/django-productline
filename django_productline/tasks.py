@@ -95,8 +95,10 @@ def import_data(target_zip, backup_zip_path=None):
     if backup_zip_path:
         tasks.export_data(backup_zip_path)
     tasks.import_data_dir(target_zip)
-    tasks.import_database(target_zip)
     tasks.import_context(target_zip)
+    context = json.load(tasks.get_context_path())
+    # FIXME I am postgres specific, see #133
+    tasks.import_database(target_zip, context.PG_NAME, context.PG_USER)
 
 
 @tasks.register
