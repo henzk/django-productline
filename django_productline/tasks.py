@@ -148,8 +148,9 @@ def export_context(target_zip):
     """
     Append context.json to target_zip
     """
+    from django_productline import utils
     context_file = tasks.get_context_path()
-    return tasks.create_or_append_to_zip(context_file, target_zip, 'context.json')
+    return utils.create_or_append_to_zip(context_file, target_zip, 'context.json')
 
 
 @tasks.register
@@ -165,21 +166,6 @@ def import_context(target_zip):
             context.write(unzipped_data.read('context.json'))
 
 
-@tasks.register_helper
-def create_or_append_to_zip(file_handle, zip_path, arc_name=None):
-    """
-    Append file_handle to given zip_path with name arc_name if given, else file_handle. zip_path will be created.
-    :param file_handle: path to file or file-like object
-    :param zip_path: path to zip archive
-    :param arc_name: optional filename in archive
-    """
-    with zipfile.ZipFile(zip_path, 'a') as my_zip:
-        if arc_name:
-            my_zip.write(file_handle, arc_name)
-        else:
-            my_zip.write(file_handle)
-
-
 @tasks.register
 @tasks.requires_product_environment
 def export_database(target_path):
@@ -192,7 +178,7 @@ def export_database(target_path):
 
 @tasks.register
 @tasks.requires_product_environment
-def import_database(target_path, db_name=None, db_owner=None):
+def import_database(target_path, db_name, db_owner):
     """
     Imports the database. Refine this task in your feature representing your database.
     :return:
