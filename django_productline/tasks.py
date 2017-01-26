@@ -76,6 +76,7 @@ def install_fixtures():
 def export_data(target_path):
     """
     Exports the data of an application - media files plus database,
+    :param: target_path:
     :return: a zip archive
     """
     tasks.export_data_dir(target_path)
@@ -84,7 +85,15 @@ def export_data(target_path):
     return target_path
 
 @tasks.register
-def import_data(target_zip):
+def import_data(target_zip, backup_zip_path=None):
+    """
+    Import data from given zip-arc, before importing save state to backup_path as zip
+    :param target_zip:
+    :param backup_zip_path:
+    :return:
+    """
+    if backup_zip_path:
+        tasks.export_data(backup_zip_path)
     tasks.import_data_dir(target_zip)
     tasks.import_database(target_zip)
     tasks.import_context(target_zip)
