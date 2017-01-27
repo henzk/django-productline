@@ -85,22 +85,18 @@ def export_data(target_path):
     return target_path
 
 @tasks.register
-def import_data(target_zip, backup_zip_path=None):
+@tasks.requires_product_environment
+def import_data(target_zip):
     """
-    Import data from given zip-arc, before importing save state to backup_path as zip
+    Import data from given zip-arc, this means database + __data__
     :param target_zip:
     :param backup_zip_path:
     :return:
     """
-    if backup_zip_path:
-        tasks.export_data(backup_zip_path)
+    from django_productline.context import PRODUCT_CONTEXT
     tasks.import_data_dir(target_zip)
-    tasks.import_context(target_zip)
     # product context is not reloaded if context file is changed
-    with open(tasks.get_context_path()) as context_file:
-        context = json.load(context_file)
-    # FIXME I am postgres specific, see #133
-    tasks.import_database(target_zip, context.get('PG_NAME'), context.get('PG_USER'))
+    tasks.import_database(target_zip, PRODUCT_CONTEXT.PG_NAME, PRODUCT_CONTEXT.PG_USER)
 
 
 @tasks.register
@@ -157,7 +153,7 @@ def export_context(target_zip):
     return utils.create_or_append_to_zip(context_file, target_zip, 'context.json')
 
 
-@tasks.register
+@tasks.register_helper
 def import_context(target_zip):
     """
     Overwrite old context.json, use context.json from target_zip
