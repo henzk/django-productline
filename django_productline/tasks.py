@@ -2,10 +2,11 @@ from __future__ import unicode_literals, print_function, division
 from ape import tasks
 from decorator import decorator
 import os
-import importlib
 import featuremonkey
-from featuremonkey.composer import get_features_from_equation_file
 import json
+import zipfile
+import shutil
+
 
 @tasks.register_helper
 @decorator # preserves signature of wrapper
@@ -21,7 +22,6 @@ def requires_product_environment(func, *args, **kws):
     return func(*args, **kws)
 
 
-
 @tasks.register
 @tasks.requires_product_environment
 def manage(*args):
@@ -30,6 +30,7 @@ def manage(*args):
     """
     from django.core.management import execute_from_command_line
     execute_from_command_line(['ape manage'] + list(args))
+
 
 @tasks.register
 def select_features():
@@ -43,10 +44,10 @@ def select_features():
 
 @tasks.register
 def install_dependencies():
-    '''
+    """
     Refine this task to install feature-level dependencies. E.g. djpl-postgres
     refines this task to link psycopg2.
-    '''
+    """
     pass
 
 
@@ -59,7 +60,6 @@ def deploy():
     """
     print('... processing deploy tasks')
     tasks.create_data_dir()
-    tasks.create_export_dir()
 
 
 @tasks.register
@@ -71,48 +71,117 @@ def install_fixtures():
     """
     pass
 
+
 @tasks.register
 @tasks.requires_product_environment
-def export_data():
+def export_data(target_path):
     """
     Exports the data of an application - media files plus database,
+    :param: target_path:
     :return: a zip archive
     """
-    zip_file_path = tasks.export_data_dir()
-    tasks.export_database(zip_file_path)
-    return zip_file_path
+    tasks.export_data_dir(target_path)
+    tasks.export_database(target_path)
+    tasks.export_context(target_path)
+    return target_path
 
+@tasks.register
+@tasks.requires_product_environment
+def import_data(target_zip):
+    """
+    Import data from given zip-arc, this means database + __data__
+    :param target_zip:
+    :param backup_zip_path:
+    :return:
+    """
+    from django_productline.context import PRODUCT_CONTEXT
+    tasks.import_data_dir(target_zip)
+    # product context is not reloaded if context file is changed
+    tasks.import_database(target_zip, PRODUCT_CONTEXT.PG_NAME, PRODUCT_CONTEXT.PG_USER)
 
 
 @tasks.register
 @tasks.requires_product_environment
-def export_data_dir():
+def export_data_dir(target_path):
     """
     Exports the media files of the application and bundles a zip archive
     :return: the target path of the zip archive
     """
     from django_productline import utils
     from django.conf import settings
-    import time
 
-    tasks.create_export_dir()
-    print('*** Exporting DATA_DIR')
-
-    filename = '{number}.zip'.format(
-        number=time.time()
-    )
-    target_path = os.path.join(settings.EXPORT_DIR, filename)
     utils.zipdir(settings.PRODUCT_CONTEXT.DATA_DIR, target_path, wrapdir='__data__')
     print('... wrote {target_path}'.format(target_path=target_path))
     return target_path
 
+
+@tasks.register
+@tasks.requires_product_environment
+def import_data_dir(target_zip):
+    """
+    Remove whole old data dir, use __data__ from target_zip
+    :param target_zip:
+    :return:
+    """
+    from django_productline.context import PRODUCT_CONTEXT
+    shutil.rmtree(PRODUCT_CONTEXT.DATA_DIR)
+    z = zipfile.ZipFile(target_zip)
+
+    def filter_func(x):
+        return x.startswith('__data__/')
+
+    z.extractall(os.path.dirname(PRODUCT_CONTEXT.DATA_DIR), filter(filter_func, z.namelist()))
+
+
+@tasks.register_helper
+@tasks.requires_product_environment
+def get_context_path():
+    """
+    Get path to context.json
+    :return: string - path to context.json
+    """
+    from django_productline.context import PRODUCT_CONTEXT
+    return PRODUCT_CONTEXT.PRODUCT_CONTEXT_FILENAME
+
+
+@tasks.register
+def export_context(target_zip):
+    """
+    Append context.json to target_zip
+    """
+    from django_productline import utils
+    context_file = tasks.get_context_path()
+    return utils.create_or_append_to_zip(context_file, target_zip, 'context.json')
+
+
+@tasks.register_helper
+def import_context(target_zip):
+    """
+    Overwrite old context.json, use context.json from target_zip
+    :param target_zip:
+    :return:
+    """
+    context_path = tasks.get_context_path()
+    with zipfile.ZipFile(target_zip) as unzipped_data:
+        with open(context_path, 'w') as context:
+            context.write(unzipped_data.read('context.json'))
 
 
 @tasks.register
 @tasks.requires_product_environment
 def export_database(target_path):
     """
-    Exports the database. Refines this task in your feature representing your database.
+    Exports the database. Refine this task in your feature representing your database.
+    :return:
+    """
+    pass
+
+
+@tasks.register
+@tasks.requires_product_environment
+def import_database(target_path, db_name, db_owner):
+    """
+    Imports the database. Refine this task in your feature representing your database.
     :return:
     """
     pass
@@ -120,10 +189,10 @@ def export_database(target_path):
 
 @tasks.register_helper
 def get_context_template():
-    '''
+    """
     Features which require configuration parameters in the product context need to refine
     this method and update the context with their own data.
-    '''
+    """
     import random
     return {
         'SITE_ID':  1,
@@ -135,9 +204,10 @@ def get_context_template():
 @tasks.register
 @tasks.requires_product_environment
 def create_data_dir():
-    '''
+    """
     Creates the DATA_DIR.
-    '''
+    :return:
+    """
     from django_productline.context import PRODUCT_CONTEXT
     if not os.path.exists(PRODUCT_CONTEXT.DATA_DIR):
         os.mkdir(PRODUCT_CONTEXT.DATA_DIR)
@@ -147,26 +217,10 @@ def create_data_dir():
 
 
 @tasks.register
-@tasks.requires_product_environment
-def create_export_dir():
-    """
-    Creates the export dir to store potential data exports.
-    :return:
-    """
-    from django.conf import settings
-
-    if not os.path.exists(settings.EXPORT_DIR):
-        os.mkdir(settings.EXPORT_DIR)
-        print('*** Created EXPORT_DIR in %s' % settings.EXPORT_DIR)
-    else:
-        print('...EXPORT_DIR already exists.')
-
-
-@tasks.register
 def generate_context(force_overwrite=False, drop_secret_key=False):
-    '''
+    """
     Generates context.json
-    '''
+    """
 
     print('... generating context')
     context_fp = '%s/context.json' % os.environ['PRODUCT_DIR']
@@ -201,8 +255,6 @@ def generate_context(force_overwrite=False, drop_secret_key=False):
     print('*** Successfully generated context.json')
 
 
-
-
 @tasks.register
 @tasks.requires_product_environment
 def clear_tables_for_loaddata(confirm=None):
@@ -224,27 +276,26 @@ def clear_tables_for_loaddata(confirm=None):
 
 
 @tasks.register
-@tasks.requires_product_environment
 def inject_context(context):
     """
     Updates context.json with data from JSON-string given as param.
-    :param string:
+    :param context:
     :return:
     """
-    from django_productline.context import PRODUCT_CONTEXT
+    context_path = tasks.get_context_path()
     try:
         new_context = json.loads(context)
     except ValueError:
         print('Couldn\'t load context parameter')
         return
-    with open(PRODUCT_CONTEXT._data['PRODUCT_CONTEXT_FILENAME']) as jsonfile:
+    with open(context_path) as jsonfile:
         try:
             jsondata = json.loads(jsonfile.read())
             jsondata.update(new_context)
         except ValueError:
             print('Couldn\'t read context.json')
             return
-    with open(PRODUCT_CONTEXT._data['PRODUCT_CONTEXT_FILENAME'], 'w') as jsoncontent:
+    with open(context_path, 'w') as jsoncontent:
         json.dump(jsondata, jsoncontent, indent=4)
 
 

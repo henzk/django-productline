@@ -70,11 +70,6 @@ SECRET_KEY = PRODUCT_CONTEXT.SECRET_KEY
 
 ALLOWED_HOSTS = ['*']
 
-
-# Contains potential exports; used by the export tasks.
-EXPORT_DIR = os.path.join(PRODUCT_CONTEXT.PRODUCT_DIR, '__export__')
-
-
 MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
