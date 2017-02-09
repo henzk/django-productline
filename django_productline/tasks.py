@@ -97,7 +97,7 @@ def import_data(target_zip):
     from django_productline.context import PRODUCT_CONTEXT
     tasks.import_data_dir(target_zip)
     # product context is not reloaded if context file is changed
-    tasks.import_database(target_zip, PRODUCT_CONTEXT.PG_NAME, PRODUCT_CONTEXT.PG_USER)
+    tasks.import_database(target_zip, PRODUCT_CONTEXT.DB_NAME, PRODUCT_CONTEXT.DB_USER)
 
 
 @tasks.register
