@@ -53,23 +53,61 @@ def install_dependencies():
 
 @tasks.register
 @tasks.requires_product_environment
+def prepare():
+    """
+    Prepare filesystem(create_data_dir), database(migrate), services and data (may load fixture)
+    :return:
+    """
+    tasks.prepare_fs()
+    tasks.prepare_db()
+    tasks.prepare_services()
+    tasks.prepare_data()
+
+
+@tasks.register_helper
+def prepare_fs():
+    """
+    Creates data dir etc.
+    :return:
+    """
+    tasks.create_data_dir()
+
+
+@tasks.register_helper
+def prepare_db():
+    """
+    Set up database, e.g. migrate
+    :return:
+    """
+    tasks.manage("migrate")
+
+
+@tasks.register_helper
+def prepare_services():
+    """
+    Set up services
+    :return:
+    """
+    pass
+
+
+@tasks.register_helper
+def prepare_data():
+    """
+    May install fixture, needs to decide if this shall happen
+    :return:
+    """
+    pass
+
+
+@tasks.register
+@tasks.requires_product_environment
 def deploy():
     """
     The deploy hook.
     :return:
     """
     print('... processing deploy tasks')
-    tasks.create_data_dir()
-
-
-@tasks.register
-@tasks.requires_product_environment
-def install_fixtures():
-    """
-    Refines this method to enable your feature to load fixtures, either via
-    ape manage loaddata or by creating objects programatically
-    """
-    pass
 
 
 @tasks.register
