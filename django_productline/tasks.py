@@ -353,10 +353,12 @@ def write_composer_operation_log(filename):
 
 @tasks.register
 @tasks.requires_product_environment
-def run_product_tests():
+def run_product_tests(*args):
     """
-    runs tests for the features that are activated in the product equation
+    Runs tests for the features that are activated in the product equation.
+    Example: $ ape runfeaturetests -r -v=2
     """
     features = featuremonkey.get_features_from_equation_file(os.environ['PRODUCT_EQUATION_FILENAME'])
-    args = ['test'] + features
+    base_args = ['test'] + features
+    args = base_args + list(args)
     tasks.manage(*args)
