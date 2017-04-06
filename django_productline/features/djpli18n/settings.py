@@ -1,8 +1,6 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
-import os
-
 
 def refine_INSTALLED_APPS(original):
     return ['django_productline.features.djpli18n'] + list(original)
