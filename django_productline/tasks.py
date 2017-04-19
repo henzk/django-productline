@@ -157,12 +157,23 @@ def export_data_dir(target_path):
 @tasks.requires_product_environment
 def import_data_dir(target_zip):
     """
-    Remove whole old data dir, use __data__ from target_zip
-    :param target_zip:
-    :return:
+    Imports the data specified by param <target_zip>. Renames the data dir if it already exists and
+    unpacks the zip sub dir __data__ directly within the current active product.
+    :param target_zip: string path to the zip file.
     """
     from django_productline.context import PRODUCT_CONTEXT
-    shutil.rmtree(PRODUCT_CONTEXT.DATA_DIR)
+    import datetime
+    import os.path
+
+    new_data_dir = '{data_dir}{ts}'.format(
+        data_dir=PRODUCT_CONTEXT.DATA_DIR,
+        ts=datetime.datetime.now().strftime("%Y-%m-%d.%H:%M:%S:%s")
+    )
+
+    if os.path.exists(PRODUCT_CONTEXT.DATA_DIR):
+        # rename an existing data dir if it exists
+        os.rename(PRODUCT_CONTEXT.DATA_DIR, new_data_dir)
+
     z = zipfile.ZipFile(target_zip)
 
     def filter_func(x):
