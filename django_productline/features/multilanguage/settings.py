@@ -14,6 +14,9 @@ refine_USE_I18N = True
 
 refine_USE_L10N = True
 
+# set this to false if you don't want your admin stuff to be prefixed with the languages
+introduce_MULTILANGUAGE_ADMIN = True
+
 
 def refine_MIDDLEWARE_CLASSES(original):
     """
@@ -31,7 +34,5 @@ def refine_MIDDLEWARE_CLASSES(original):
     except ValueError:
         raise LookupError('SessionMiddleware not found! Please make sure you have enabled the \
          SessionMiddleware in your settings (django.contrib.sessions.middleware.SessionMiddleware).')
-
-refine_ROOT_URLCONF = 'django_productline.features.multilanguage.root_urlconf'
 
 introduce_PREFIX_DEFAULT_LANGUAGE = True

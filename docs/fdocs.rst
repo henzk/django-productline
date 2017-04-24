@@ -9,6 +9,21 @@ It provides the basis to create feature-oriented django product lines:
 - it defines the product generation process
 - it provides hooks for other features to refine to add/adapt the functionality
 
+********
+Features
+********
+
+This section documents all the subfeatures django productline provides.
+
+Multilanguage
+=============
+Multilanguage is a feature which enables django's enhanced language support.
+For more information read the django docs:
+    * https://docs.djangoproject.com/en/1.11/topics/i18n/translation/#language-prefix-in-url-patterns
+    * https://docs.djangoproject.com/en/1.11/topics/i18n/#internationalization-and-localization
+
+.. automodule:: django_productline.features.multilanguage.__init__
+
 
 .. _refinements_by_example:
 
@@ -80,7 +95,7 @@ We can now add the functionality to products by selecting the ``https_only`` fea
 
 Since this feature refines INSTALLED_APPS and MIDDLEWARE_CLASSES,
 the composition order needs to be chosen carefully as
-the web application`s behaviour is dependent on the order of their entries.
+the web application's behaviour is dependent on the order of their entries.
 
 
 Registering urlpatterns
