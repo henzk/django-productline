@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 """
-django-productline i18n root urlconf
+django-productline multilanguage root urlconf
 
 urlpatterns are constructed by refining django_productline.urls.get_urls.
 
@@ -29,5 +29,6 @@ Like this:
 
 from django.conf.urls.i18n import i18n_patterns
 from django_productline import urls
+from django.conf import settings
 
-urlpatterns = i18n_patterns(*urls.get_urls(), prefix_default_language=True)
+urlpatterns = i18n_patterns(*urls.get_urls(), prefix_default_language=settings.PREFIX_DEFAULT_LANGUAGE)

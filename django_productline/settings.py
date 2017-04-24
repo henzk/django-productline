@@ -38,11 +38,11 @@ SITE_ID = PRODUCT_CONTEXT.SITE_ID
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = False
+USE_I18N = True
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
-USE_L10N = False
+USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
@@ -95,6 +95,7 @@ TEMPLATE_DIRS = [
 TEMPLATE_CONTEXT_PROCESSORS = [
     "django.contrib.auth.context_processors.auth",
     "django.template.context_processors.debug",
+    "django.template.context_processors.i18n",
     "django.template.context_processors.media",
     "django.template.context_processors.static",
     "django.template.context_processors.tz",
