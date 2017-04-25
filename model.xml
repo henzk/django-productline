@@ -8,7 +8,7 @@
 				</and>
 				<feature name="django_productline__features__development"/>
 				<and name="django_productline__features__staticfiles">
-					<feature name="django_productline__features__djapladmin"/>
+					<feature name="django_productline__features__djpladmin"/>
 				</and>
 			</and>
 		</struct>
@@ -16,7 +16,7 @@
 			<rule>
 				<imp>
 					<var>django_productline__features__multilanguage_admin</var>
-					<var>django_productline__features__djapladmin</var>
+					<var>django_productline__features__djpladmin</var>
 				</imp>
 			</rule>
 		</constraints>
@@ -26,7 +26,7 @@
 			<feature name="django_productline"/>
 			<feature name="django_productline__features__development"/>
 			<feature name="django_productline__features__staticfiles"/>
-			<feature name="django_productline__features__djapladmin"/>
+			<feature name="django_productline__features__djpladmin"/>
 			<feature name="django_productline__features__multilanguage"/>
 			<feature name="django_productline__features__multilanguage_admin"/>
 		</featureOrder>
