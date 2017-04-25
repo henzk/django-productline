@@ -18,3 +18,5 @@ django-productline feature model
 .. image:: djpl_fm.png
 
 You can download the model from here: :download:`model.xml <../model.xml>`
+
+To setup this feature model, create a new FeatureIDE project and override the model.xml.
