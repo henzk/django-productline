@@ -1,15 +1,29 @@
 """
-django-productline multilanguage root urlconf
+django-productline multilanguage
 
 urlpatterns are constructed by refining django_productline.urls.get_urls.
 
-Here, get_urls and get_i18n_patterns is called to get the (composed) urlpatterns.
+Here, get_urls and get_multilang_urls is called to get the (composed) urlpatterns.
 
 The i18n_patterns must be defined in the root_urlconf, therefore this refinement is necessary.
+This function is later called in the get_urls() of django-productline.
 
-To enable a multilanguage admin, set the MULTILANGUAGE_ADMIN to True (default: True)
+To make your projects urls multilanguage, you need to modify your url refinements::
 
-If your projects has e.g. en as default language and you don't want it to
+    def refine_get_multilang_urls(original):
+
+        def get_multilang_urls():
+            from django.conf.urls import url
+            urlpatterns = [
+                url(r'foo/$', views.FooView.as_view(), name='foo'),
+                url(r'bar/$', views.BarView.as_view(), name='bar')
+            ]
+            return original() + urlpatterns
+
+        return get_multilang_urls
+
+
+If your projects has e.g. 'en' as default language and you don't want it to
 appear in the url, then set PREFIX_DEFAULT_LANGUAGE to False.
 
 When refining get_urls using includes like this (in case you use standard django apps for example)::
@@ -21,7 +35,7 @@ as i18n_patterns() expects a list of url() instances and include returns a Resol
 
 Like this::
 
-    def refine_get_multilang_urls():
+    def refine_get_multilang_urls(original):
 
         def get_multilang_urls():
             from django.conf.urls import url, include

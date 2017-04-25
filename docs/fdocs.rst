@@ -17,6 +17,7 @@ This section documents all the subfeatures django productline provides.
 
 Multilanguage
 =============
+
 Multilanguage is a feature which enables django's enhanced language support.
 For more information read the django docs:
     * https://docs.djangoproject.com/en/1.11/topics/i18n/translation/#language-prefix-in-url-patterns
@@ -24,6 +25,10 @@ For more information read the django docs:
 
 .. automodule:: django_productline.features.multilanguage.__init__
 
+Multilanguage Admin
+===================
+
+.. automodule:: django_productline.features.multilanguage_admin.__init__
 
 .. _refinements_by_example:
 
@@ -53,7 +58,7 @@ As the feature needs to refine ``django_productline.settings``, we also create a
 Let's use the following settings refinement::
 
     #https_only/settings.py
-    
+
     #add djangosecure to the end of the INSTALLED_APPS list
     def refine_INSTALLED_APPS(original):
         return original + ['djangosecure']
@@ -204,7 +209,7 @@ So if your feature is called ``mywsgifeature``, you can do it as presented in th
 First, create a module called ``wsgi`` in ``mywsgifeature`` containing and define a refinement for ``get_wsgi_application``::
 
     #mywsgifeature/wsgi.py
-    
+
     def refine_get_wsgi_application(original):
         def get_wsgi_application():
             application = original()
@@ -244,7 +249,7 @@ Available tasks
 Product-Lifecycle tasks
 =======================
 
-``install_container <containername>``    
+``install_container <containername>``
     install a container into the development environment.
 
 
@@ -353,7 +358,7 @@ Required context data
     absolute path to directory where application data will be stored.
     This directory needs to be writable by the application user.
     Data is placed in the following subfolders:
-    
+
     - ``uploads/`` --- content uploaded by users is stored here (see `django.conf.settings.MEDIA_ROOT <https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-MEDIA_ROOT>`_)
     - ``generated_static/`` --- static files created by ``manage collectstatic`` are placed here (see `django.conf.settings.STATIC_ROOT <https://docs.djangoproject.com/en/dev/ref/settings/#static-root>`_)
 
