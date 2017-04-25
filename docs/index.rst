@@ -39,15 +39,15 @@ Some apps provide an API, so to integrate it properly additional code needs to b
 
 When developing multiple django projects, you may end up doing this over and over for different projects in slight variations.
 Particular projects may also need specific additions and changes scattered across multiple locations in the codebase.
-Therefore, developing and managing multiple projects and copying with their variability 
+Therefore, developing and managing multiple projects and copying with their variability
 can become a rather error-prone and time consuming task.
 
 FOSD allows to encapsulate these additions and changes in features, which form a product line.
 Specific products can then be composed by assembling some of these feature.
 
-.. "feature" is more pregnant than "feature module" as the semantics of "module" collides with python module 
+.. "feature" is more pregnant than "feature module" as the semantics of "module" collides with python module
 
-The approach aims at improved reusability, traceability(where is all the code that relates to a specific feature), and 
+The approach aims at improved reusability, traceability(where is all the code that relates to a specific feature), and
 automation.
 
 At `schnapptack <http://schnapptack.de>`_\ , we use this approach for about a year to build specialized web applications for our clients
@@ -71,8 +71,8 @@ A typical django web application consists of the following:
 - CSS
 
 
-The goal is to be able to automatically compose entire applications i.e. 
-all required artefacts out of a set of features. 
+The goal is to be able to automatically compose entire applications i.e.
+all required artefacts out of a set of features.
 In the context of "automatical composition", project-individual integration code must eliminated. Multiple applications can then share common features and differ in others.
 Generated applications need to be easy to manage over the rest of their product lifecycle(further development, deployment).
 Also, there needs to be support for managing the products` individual configurations e.g. webserver and database configuration.
@@ -104,7 +104,7 @@ Getting started
     :maxdepth: 3
 
     install
-    
+
 
 
 ******************
@@ -125,6 +125,16 @@ Feature Documentation
     :maxdepth: 3
 
     fdocs
+
+
+*************
+Feature Model
+*************
+
+.. toctree::
+    :maxdepth: 3
+
+    fmodel
 
 ********
 Tutorial
