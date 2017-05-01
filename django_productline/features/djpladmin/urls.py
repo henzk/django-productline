@@ -1,17 +1,7 @@
-
 def refine_get_urls(original):
     def get_urls():
-        from django.conf.urls import include, url
         from django.contrib import admin
-        from django.conf import settings
+        from .admin_urls import get_admin_urls
         admin.autodiscover()
-        
-        # ensure that a non empty admin url has always an ending slash
-        if len(settings.ADMIN_URL):
-            if not settings.ADMIN_URL.endswith('/'):
-                settings.ADMIN_URL += '/'
-        
-        return original() + [
-            url(r'^%s' % settings.ADMIN_URL, include(admin.site.urls)),
-        ]
+        return original() + get_admin_urls()
     return get_urls

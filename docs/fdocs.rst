@@ -9,6 +9,26 @@ It provides the basis to create feature-oriented django product lines:
 - it defines the product generation process
 - it provides hooks for other features to refine to add/adapt the functionality
 
+********
+Features
+********
+
+This section documents all the subfeatures django productline provides.
+
+Multilanguage
+=============
+
+Multilanguage is a feature which enables django's enhanced language support.
+For more information read the django docs:
+    * https://docs.djangoproject.com/en/1.11/topics/i18n/translation/#language-prefix-in-url-patterns
+    * https://docs.djangoproject.com/en/1.11/topics/i18n/#internationalization-and-localization
+
+.. automodule:: django_productline.features.multilanguage.__init__
+
+Multilanguage Admin
+===================
+
+.. automodule:: django_productline.features.multilanguage_admin.__init__
 
 .. _refinements_by_example:
 
@@ -38,7 +58,7 @@ As the feature needs to refine ``django_productline.settings``, we also create a
 Let's use the following settings refinement::
 
     #https_only/settings.py
-    
+
     #add djangosecure to the end of the INSTALLED_APPS list
     def refine_INSTALLED_APPS(original):
         return original + ['djangosecure']
@@ -80,7 +100,7 @@ We can now add the functionality to products by selecting the ``https_only`` fea
 
 Since this feature refines INSTALLED_APPS and MIDDLEWARE_CLASSES,
 the composition order needs to be chosen carefully as
-the web application`s behaviour is dependent on the order of their entries.
+the web application's behaviour is dependent on the order of their entries.
 
 
 Registering urlpatterns
@@ -189,7 +209,7 @@ So if your feature is called ``mywsgifeature``, you can do it as presented in th
 First, create a module called ``wsgi`` in ``mywsgifeature`` containing and define a refinement for ``get_wsgi_application``::
 
     #mywsgifeature/wsgi.py
-    
+
     def refine_get_wsgi_application(original):
         def get_wsgi_application():
             application = original()
@@ -229,7 +249,7 @@ Available tasks
 Product-Lifecycle tasks
 =======================
 
-``install_container <containername>``    
+``install_container <containername>``
     install a container into the development environment.
 
 
@@ -338,7 +358,7 @@ Required context data
     absolute path to directory where application data will be stored.
     This directory needs to be writable by the application user.
     Data is placed in the following subfolders:
-    
+
     - ``uploads/`` --- content uploaded by users is stored here (see `django.conf.settings.MEDIA_ROOT <https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-MEDIA_ROOT>`_)
     - ``generated_static/`` --- static files created by ``manage collectstatic`` are placed here (see `django.conf.settings.STATIC_ROOT <https://docs.djangoproject.com/en/dev/ref/settings/#static-root>`_)
 

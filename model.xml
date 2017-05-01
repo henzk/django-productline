@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel>
+		<properties/>
+		<struct>
+			<and mandatory="true" name="django_productline">
+				<and name="django_productline__features__multilanguage">
+					<feature name="django_productline__features__multilanguage_admin"/>
+				</and>
+				<feature name="django_productline__features__development"/>
+				<and name="django_productline__features__staticfiles">
+					<feature name="django_productline__features__djpladmin"/>
+				</and>
+			</and>
+		</struct>
+		<constraints>
+			<rule>
+				<imp>
+					<var>django_productline__features__multilanguage_admin</var>
+					<var>django_productline__features__djpladmin</var>
+				</imp>
+			</rule>
+		</constraints>
+		<calculations Auto="true" Constraints="true" Features="true" Redundant="true" Tautology="true"/>
+		<comments/>
+		<featureOrder userDefined="true">
+			<feature name="django_productline"/>
+			<feature name="django_productline__features__development"/>
+			<feature name="django_productline__features__staticfiles"/>
+			<feature name="django_productline__features__djpladmin"/>
+			<feature name="django_productline__features__multilanguage"/>
+			<feature name="django_productline__features__multilanguage_admin"/>
+		</featureOrder>
+	</featureModel>
