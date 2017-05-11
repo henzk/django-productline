@@ -119,8 +119,8 @@ def djpl_compilemessages():
     in settings.LANGUAGES. It runs the standard django compilemessages management command with the -l parameter.
     Example language setting:
         LANGUAGES = [
-            ('de', 'Deutsch'),
-            ('en', 'English')
+            ('en', 'English'),
+            ('de', 'Deutsch')
         ]
     Remarks:
         - Each argument for the management command MUST be a single list item, e.g. ['compilemessages', '--locale', 'en']
@@ -132,9 +132,11 @@ def djpl_compilemessages():
         # changing cwd to project root
         os.chdir(os.path.join(os.environ['APE_ROOT_DIR'], os.environ['CONTAINER_NAME']))
         languages = list()
+        # collect the language abbreviations
         for language in settings.LANGUAGES:
             languages.append(language[0])
         args = ['compilemessages']
+        # extend the arg list by the -locale argument for each language
         for lang in languages:
             args.extend(['--locale', str(lang)])
         tasks.manage(*args)
