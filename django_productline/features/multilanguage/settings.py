@@ -5,10 +5,6 @@ from __future__ import unicode_literals
 def refine_INSTALLED_APPS(original):
     return ['django_productline.features.multilanguage'] + list(original)
 
-introduce_LANGUAGES = [
-    ('en', 'English')
-]
-
 # Just make sure that the default djpl settings weren't overridden
 refine_USE_I18N = True
 
