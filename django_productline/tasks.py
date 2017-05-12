@@ -9,7 +9,7 @@ import shutil
 
 
 @tasks.register_helper
-@decorator # preserves signature of wrapper
+@decorator  # preserves signature of wrapper
 def requires_product_environment(func, *args, **kws):
     """
     task decorator that makes sure that the product environment
@@ -97,7 +97,25 @@ def prepare_data():
     May install fixture, needs to decide if this shall happen
     :return:
     """
-    pass
+    tasks.set_site()
+
+
+@tasks.register_helper
+def set_site():
+    """
+    This method is part of the prepare_data helper.
+    Sets the site. Default implementation uses localhost.
+    For production settings refine this helper.
+    :return:
+    """
+    from django.contrib.sites.models import Site
+    from django.conf import settings
+    # Initially set localhost as default domain
+    #
+    site = Site.objects.get(id=settings.SITE_ID)
+    site.domain = 'http://localhost:8000'
+    site.name = 'http://localhost:8000'
+    site.save()
 
 
 @tasks.register
@@ -154,6 +172,7 @@ def export_data(target_path):
     tasks.export_database(target_path)
     tasks.export_context(target_path)
     return target_path
+
 
 @tasks.register
 @tasks.requires_product_environment
@@ -276,8 +295,9 @@ def get_context_template():
     """
     import random
     return {
-        'SITE_ID':  1,
-        'SECRET_KEY': ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)]),
+        'SITE_ID': 1,
+        'SECRET_KEY': ''.join(
+            [random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)]),
         'DATA_DIR': os.path.join(os.environ['PRODUCT_DIR'], '__data__'),
     }
 
