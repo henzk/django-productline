@@ -1,14 +1,13 @@
 # Django settings for django-productline based products.
 
-#the context has been frozen at this point
-#it contains information about the product`s environment;
-#some of that data needs to be added to the settings
-#the context is also made available as PRODUCT_CONTEXT
+# the context has been frozen at this point
+# it contains information about the product`s environment;
+# some of that data needs to be added to the settings
+# the context is also made available as PRODUCT_CONTEXT
 from django_productline.context import PRODUCT_CONTEXT
 import os
 import django
 from django_productline import compare_version
-
 
 DEBUG = False
 TEMPLATE_DEBUG = False
@@ -53,7 +52,6 @@ USE_TZ = True
 
 LOCALE_PATHS = []
 
-
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(PRODUCT_CONTEXT.DATA_DIR, 'uploads')
@@ -74,6 +72,10 @@ SECRET_KEY = PRODUCT_CONTEXT.SECRET_KEY
 
 ALLOWED_HOSTS = ['*']
 
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
+
+
 MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -85,7 +87,6 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'django_productline.root_urlconf'
-
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'django_productline.wsgi.application'
@@ -113,9 +114,6 @@ TEMPLATE_LOADERS = [
     'django.template.loaders.app_directories.Loader',
 ]
 
-
-
-
 if compare_version(django.get_version(), '1.9') >= 0:
     TEMPLATES = [
         {
@@ -132,13 +130,6 @@ if compare_version(django.get_version(), '1.9') >= 0:
         },
     ]
 
-
-
-
-
-
-
-
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -148,8 +139,6 @@ INSTALLED_APPS = [
     'overextends',
     'django_productline'
 ]
-
-
 
 if compare_version(django.get_version(), '1.7') < 0:
     INSTALLED_APPS.append('south')
