@@ -79,7 +79,7 @@ def prepare_db():
     Set up database, e.g. migrate
     :return:
     """
-    tasks.manage("migrate")
+    tasks.manage("migrate", "--noinput")
 
 
 @tasks.register_helper
