@@ -62,8 +62,9 @@ def createsuperusers():
 
     for entry in settings.INITIAL_SUPERUSERS:
         # create initial supersuers.
-        print(entry)
-        print(auth_models.User.objects.filter(username=entry['username']))
+
+        print('*** Create specified superuser {}'.format(entry['username']))
+
         if not auth_models.User.objects.filter(username=entry['username']).exists():
             # create the superuser if it does not exist yet
             with transaction.atomic():
@@ -93,4 +94,6 @@ def createsuperusers():
                     ),
                 )
 
-                print('*** A new superuser was created.')
+                print('\tA new superuser was created. Check {}'.format(entry['email']))
+        else:
+            print('\tSpecified superuser already exists')
