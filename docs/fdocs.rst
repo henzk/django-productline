@@ -25,6 +25,13 @@ For more information read the django docs:
 
 .. automodule:: django_productline.features.multilanguage.__init__
 
+
+Multilanguage switcher
+======================
+
+.. automodule:: django_productline.features.multilanguage_switcher.__init__
+
+
 Multilanguage Admin
 ===================
 
