@@ -1,0 +1,27 @@
+{% comment %}
+    Include this template anywhere you want to get a language switcher.
+    This template uses fontawesome and bootstrap.
+    Therefore, you have to have them enabled when using this template, it would look a bit broken otherwise.
+{% endcomment %}
+
+<li class="dropdown language-switch">
+    <a class="dropdown-toggle" href="#" type="button" data-toggle="dropdown">
+        <i class="fa fa-fw fa-globe"></i> <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+        {% for language in LANGUAGES %}
+            <li>
+                <a class="dropdown-link
+                    {% if LANGUAGE_CODE == language.0 %}
+                        active
+                    {% endif %}"
+                   href="{% url 'activate_language' %}?lang={{ language.0 }}">
+                    {{ language.1 }}
+                    {% if LANGUAGE_CODE == language.0 %}
+                        <i class="fa fa-fw fa-check"></i>
+                    {% endif %}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</li>
