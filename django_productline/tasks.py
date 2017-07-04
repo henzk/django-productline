@@ -1,4 +1,9 @@
 from __future__ import unicode_literals, print_function, division
+
+import copy
+import inspect
+import marshal
+
 from ape import tasks
 from decorator import decorator
 import os
@@ -369,6 +374,38 @@ def inject_context(context):
         json.dump(jsondata, jsoncontent, indent=4)
 
 
+@tasks.register_helper
+def serialize_obj(obj):
+    """
+    Serializes the given object if its necessary. If json.dumps(obj) works, there is no need
+    for the extra serialization and the original object will be returned.
+    Functions are serialized by marshal module, classes will be represented by their __dict__.
+    If possible, the source code of a function is retrieved using the inspect module.
+    :param obj:
+    :return:
+    """
+    try:
+        json.dumps(obj)
+    except TypeError:
+        try:
+            try:
+                obj = inspect.getsource(obj)
+            except (TypeError, IOError):
+                obj = marshal.dumps(obj)
+        except ValueError:
+            obj = obj.__dict__
+            for key, v in obj.items():
+                try:
+                    json.dumps(v)
+                except TypeError:
+                    try:
+                        v = marshal.dumps(v)
+                    except ValueError:
+                        v = v.__dict__
+                obj[key] = v
+    return obj
+
+
 @tasks.register
 @tasks.requires_product_environment
 def write_composer_operation_log(filename):
@@ -378,9 +415,13 @@ def write_composer_operation_log(filename):
     :return:
     """
     from featuremonkey.composer import OPERATION_LOG
-    fop_data = json.dumps(OPERATION_LOG, indent=4)
-    with open(filename, 'w+') as meta_file:
-        meta_file.write(fop_data)
+    ol = copy.deepcopy(OPERATION_LOG)
+    # manually try to serialize the objects which can't be serialized by json module
+    for operation in ol:
+        operation['old_value'] = tasks.serialize_obj(operation['old_value'])
+        operation['new_value'] = tasks.serialize_obj(operation['new_value'])
+    with open(filename, 'w+') as operation_log_file:
+        operation_log_file.write(json.dumps(ol, ensure_ascii=False, indent=4))
 
 
 @tasks.register
