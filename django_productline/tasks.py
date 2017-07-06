@@ -393,16 +393,36 @@ def serialize_obj(obj):
             except (TypeError, IOError):
                 obj = marshal.dumps(obj)
         except ValueError:
-            obj = obj.__dict__
-            for key, v in obj.items():
-                try:
-                    json.dumps(v)
-                except TypeError:
+            if hasattr(obj, '__dict__'):
+                obj = obj.__dict__
+                for key, v in obj.items():
                     try:
-                        v = marshal.dumps(v)
-                    except ValueError:
-                        v = v.__dict__
-                obj[key] = v
+                        json.dumps(v)
+                    except TypeError:
+                        try:
+                            v = marshal.dumps(v)
+                        except ValueError:
+                            v = v.__dict__
+                    obj[key] = v
+            else:
+                # rare special cases for e.g. translations in settings
+                if isinstance(obj, list):
+                    for item in obj:
+                        if isinstance(item, dict):
+                            for k, v in item.items():
+                                item[k] = repr(v)
+                        elif callable(item):
+                            try:
+                                obj[obj.index(item)] = inspect.getsource(item)
+                            except (TypeError, IOError):
+                                obj[obj.index(item)] = marshal.dumps(item)
+                        elif hasattr(item, '__dict__'):
+                            obj[obj.index(item)] = item.__dict__
+                elif callable(obj):
+                    try:
+                        obj = inspect.getsource(obj)
+                    except (TypeError, IOError):
+                        obj = marshal.dumps(obj)
     return obj
 
 
@@ -421,7 +441,7 @@ def write_composer_operation_log(filename):
         operation['old_value'] = tasks.serialize_obj(operation['old_value'])
         operation['new_value'] = tasks.serialize_obj(operation['new_value'])
     with open(filename, 'w+') as operation_log_file:
-        operation_log_file.write(json.dumps(ol, ensure_ascii=False, indent=4))
+        operation_log_file.write(json.dumps(ol, indent=4, encoding="utf8"))
 
 
 @tasks.register
