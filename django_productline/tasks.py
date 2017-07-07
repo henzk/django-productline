@@ -384,45 +384,60 @@ def serialize_obj(obj):
     :param obj:
     :return:
     """
+    def repr_callable(callable_object):
+        """
+        Tries to get a human readable representation of the passed callable
+        :param callable_object:
+        :return:
+        """
+        try:
+            callable_object = inspect.getsource(callable_object)
+        except (TypeError, IOError):
+            callable_object = marshal.dumps(callable_object)
+        return callable_object
+
+    def repr_dict(dict_attr):
+        """
+        Tries to get a human readable representation of the passed dict attribute
+        :param dict_attr:
+        :return:
+        """
+        for key, value in dict_attr.items():
+            try:
+                json.dumps(value)
+            except TypeError:
+                try:
+                    value = repr_callable(value)
+                except ValueError:
+                    value = value.__dict__
+            dict_attr[key] = value
+        return dict_attr
+
     try:
+        # if the passed object is serializable using json, just return it
         json.dumps(obj)
     except TypeError:
         try:
-            try:
-                obj = inspect.getsource(obj)
-            except (TypeError, IOError):
-                obj = marshal.dumps(obj)
+            # if its a callable (function/method) this should do it
+            obj = repr_callable(obj)
         except ValueError:
+            # if not, check if the object has an __dict__ attribute
             if hasattr(obj, '__dict__'):
-                obj = obj.__dict__
-                for key, v in obj.items():
-                    try:
-                        json.dumps(v)
-                    except TypeError:
-                        try:
-                            v = marshal.dumps(v)
-                        except ValueError:
-                            v = v.__dict__
-                    obj[key] = v
+                # if it has, serialize this one too as it can contain further objects
+                obj = repr_dict(obj.__dict__)
             else:
                 # rare special cases for e.g. translations in settings
-                if isinstance(obj, list):
+                if isinstance(obj, (list, tuple)):
                     for item in obj:
                         if isinstance(item, dict):
                             for k, v in item.items():
                                 item[k] = repr(v)
                         elif callable(item):
-                            try:
-                                obj[obj.index(item)] = inspect.getsource(item)
-                            except (TypeError, IOError):
-                                obj[obj.index(item)] = marshal.dumps(item)
+                            obj[obj.index(item)] = repr_callable(item)
                         elif hasattr(item, '__dict__'):
-                            obj[obj.index(item)] = item.__dict__
-                elif callable(obj):
-                    try:
-                        obj = inspect.getsource(obj)
-                    except (TypeError, IOError):
-                        obj = marshal.dumps(obj)
+                            obj[obj.index(item)] = repr_dict(item.__dict__)
+                        else:
+                            obj[obj.index(item)] = repr(item)
     return obj
 
 
