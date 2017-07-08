@@ -409,7 +409,10 @@ def serialize_obj(obj):
                 try:
                     value = repr_callable(value)
                 except ValueError:
-                    value = value.__dict__
+                    if hasattr(value, '__dict__'):
+                        value = repr_dict(value.__dict__)
+                    else:
+                        value = repr(value)
             dict_attr[key] = value
         return dict_attr
 
