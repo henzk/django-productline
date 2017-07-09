@@ -57,6 +57,7 @@ def createsuperusers():
     from django.contrib.sites import models as site_models
     import uuid
     from django.db import transaction
+    from django.db.models import Q
 
     site = site_models.Site.objects.get(id=settings.SITE_ID)
 
@@ -65,7 +66,7 @@ def createsuperusers():
 
         print('*** Create specified superuser {}'.format(entry['username']))
 
-        if not auth_models.User.objects.filter(username=entry['username']).exists():
+        if not auth_models.User.objects.filter(Q(username__in=[entry['username'], entry['email']]) | Q(email=entry['email'])).exists():
             # create the superuser if it does not exist yet
             with transaction.atomic():
                 password = ''.join(str(uuid.uuid4())[:8])
