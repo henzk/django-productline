@@ -216,7 +216,7 @@ def import_data_dir(target_zip):
     import datetime
     import os.path
 
-    new_data_dir = '{data_dir}{ts}'.format(
+    new_data_dir = '{data_dir}_before_import_{ts}'.format(
         data_dir=PRODUCT_CONTEXT.DATA_DIR,
         ts=datetime.datetime.now().strftime("%Y-%m-%d.%H:%M:%S:%s")
     )
