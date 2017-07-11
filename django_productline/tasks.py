@@ -453,11 +453,9 @@ def write_composer_operation_log(filename):
     :return:
     """
     from featuremonkey.composer import OPERATION_LOG
+    from featuremonkey.tracing import serializer
     ol = copy.deepcopy(OPERATION_LOG)
-    # manually try to serialize the objects which can't be serialized by json module
-    for operation in ol:
-        operation['old_value'] = tasks.serialize_obj(operation['old_value'])
-        operation['new_value'] = tasks.serialize_obj(operation['new_value'])
+    ol = serializer.serialize_operation_log(ol)
     with open(filename, 'w+') as operation_log_file:
         operation_log_file.write(json.dumps(ol, indent=4, encoding="utf8"))
 
