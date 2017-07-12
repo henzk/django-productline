@@ -382,8 +382,8 @@ def write_composer_operation_log(filename):
     :param filename:
     :return:
     """
-    from featuremonkey.composer import OPERATION_LOG
     from featuremonkey.tracing import serializer
+    from featuremonkey.tracing.logger import OPERATION_LOG
     ol = copy.deepcopy(OPERATION_LOG)
     ol = serializer.serialize_operation_log(ol)
     with open(filename, 'w+') as operation_log_file:
