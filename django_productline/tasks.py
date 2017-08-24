@@ -234,7 +234,7 @@ def import_data_dir(target_zip):
 @tasks.requires_product_environment
 def mv_data_dir(target):
     """
-    Move data_dir to {target} location, refineable in case data_dir is a mounted ovlume or object storage and needs special treatments
+    Move data_dir to {target} location, refineable in case data_dir is a mounted volume or object storage and needs special treatments
     :return:
     """
     from django_productline.context import PRODUCT_CONTEXT
