@@ -5,8 +5,7 @@ import os
 import featuremonkey
 import json
 import zipfile
-import shutil
-
+import datetime
 
 @tasks.register_helper
 @decorator  # preserves signature of wrapper
@@ -213,8 +212,6 @@ def import_data_dir(target_zip):
     :param target_zip: string path to the zip file.
     """
     from django_productline.context import PRODUCT_CONTEXT
-    import datetime
-    import os.path
 
     new_data_dir = '{data_dir}_before_import_{ts}'.format(
         data_dir=PRODUCT_CONTEXT.DATA_DIR,
@@ -223,7 +220,7 @@ def import_data_dir(target_zip):
 
     if os.path.exists(PRODUCT_CONTEXT.DATA_DIR):
         # rename an existing data dir if it exists
-        os.rename(PRODUCT_CONTEXT.DATA_DIR, new_data_dir)
+        tasks.mv_data_dir(new_data_dir)
 
     z = zipfile.ZipFile(target_zip)
 
@@ -231,6 +228,17 @@ def import_data_dir(target_zip):
         return x.startswith('__data__/')
 
     z.extractall(os.path.dirname(PRODUCT_CONTEXT.DATA_DIR), filter(filter_func, z.namelist()))
+
+
+@tasks.register_helper
+@tasks.requires_product_environment
+def mv_data_dir(target):
+    """
+    Move data_dir to {target} location, refineable in case data_dir is a mounted ovlume or object storage and needs special treatments
+    :return:
+    """
+    from django_productline.context import PRODUCT_CONTEXT
+    os.rename(PRODUCT_CONTEXT.DATA_DIR, target)
 
 
 @tasks.register_helper
