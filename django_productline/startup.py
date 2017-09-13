@@ -24,16 +24,21 @@ def select_product():
         return
 
     _product_selected = True
-    from django_productline import context
+    from django_productline import context, template
 
     featuremonkey.add_import_guard('django.conf')
     featuremonkey.add_import_guard('django.db')
     os.environ['DJANGO_SETTINGS_MODULE'] = 'django_productline.settings'
     contextfile = os.environ['PRODUCT_CONTEXT_FILENAME']
     equationfile = os.environ['PRODUCT_EQUATION_FILENAME']
+
     #bind context and compose features
     context.bind_context(contextfile)
     get_composer().select_equation(equationfile)
+
+    # after composition we are now able to bind composed template settings
+    template.bind_settings()
+
     featuremonkey.remove_import_guard('django.conf')
     featuremonkey.remove_import_guard('django.db')
 

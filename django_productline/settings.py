@@ -5,12 +5,13 @@
 # some of that data needs to be added to the settings
 # the context is also made available as PRODUCT_CONTEXT
 from django_productline.context import PRODUCT_CONTEXT
+
 import os
 import django
 from django_productline import compare_version
 
 DEBUG = False
-TEMPLATE_DEBUG = False
+DJANGO_TEMPLATE_DEBUG = False
 
 ADMINS = ()
 
@@ -91,44 +92,47 @@ ROOT_URLCONF = 'django_productline.root_urlconf'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'django_productline.wsgi.application'
 
-TEMPLATE_DIRS = [
+DJANGO_TEMPLATE_DIRS = [
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 ]
 
-TEMPLATE_CONTEXT_PROCESSORS = [
-    "django.contrib.auth.context_processors.auth",
-    "django.template.context_processors.debug",
-    "django.template.context_processors.i18n",
-    "django.template.context_processors.media",
-    "django.template.context_processors.static",
-    "django.template.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    "django.template.context_processors.request",
-]
+TEMPLATE_LOADER_CACHED_ENABLED = True
+
+if compare_version(django.get_version(), '1.8') < 0:
+    DJANGO_TEMPLATE_CONTEXT_PROCESSORS = [
+        "django.contrib.auth.context_processors.auth",
+        "django.core.context_processors.debug",
+        "django.core.context_processors.i18n",
+        "django.core.context_processors.media",
+        "django.core.context_processors.static",
+        "django.core.context_processors.tz",
+        "django.contrib.messages.context_processors.messages",
+        "django.core.context_processors.request",
+    ]
+else:
+    DJANGO_TEMPLATE_CONTEXT_PROCESSORS = [
+        "django.contrib.auth.context_processors.auth",
+        "django.template.context_processors.debug",
+        "django.template.context_processors.i18n",
+        "django.template.context_processors.media",
+        "django.template.context_processors.static",
+        "django.template.context_processors.tz",
+        "django.contrib.messages.context_processors.messages",
+        "django.template.context_processors.request",
+    ]
 
 # List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = [
+DJANGO_TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 ]
 
-if compare_version(django.get_version(), '1.9') >= 0:
-    TEMPLATES = [
-        {
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+DJANGO_TEMPLATE_BUILTINS = ['overextends.templatetags.overextends_tags']
 
-            'OPTIONS': {
-                'builtins': ['overextends.templatetags.overextends_tags'],
-                'context_processors': TEMPLATE_CONTEXT_PROCESSORS,
-                'loaders': [
-                    'django.template.loaders.filesystem.Loader',
-                    'django.template.loaders.app_directories.Loader',
-                ]
-            },
-        },
-    ]
+DJANGO_TEMPLATE_BACKEND = 'django.template.backends.django.DjangoTemplates'
+
 
 INSTALLED_APPS = [
     'django.contrib.auth',
