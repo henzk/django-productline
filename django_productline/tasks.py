@@ -359,7 +359,7 @@ def generate_context(force_overwrite=False, drop_secret_key=False):
         new_context = tasks.get_context_template()
 
         new_context.update(context)
-        context_f.write(json.dumps(new_context, indent=4))
+        context_f.write(json.dumps(new_context, indent=4, sort_keys=True))
     print()
     print('*** Successfully generated context.json')
 
