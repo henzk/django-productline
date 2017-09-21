@@ -1,5 +1,9 @@
+from __future__ import unicode_literals, print_function
+
 import featuremonkey
+
 from featuremonkey import helpers
+
 
 class Composer(featuremonkey.Composer):
     """
@@ -54,6 +58,7 @@ class Composer(featuremonkey.Composer):
             super(Composer, self)._apply_transformation(
                 role, base, transformation, attrname
             )
+
 
 def get_composer():
     return Composer()

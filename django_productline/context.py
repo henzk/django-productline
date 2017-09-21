@@ -1,3 +1,5 @@
+from __future__ import unicode_literals, print_function, division
+
 """
 the product context captures environment and configuration settings
 that are specific to each product, e.g. each product requires a different
@@ -9,19 +11,25 @@ be configured on a product basis.
 The context is loaded from a file in json format.
 
 """
+
 import json
 import os
 
 PRODUCT_CONTEXT = None
 
-class ContextParseError(Exception): pass
 
-class ContextBindingError(Exception): pass
+class ContextParseError(Exception):
+    pass
+
+
+class ContextBindingError(Exception):
+    pass
+
 
 class ContextAccessor(object):
     """
     provides nice interface to access the product context
-    
+
     only reading is allowed! Don`t write to the context, please!
     """
 
@@ -43,7 +51,7 @@ class ContextAccessor(object):
                 pass
 
         raise AttributeError
-        
+
     def get_as_dict(self):
         return self._data
 
@@ -51,13 +59,13 @@ class ContextAccessor(object):
 def bind_context(context_filename):
     """
     loads context from file and binds to it
-    
+
     :param: context_filename absolute path of the context file
-    
+
     called by featuredjango.startup.select_product
     prior to selecting the individual features
     """
-    
+
     global PRODUCT_CONTEXT
     if PRODUCT_CONTEXT is None:
         with open(context_filename) as contextfile:
@@ -75,8 +83,8 @@ def bind_context(context_filename):
             context['APE_GLOBAL_DIR'] = os.environ['APE_GLOBAL_DIR']
             PRODUCT_CONTEXT = ContextAccessor(context)
     else:
-        #bind_context called but context already bound
-        #harmless rebind (with same file) is ignored
-        #otherwise this is a serious error
+        # bind_context called but context already bound
+        # harmless rebind (with same file) is ignored
+        # otherwise this is a serious error
         if PRODUCT_CONTEXT.PRODUCT_CONTEXT_FILENAME != context_filename:
             raise ContextBindingError('product context bound multiple times using different data!')

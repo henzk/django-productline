@@ -1,5 +1,8 @@
-#refinement for django_productline.settings
+from __future__ import unicode_literals, print_function, division
+
+# refinement for django_productline.settings
 import django
+
 from django_productline import compare_version
 
 
@@ -8,8 +11,6 @@ def refine_INSTALLED_APPS(original):
 
 
 introduce_ADMIN_URL = 'admin/'
-
-
 
 
 if (compare_version(django.get_version(), '1.9') >= 0):
@@ -26,15 +27,12 @@ else:
         return list(original) + ['django_productline.features.djpladmin.context_processors.django_admin']
 
 
-
-
-
 introduce_AUTH_GROUPS = {
-    #{
-    #    'name': 'Operator',
-    #    'permissions': [
-    #        ('add_mymodel', 'myapp'),
-    #        ('change_my_model', 'myapp')
-    #    ]
-    #}
+    # {
+    #     'name': 'Operator',
+    #     'permissions': [
+    #         ('add_mymodel', 'myapp'),
+    #         ('change_my_model', 'myapp')
+    #     ]
+    # }
 }

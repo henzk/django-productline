@@ -1,14 +1,16 @@
-from django_productline.testingutils import NoMigrationsTestCase
-from django_productline import utils
+from __future__ import unicode_literals, print_function
+
 import os
 import os.path
 import shutil
 
+from django_productline import utils
+from django_productline.testingutils import NoMigrationsTestCase
+
 __all__ = ['UtilsTestCase']
 
+
 class UtilsTestCase(NoMigrationsTestCase):
-
-
     def test_zipdir(self):
         """
         Tests the zipdir function

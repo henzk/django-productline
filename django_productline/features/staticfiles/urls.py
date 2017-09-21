@@ -1,8 +1,10 @@
+from __future__ import unicode_literals
+
 
 def refine_get_urls(original):
     """
     serve static files (and media files also)
-    
+
     in production the webserver should serve requested
     static files itself and never let requests to /static/*
     and /media/* get to the django application.

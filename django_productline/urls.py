@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 """
 
 ``django_productline.urls`` exports the function ``get_urls``.
@@ -29,6 +31,7 @@ Example::
         return get_urls
 
 """
+
 
 def get_urls():
     """

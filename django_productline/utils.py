@@ -1,7 +1,9 @@
 from __future__ import unicode_literals, print_function, division
+
 import os
 import zipfile
 import re
+
 
 def create_or_append_to_zip(file_handle, zip_path, arc_name=None):
     """
@@ -15,7 +17,6 @@ def create_or_append_to_zip(file_handle, zip_path, arc_name=None):
             my_zip.write(file_handle, arc_name)
         else:
             my_zip.write(file_handle)
-
 
 
 def zipdir(src_path, target_path, wrapdir=''):
@@ -46,4 +47,4 @@ def compare_version(version1, version2):
     """
     def normalize(v):
         return [int(x) for x in re.sub(r'(\.0+)*$','', v).split(".")]
-    return cmp(normalize(version1), normalize(version2))
+    return (normalize(version1) > normalize(version2))-(normalize(version1) < normalize(version2))

@@ -28,4 +28,5 @@ def refine_MIDDLEWARE_CLASSES(original):
         raise LookupError('SessionMiddleware not found! Please make sure you have enabled the \
          SessionMiddleware in your settings (django.contrib.sessions.middleware.SessionMiddleware).')
 
+
 introduce_PREFIX_DEFAULT_LANGUAGE = True

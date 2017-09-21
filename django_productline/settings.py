@@ -1,9 +1,11 @@
+from __future__ import unicode_literals, print_function
+
 # Django settings for django-productline based products.
 
-#the context has been frozen at this point
-#it contains information about the product`s environment;
-#some of that data needs to be added to the settings
-#the context is also made available as PRODUCT_CONTEXT
+# the context has been frozen at this point
+# it contains information about the product`s environment;
+# some of that data needs to be added to the settings
+# the context is also made available as PRODUCT_CONTEXT
 from django_productline.context import PRODUCT_CONTEXT
 import os
 import django
@@ -114,8 +116,6 @@ TEMPLATE_LOADERS = [
 ]
 
 
-
-
 if compare_version(django.get_version(), '1.9') >= 0:
     TEMPLATES = [
         {
@@ -133,12 +133,6 @@ if compare_version(django.get_version(), '1.9') >= 0:
     ]
 
 
-
-
-
-
-
-
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -148,7 +142,6 @@ INSTALLED_APPS = [
     'overextends',
     'django_productline'
 ]
-
 
 
 if compare_version(django.get_version(), '1.7') < 0:
