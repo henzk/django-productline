@@ -1,20 +1,18 @@
 from __future__ import unicode_literals, print_function, division
 
 import copy
-import inspect
-import marshal
+import json
+import os
+import shutil
+import zipfile
 
+import featuremonkey
 from ape import tasks
 from decorator import decorator
-import os
-import featuremonkey
-import json
-import zipfile
-import shutil
 
 
 @tasks.register_helper
-@decorator # preserves signature of wrapper
+@decorator  # preserves signature of wrapper
 def requires_product_environment(func, *args, **kws):
     """
     task decorator that makes sure that the product environment
@@ -160,6 +158,7 @@ def export_data(target_path):
     tasks.export_context(target_path)
     return target_path
 
+
 @tasks.register
 @tasks.requires_product_environment
 def import_data(target_zip):
@@ -270,7 +269,7 @@ def get_context_template():
     """
     import random
     return {
-        'SITE_ID':  1,
+        'SITE_ID': 1,
         'SECRET_KEY': ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)]),
         'DATA_DIR': os.path.join(os.environ['PRODUCT_DIR'], '__data__'),
     }
