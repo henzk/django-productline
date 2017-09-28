@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+
 from django.test import TestCase as DjangoTestCase
 
 
@@ -18,12 +19,12 @@ def get_fixture(package_name, name):
 
 
 class DisableMigrations(object):
-
     def __contains__(self, item):
         return True
 
     def __getitem__(self, item):
-        return "notmigrations"
+        return None
+
 
 class NoMigrationsTestCase(DjangoTestCase):
     """
@@ -34,7 +35,3 @@ class NoMigrationsTestCase(DjangoTestCase):
         from django.conf import settings
         settings.MIGRATION_MODULES = DisableMigrations()
         super(DjangoTestCase, self).__init__(*args, **kw)
-
-
-
-
