@@ -1,5 +1,7 @@
-#refinement for django_productline.settings
+from __future__ import unicode_literals
 
+
+# refinement for django_productline.settings
 def refine_INSTALLED_APPS(original):
     return ['django.contrib.staticfiles'] + list(original)
 
@@ -20,7 +22,7 @@ introduce_STATICFILES_DIRS = [
 introduce_STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 ]
 
 

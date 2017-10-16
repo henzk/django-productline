@@ -86,6 +86,10 @@ MIDDLEWARE_CLASSES = [
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Since version 1.10 MIDDLEWARE_CLASSES is deprecated, since 2.0 its been removed
+if compare_version(django.get_version(), '1.10') >= 0:
+    MIDDLEWARE = MIDDLEWARE_CLASSES
+
 ROOT_URLCONF = 'django_productline.root_urlconf'
 
 
