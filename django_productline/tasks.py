@@ -5,7 +5,7 @@ import json
 import os
 import shutil
 import zipfile
-
+import datetime
 import featuremonkey
 from ape import tasks
 from decorator import decorator
@@ -100,7 +100,25 @@ def prepare_data():
     May install fixture, needs to decide if this shall happen
     :return:
     """
-    pass
+    tasks.set_site()
+
+
+@tasks.register_helper
+def set_site():
+    """
+    This method is part of the prepare_data helper.
+    Sets the site. Default implementation uses localhost.
+    For production settings refine this helper.
+    :return:
+    """
+    from django.contrib.sites.models import Site
+    from django.conf import settings
+    # Initially set localhost as default domain
+    #
+    site = Site.objects.get(id=settings.SITE_ID)
+    site.domain = 'http://localhost:8000'
+    site.name = 'http://localhost:8000'
+    site.save()
 
 
 @tasks.register
@@ -193,18 +211,38 @@ def export_data_dir(target_path):
 @tasks.requires_product_environment
 def import_data_dir(target_zip):
     """
-    Remove whole old data dir, use __data__ from target_zip
-    :param target_zip:
-    :return:
+    Imports the data specified by param <target_zip>. Renames the data dir if it already exists and
+    unpacks the zip sub dir __data__ directly within the current active product.
+    :param target_zip: string path to the zip file.
     """
     from django_productline.context import PRODUCT_CONTEXT
-    shutil.rmtree(PRODUCT_CONTEXT.DATA_DIR)
+
+    new_data_dir = '{data_dir}_before_import_{ts}'.format(
+        data_dir=PRODUCT_CONTEXT.DATA_DIR,
+        ts=datetime.datetime.now().strftime("%Y-%m-%d.%H:%M:%S:%s")
+    )
+
+    if os.path.exists(PRODUCT_CONTEXT.DATA_DIR):
+        # rename an existing data dir if it exists
+        tasks.mv_data_dir(new_data_dir)
+
     z = zipfile.ZipFile(target_zip)
 
     def filter_func(x):
         return x.startswith('__data__/')
 
     z.extractall(os.path.dirname(PRODUCT_CONTEXT.DATA_DIR), filter(filter_func, z.namelist()))
+
+
+@tasks.register_helper
+@tasks.requires_product_environment
+def mv_data_dir(target):
+    """
+    Move data_dir to {target} location, refineable in case data_dir is a mounted volume or object storage and needs special treatments
+    :return:
+    """
+    from django_productline.context import PRODUCT_CONTEXT
+    os.rename(PRODUCT_CONTEXT.DATA_DIR, target)
 
 
 @tasks.register_helper
@@ -270,7 +308,8 @@ def get_context_template():
     import random
     return {
         'SITE_ID': 1,
-        'SECRET_KEY': ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)]),
+        'SECRET_KEY': ''.join(
+            [random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)]),
         'DATA_DIR': os.path.join(os.environ['PRODUCT_DIR'], '__data__'),
     }
 
@@ -324,7 +363,7 @@ def generate_context(force_overwrite=False, drop_secret_key=False):
         new_context = tasks.get_context_template()
 
         new_context.update(context)
-        context_f.write(json.dumps(new_context, indent=4))
+        context_f.write(json.dumps(new_context, indent=4, sort_keys=True))
     print()
     print('*** Successfully generated context.json')
 

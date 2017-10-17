@@ -1,7 +1,7 @@
+# refinement for django_productline.settings
+
 from __future__ import unicode_literals
-
 import django
-
 from django_productline import compare_version
 
 
@@ -10,7 +10,6 @@ def refine_INSTALLED_APPS(original):
 
 
 introduce_ADMIN_URL = 'admin/'
-
 
 if compare_version(django.get_version(), '1.9') >= 0:
     # WE use the TEMPLATES variable not prior to 1.9
@@ -24,7 +23,6 @@ else:
     def refine_TEMPLATE_CONTEXT_PROCESSORS(original):
         return list(original) + ['django_productline.features.djpladmin.context_processors.django_admin']
 
-
 introduce_AUTH_GROUPS = {
     # {
     #     'name': 'Operator',
@@ -34,3 +32,11 @@ introduce_AUTH_GROUPS = {
     #     ]
     # }
 }
+
+introduce_INITIAL_SUPERUSERS = [
+    # dict(
+    #    first_name='Toni',
+    #    last_name='Michel',
+    #    email='toni@schnapptack.de'
+    # ),
+]
