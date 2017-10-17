@@ -6,9 +6,10 @@ from operator import __or__ as OR
 @tasks.register
 @tasks.requires_product_environment
 def sync_auth_groups():
-    '''
+    """
     Syncs auth groups according to settings.AUTH_GROUPS
-    '''
+    :return:
+    """
     from django.conf import settings
     from django.contrib.auth.models import Group, Permission
     from django.db.models import Q

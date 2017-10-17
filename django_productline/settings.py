@@ -1,3 +1,5 @@
+from __future__ import unicode_literals, print_function
+
 # Django settings for django-productline based products.
 
 # the context has been frozen at this point
@@ -86,6 +88,10 @@ MIDDLEWARE_CLASSES = [
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Since version 1.10 MIDDLEWARE_CLASSES is deprecated, since 2.0 its been removed
+if compare_version(django.get_version(), '1.10') >= 0:
+    MIDDLEWARE = MIDDLEWARE_CLASSES
+
 ROOT_URLCONF = 'django_productline.root_urlconf'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -113,6 +119,7 @@ TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 ]
+
 
 if compare_version(django.get_version(), '1.9') >= 0:
     TEMPLATES = [

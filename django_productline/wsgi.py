@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 """
 WSGI config for featuredjango project.
 
@@ -14,5 +16,6 @@ framework.
 For products built with django-productline this can be done by refining
 django.core.wsgi.get_wsgi_application directly.
 """
+
 from django_productline.startup import get_wsgi_application
 application = get_wsgi_application()

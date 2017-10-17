@@ -1,11 +1,15 @@
 from __future__ import unicode_literals, print_function, division
-from ape import tasks
-from decorator import decorator
-import os
-import featuremonkey
+
+import copy
 import json
+import os
+import shutil
 import zipfile
 import datetime
+import featuremonkey
+from ape import tasks
+from decorator import decorator
+
 
 @tasks.register_helper
 @decorator  # preserves signature of wrapper
@@ -416,10 +420,12 @@ def write_composer_operation_log(filename):
     :param filename:
     :return:
     """
-    from featuremonkey.composer import OPERATION_LOG
-    fop_data = json.dumps(OPERATION_LOG, indent=4)
-    with open(filename, 'w+') as meta_file:
-        meta_file.write(fop_data)
+    from featuremonkey.tracing import serializer
+    from featuremonkey.tracing.logger import OPERATION_LOG
+    ol = copy.deepcopy(OPERATION_LOG)
+    ol = serializer.serialize_operation_log(ol)
+    with open(filename, 'w+') as operation_log_file:
+        operation_log_file.write(json.dumps(ol, indent=4, encoding="utf8"))
 
 
 @tasks.register
