@@ -40,5 +40,20 @@ def get_urls():
     return []
 
 
+def get_fallback_urls():
+    """
+    refine this to add special fallback urlpatterns.
+    These urls will be appended to the end of the url patterns list (after 'get_urls()' in root_urlconf).
+    E.g.:
+
+        url(r'^foo/$', views.foo),
+        url(r'^bar/(\d{4})/$', views.bar),
+        # This url 'catches' all other requests which don't match the previous patterns.
+        url(r'^.*', views.catch_all),
+
+    """
+    return []
+
+
 handler404 = 'django.views.defaults.page_not_found'
 handler500 = 'django.views.defaults.server_error'

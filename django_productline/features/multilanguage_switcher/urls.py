@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
 
 
-def refine_get_urls(original):
-    def get_urls():
+def refine_get_multilang_urls(original):
+    def get_multilang_urls():
         from django.conf.urls import url
         from .views import ChangeLangView
 
@@ -11,4 +11,4 @@ def refine_get_urls(original):
         ]
         return urlpatterns + original()
 
-    return get_urls
+    return get_multilang_urls
