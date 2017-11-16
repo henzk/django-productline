@@ -11,4 +11,4 @@ Django uses these to construct the root RegexUrlResolver.
 
 from django_productline import urls
 
-urlpatterns = urls.get_urls()
+urlpatterns = urls.get_urls() + urls.get_fallback_urls()
