@@ -7,11 +7,11 @@ def main(args):
         use_devel_version = True
         ape_devel_arg = '--dev'
         args.remove('--dev')
-        djpl_install = 'pip install -e git+https://github.com/henzk/django-productline#egg=django-productline'
+        djpl_install = 'pip3 install -e git+https://github.com/henzk/django-productline#egg=django-productline'
     else:
         use_devel_version = False
         ape_devel_arg = ''
-        djpl_install = 'pip install django-productline'
+        djpl_install = 'pip3 install django-productline'
 
     if len(args) != 2:
         print 'Usage:'
