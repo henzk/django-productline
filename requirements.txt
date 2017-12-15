@@ -1,4 +1,4 @@
-Django
+Django<2.0
 featuremonkey>=0.2.2
 ape>=0.2.0
 decorator
