@@ -14,15 +14,12 @@ def main(args):
         djpl_install = 'pip3 install django-productline'
 
     if len(args) != 2:
-        print 'Usage:'
-        print
-        print 'install.py [--dev] <APE_ROOT_DIR>'
-        print
-        print 'Creates an ape-root at APE_ROOT_DIR for your django product lines.'
-        print 'The given directory must not exist already.'
-        print
-        print 'If --dev is given, this installs the latest development versions from git.'
-        print 'Otherwise, the latest stable version of ape and django-productline are used from PYPI.'
+        print('Usage:\n')
+        print('install.py [--dev] <APE_ROOT_DIR>\n')
+        print('Creates an ape-root at APE_ROOT_DIR for your django product lines.')
+        print('The given directory must not exist already.\n')
+        print('If --dev is given, this installs the latest development versions from git.')
+        print('Otherwise, the latest stable version of ape and django-productline are used from PYPI.')
         sys.exit(1)
 
     webapps = args[1]
